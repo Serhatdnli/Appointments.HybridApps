@@ -1,4 +1,5 @@
 using Appointments.Infrastructure.Extensions;
+
 namespace Appointments.WebAPI
 {
     public class Program

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Appointments.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppointmentContex))]
+    [DbContext(typeof(AppointmentContext))]
     partial class AppointmentContexModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

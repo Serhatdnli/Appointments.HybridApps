@@ -9,7 +9,7 @@ namespace Appointments.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructureRegistration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppointmentContex>(conf =>
+            services.AddDbContext<AppointmentContext>(conf =>
             {
                 var connectionString = configuration["ConnectionString"];
                 conf.UseSqlServer(connectionString, opt =>
