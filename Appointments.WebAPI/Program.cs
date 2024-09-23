@@ -1,4 +1,5 @@
 using Appointments.Infrastructure.Extensions;
+using Appointments.Application.MediatR.Registiration;
 
 namespace Appointments.WebAPI
 {
@@ -17,6 +18,7 @@ namespace Appointments.WebAPI
 
 
             builder.Services.AddInfrastructureRegistration(builder.Configuration);
+            builder.Services.MediatRRegistiration();
 
 
             var app = builder.Build();

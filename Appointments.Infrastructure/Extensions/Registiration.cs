@@ -1,4 +1,6 @@
-﻿using Appointments.Infrastructure.Context;
+﻿using Appointments.Application.IRepositories;
+using Appointments.Infrastructure.Context;
+using Appointments.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ namespace Appointments.Infrastructure.Extensions
                 });
             });
 
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

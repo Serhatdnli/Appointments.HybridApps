@@ -8,6 +8,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Appointments.Domain\Appointments.Domain.csproj" />
+    <ProjectReference Include="..\Appointments.Shared\Appointments.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IServices\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.3.0" />
   </ItemGroup>
 
 </Project>

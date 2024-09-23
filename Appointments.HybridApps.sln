@@ -11,9 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Domain", "Appo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.WebAPI", "Appointments.WebAPI\Appointments.WebAPI.csproj", "{BA0DBF49-A6F8-4DEB-A6E7-7C96FB0CE8BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Infrastructure", "Appointments.Infrastructure\Appointments.Infrastructure.csproj", "{77CB2ADF-6AE8-4E85-87B6-E72C5AA147C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Infrastructure", "Appointments.Infrastructure\Appointments.Infrastructure.csproj", "{77CB2ADF-6AE8-4E85-87B6-E72C5AA147C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Application", "Appointments.Application\Appointments.Application.csproj", "{75851B92-9B79-4145-927A-974BE65EF578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Application", "Appointments.Application\Appointments.Application.csproj", "{75851B92-9B79-4145-927A-974BE65EF578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Presentation", "Appointments.Presentation\Appointments.Presentation.csproj", "{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Shared", "Appointments.Shared\Appointments.Shared.csproj", "{37E9762A-8CC9-461E-927B-085CB57F51B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,14 @@ Global
 		{75851B92-9B79-4145-927A-974BE65EF578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75851B92-9B79-4145-927A-974BE65EF578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75851B92-9B79-4145-927A-974BE65EF578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
