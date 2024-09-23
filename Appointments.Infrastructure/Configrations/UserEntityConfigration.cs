@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Appointments.Infrastructure.Configrations
 {
-    public class TestEntityConfigration : BaseEntityConfiguration<Test>
+    public class UserEntityConfigration : BaseEntityConfiguration<User>
     {
-
-        public override void Configure(EntityTypeBuilder<Test> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
             base.Configure(builder);
-            builder.ToTable("Tests");
+            builder.ToTable("Users");
+            builder.HasIndex(k => k.TCNO).IsUnique();
+
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Appointments.Infrastructure.Context
 {
     public class AppointmentContext : DbContext
     {
-        public DbSet<Test> Tests { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public AppointmentContext(DbContextOptions options) : base(options)
         {
