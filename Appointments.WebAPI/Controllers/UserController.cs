@@ -25,5 +25,24 @@ namespace Appointments.WebAPI.Controllers
             await mediatR.Send(createUserRequest);
             return Ok();
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("AddRandomUser")]
+        public async Task<IActionResult> AddRandomUser([FromBody] AddRandomUserRequest createUserRequest)
+        {
+            await mediatR.Send(createUserRequest);
+            return Ok();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers([FromBody] GetAllUserRequest createUserRequest)
+        {
+            var response = await mediatR.Send(createUserRequest);
+            return Ok(response);
+        }
     }
 }
