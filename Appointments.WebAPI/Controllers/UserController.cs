@@ -51,7 +51,7 @@ namespace Appointments.WebAPI.Controllers
         public async Task<IActionResult> DeleteUserWithTcId([FromBody] DeleteUserWithTcIdRequest deleteUserWithTcIdRequest)
         {
             var response = await mediatR.Send(deleteUserWithTcIdRequest);
-            return Ok(response);
+            return Ok();
         }
 
 		[HttpDelete]
@@ -60,7 +60,27 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
 		{
 			var response = await mediatR.Send(deleteUserWithUserIdRequest);
-			return Ok(response);
+			return Ok();
 		}
+
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("DeleteAllUsers")]
+        public async Task<IActionResult> DeleteAllUsers([FromBody] DeleteAllUserRequest deleteAllUserRequest)
+        {
+            var response = await mediatR.Send(deleteAllUserRequest);
+            return Ok();
+        }
+
+		[HttpPut]
+        [AllowAnonymous]
+        [Route("UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest updateUserRequest)
+        {
+            var response = await mediatR.Send(updateUserRequest);
+            return Ok();
+        }
+
+        
 	}
 }

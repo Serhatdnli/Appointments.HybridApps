@@ -202,5 +202,12 @@ namespace Appointments.Infrastructure.Repositories
             }
             return queryable;
         }
-    }
+
+		public async Task DeleteAllAsync()
+		{
+            var allEntities = await context.Set<TEntity>().ToListAsync();
+			context.RemoveRange(allEntities);
+            await context.SaveChangesAsync();
+		}
+	}
 }

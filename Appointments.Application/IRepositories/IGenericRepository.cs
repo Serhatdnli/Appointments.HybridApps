@@ -21,6 +21,8 @@ namespace Appointments.Application.IRepositories
 
         Task HardDeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
+        Task DeleteAllAsync();
+
         TEntity Update(TEntity entity);
 
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
