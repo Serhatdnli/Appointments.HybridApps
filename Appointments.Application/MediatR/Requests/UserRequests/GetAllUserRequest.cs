@@ -1,4 +1,4 @@
-﻿using Appointments.Application.MediatR.Responses;
+﻿using Appointments.Application.MediatR.Responses.UserReponses;
 
 namespace Appointments.Application.MediatR.Requests.UserRequests
 {

@@ -3,8 +3,8 @@ using Appointments.Domain.Models;
 
 namespace Appointments.Application.MediatR.Requests.UserRequests
 {
-    public class CreateUserRequest : MediatRBaseRequest<CreateUserResponse>
+    public class DeleteUserWithTcIdRequest : MediatRBaseRequest<DeleteUserWithTcIdResponse>
     {
-        public User User { get; set; }
+        public string TcId { get; set; }
     }
 }

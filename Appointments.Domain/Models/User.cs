@@ -11,7 +11,7 @@ namespace Appointments.Domain.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public string TCNO { get; set; }
+        public string TcId { get; set; }
         [Phone]
         public string PhoneNumber { get; set; }
 

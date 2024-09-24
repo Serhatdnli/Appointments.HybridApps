@@ -39,10 +39,28 @@ namespace Appointments.WebAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers([FromBody] GetAllUserRequest createUserRequest)
+        public async Task<IActionResult> GetAllUsers([FromBody] GetAllUserRequest getAllUserRequest)
         {
-            var response = await mediatR.Send(createUserRequest);
+            var response = await mediatR.Send(getAllUserRequest);
             return Ok(response);
         }
-    }
+
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("DeleteUserWithTcId")]
+        public async Task<IActionResult> DeleteUserWithTcId([FromBody] DeleteUserWithTcIdRequest deleteUserWithTcIdRequest)
+        {
+            var response = await mediatR.Send(deleteUserWithTcIdRequest);
+            return Ok(response);
+        }
+
+		[HttpDelete]
+		[AllowAnonymous]
+		[Route("DeleteUserWithUserId")]
+		public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
+		{
+			var response = await mediatR.Send(deleteUserWithUserIdRequest);
+			return Ok(response);
+		}
+	}
 }

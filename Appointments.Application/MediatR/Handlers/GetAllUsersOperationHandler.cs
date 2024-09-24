@@ -1,6 +1,6 @@
 ﻿using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
-using Appointments.Application.MediatR.Responses;
+using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

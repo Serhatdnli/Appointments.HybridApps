@@ -1,4 +1,4 @@
-﻿namespace Appointments.Application.MediatR.Responses
+﻿namespace Appointments.Application.MediatR.Responses.UserReponses
 {
     public class CreateUserResponse : MediatRBaseResponse
     {

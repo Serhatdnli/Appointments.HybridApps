@@ -1,6 +1,6 @@
 ﻿using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
-using Appointments.Application.MediatR.Responses;
+using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Models;
 using MediatR;
 using System.Text;
@@ -31,7 +31,7 @@ namespace Appointments.Application.MediatR.Handlers
                     PhoneNumber = RastgeleStringUret(13),
                     Role = Domain.Enums.UserRoleType.Personal,
                     Surname = RastgeleStringUret(10),
-                    TCNO = RastgeleStringUret(11)
+                    TcId = RastgeleStringUret(11)
 
                 };
 
