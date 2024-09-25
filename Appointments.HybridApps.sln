@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Application", "Appointments.Application\Appointments.Application.csproj", "{75851B92-9B79-4145-927A-974BE65EF578}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Presentation", "Appointments.Presentation\Appointments.Presentation.csproj", "{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Presentation", "Appointments.Presentation\Appointments.Presentation.csproj", "{CD87CB1E-1101-4EB8-9EE8-F7C6E303F048}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Shared", "Appointments.Shared\Appointments.Shared.csproj", "{37E9762A-8CC9-461E-927B-085CB57F51B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Shared", "Appointments.Shared\Appointments.Shared.csproj", "{37E9762A-8CC9-461E-927B-085CB57F51B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Web", "Appointments.Web\Appointments.Web.csproj", "{54755ABD-16F5-454F-BD9C-35074451DA3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E9762A-8CC9-461E-927B-085CB57F51B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54755ABD-16F5-454F-BD9C-35074451DA3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54755ABD-16F5-454F-BD9C-35074451DA3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54755ABD-16F5-454F-BD9C-35074451DA3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54755ABD-16F5-454F-BD9C-35074451DA3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
