@@ -20,6 +20,7 @@ namespace Appointments.WebAPI
             builder.Services.AddInfrastructureRegistration(builder.Configuration);
             builder.Services.MediatRRegistiration();
             builder.Services.AutoMapperRegistration();
+		
 
 
 			var app = builder.Build();

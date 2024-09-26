@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Appointments.Infrastructure.Migrations
 {
     [DbContext(typeof(AppointmentContext))]
-    [Migration("20240924103151_mig3")]
-    partial class mig3
+    [Migration("20240926203530_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace Appointments.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("37016bfc-7b63-43f7-bdab-9ca13414669d"),
+                            Id = new Guid("699311c3-6845-4a8f-adcb-571780fda46b"),
                             CreateDate = new DateTime(2000, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "boyr4z.m@gmail.com",
                             Name = "Muhammet",
@@ -84,7 +84,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("484e9254-b804-422c-b4e7-5a2a5ef6cc8a"),
+                            Id = new Guid("5108f21c-68d1-4e80-a3ae-43affa1b1091"),
                             CreateDate = new DateTime(1998, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "serhatdnli@gmail.com",
                             Name = "Serhat",
@@ -96,7 +96,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3f148351-615c-4d5c-a72a-e4618d7da31f"),
+                            Id = new Guid("555bda52-6c4e-4fe7-ac13-d8aadbf47305"),
                             CreateDate = new DateTime(2000, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "ahmetilhannm@gmail.com",
                             Name = "Ahmet",
@@ -108,7 +108,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("710c4838-4b9f-4d17-9622-6b232830bbc9"),
+                            Id = new Guid("af4231fa-bae1-4238-9a2d-c705b11e3d7e"),
                             CreateDate = new DateTime(1998, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "merter61m@gmail.com",
                             Name = "Gürkan",
@@ -120,7 +120,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("36dfda88-1955-4702-8315-c231527be27b"),
+                            Id = new Guid("dfe78d80-d68b-412e-a7dc-1f9a5584dd59"),
                             CreateDate = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "dayanir34@gmail.com",
                             Name = "Talha",
@@ -132,7 +132,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6c62f73c-ecf6-45ff-b436-29109bda8fb2"),
+                            Id = new Guid("52a6b1c2-a59d-4176-a668-f025d5c3d5d3"),
                             CreateDate = new DateTime(1999, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "iboaydin34@gmail.com",
                             Name = "İbrahim",
@@ -144,7 +144,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("69b7db5b-ddfb-4047-9d5f-68a4ebdf93e5"),
+                            Id = new Guid("0bc185f2-65d6-4489-abd2-47a7e5918105"),
                             CreateDate = new DateTime(1995, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bakirr35@gmail.com",
                             Name = "Ali",
@@ -156,7 +156,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("48b11b33-029f-4354-96ef-a5565952de48"),
+                            Id = new Guid("b4c762db-7a32-43ba-a23e-ab16f6c9e9a2"),
                             CreateDate = new DateTime(1998, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kayali06@gmail.com",
                             Name = "Ramazan",

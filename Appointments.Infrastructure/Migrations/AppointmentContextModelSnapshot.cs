@@ -69,7 +69,7 @@ namespace Appointments.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ce468c5a-01c1-4f11-b73d-169c06ce8d25"),
+                            Id = new Guid("699311c3-6845-4a8f-adcb-571780fda46b"),
                             CreateDate = new DateTime(2000, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "boyr4z.m@gmail.com",
                             Name = "Muhammet",
@@ -81,7 +81,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f10a8110-dedf-4c00-af21-180ec89156d4"),
+                            Id = new Guid("5108f21c-68d1-4e80-a3ae-43affa1b1091"),
                             CreateDate = new DateTime(1998, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "serhatdnli@gmail.com",
                             Name = "Serhat",
@@ -93,7 +93,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fab39466-e5c0-49d5-916a-4f9d0fb0261e"),
+                            Id = new Guid("555bda52-6c4e-4fe7-ac13-d8aadbf47305"),
                             CreateDate = new DateTime(2000, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "ahmetilhannm@gmail.com",
                             Name = "Ahmet",
@@ -105,7 +105,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d6a5f689-70cf-459e-9db9-a4815e3f56e9"),
+                            Id = new Guid("af4231fa-bae1-4238-9a2d-c705b11e3d7e"),
                             CreateDate = new DateTime(1998, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "merter61m@gmail.com",
                             Name = "Gürkan",
@@ -117,7 +117,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b66855dc-06ac-4978-b705-8c0770d5f424"),
+                            Id = new Guid("dfe78d80-d68b-412e-a7dc-1f9a5584dd59"),
                             CreateDate = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "dayanir34@gmail.com",
                             Name = "Talha",
@@ -129,7 +129,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aa49260e-7d77-464d-bc68-1e290e053ce0"),
+                            Id = new Guid("52a6b1c2-a59d-4176-a668-f025d5c3d5d3"),
                             CreateDate = new DateTime(1999, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "iboaydin34@gmail.com",
                             Name = "İbrahim",
@@ -141,7 +141,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8a4f0d9b-2c9d-4c10-b3b4-e44677b873ae"),
+                            Id = new Guid("0bc185f2-65d6-4489-abd2-47a7e5918105"),
                             CreateDate = new DateTime(1995, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bakirr35@gmail.com",
                             Name = "Ali",
@@ -153,7 +153,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("784df74c-48c3-4869-95c0-574c2923427f"),
+                            Id = new Guid("b4c762db-7a32-43ba-a23e-ab16f6c9e9a2"),
                             CreateDate = new DateTime(1998, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kayali06@gmail.com",
                             Name = "Ramazan",
