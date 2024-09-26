@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Presentation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Shared", "Appointments.Shared\Appointments.Shared.csproj", "{37E9762A-8CC9-461E-927B-085CB57F51B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Web", "Appointments.Web\Appointments.Web.csproj", "{54755ABD-16F5-454F-BD9C-35074451DA3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Web", "Appointments.Web\Appointments.Web.csproj", "{54755ABD-16F5-454F-BD9C-35074451DA3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

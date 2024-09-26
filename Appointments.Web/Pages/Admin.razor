@@ -1,1 +1,27 @@
-﻿@page "/admin"
+﻿
+
+@page "/Admin";
+
+
+
+<div class="d-flex gap-2 mb-4 justify-content-center mt-4">
+    <Dropdown Color="DropdownColor.Primary">
+        <DropdownToggleButton>Personel</DropdownToggleButton>
+        <DropdownMenu>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Tüm Personeller</DropdownItem>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Per</DropdownItem>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Per</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+
+    <Dropdown Color="DropdownColor.Secondary">
+        <DropdownToggleButton>Hastalar</DropdownToggleButton>
+        <DropdownMenu>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Hasta Kayıtlar</DropdownItem>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Has</DropdownItem>
+            <DropdownItem To="#" Type="DropdownItemType.Link">Has</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+
+</div>
+

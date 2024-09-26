@@ -1,9 +1,10 @@
+using Appointments.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace Appointments.Web
 {
-    public class Program
+	public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -11,7 +12,10 @@ namespace Appointments.Web
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+			builder.Services.AddBlazorBootstrap();
+
+
+			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();
         }

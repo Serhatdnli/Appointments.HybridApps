@@ -21,6 +21,7 @@
     },
     "https": {
       "commandName": "Project",
+      "hotReloadEnabled": true,
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
@@ -36,6 +37,13 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+
+    "Watch": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "watch run debug --launchprofile https"
     }
   }
 }
