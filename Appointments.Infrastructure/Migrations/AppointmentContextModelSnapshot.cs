@@ -26,38 +26,47 @@ namespace Appointments.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasAnnotation("Relational:JsonPropertyName", "createDate");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "password");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "phoneNumber");
 
                     b.Property<int>("Role")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "role");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "surname");
 
                     b.Property<string>("TcId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasAnnotation("Relational:JsonPropertyName", "tcId");
 
                     b.HasKey("Id");
 
@@ -69,7 +78,7 @@ namespace Appointments.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("699311c3-6845-4a8f-adcb-571780fda46b"),
+                            Id = new Guid("0cedaf38-5989-460e-9c23-0dddec5bf745"),
                             CreateDate = new DateTime(2000, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "boyr4z.m@gmail.com",
                             Name = "Muhammet",
@@ -81,7 +90,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5108f21c-68d1-4e80-a3ae-43affa1b1091"),
+                            Id = new Guid("0ff0ae3a-5d72-4faf-a82b-2244ceda1070"),
                             CreateDate = new DateTime(1998, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "serhatdnli@gmail.com",
                             Name = "Serhat",
@@ -93,7 +102,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("555bda52-6c4e-4fe7-ac13-d8aadbf47305"),
+                            Id = new Guid("b45636a6-65fc-4601-b06e-2bab59843427"),
                             CreateDate = new DateTime(2000, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "ahmetilhannm@gmail.com",
                             Name = "Ahmet",
@@ -105,7 +114,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("af4231fa-bae1-4238-9a2d-c705b11e3d7e"),
+                            Id = new Guid("50141e01-7a2a-44d4-805e-f98e3023bc56"),
                             CreateDate = new DateTime(1998, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "merter61m@gmail.com",
                             Name = "Gürkan",
@@ -117,7 +126,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dfe78d80-d68b-412e-a7dc-1f9a5584dd59"),
+                            Id = new Guid("7628ca42-a08e-4965-b381-74e1986d2cfb"),
                             CreateDate = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "dayanir34@gmail.com",
                             Name = "Talha",
@@ -129,7 +138,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("52a6b1c2-a59d-4176-a668-f025d5c3d5d3"),
+                            Id = new Guid("e517e81d-961e-495b-ad76-c5442a766fbe"),
                             CreateDate = new DateTime(1999, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "iboaydin34@gmail.com",
                             Name = "İbrahim",
@@ -141,7 +150,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0bc185f2-65d6-4489-abd2-47a7e5918105"),
+                            Id = new Guid("3c5ebf4a-86c7-4003-aab3-bf10063cf1ea"),
                             CreateDate = new DateTime(1995, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bakirr35@gmail.com",
                             Name = "Ali",
@@ -153,7 +162,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b4c762db-7a32-43ba-a23e-ab16f6c9e9a2"),
+                            Id = new Guid("2352d459-c149-4ee7-a97b-bc5bf587d88d"),
                             CreateDate = new DateTime(1998, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kayali06@gmail.com",
                             Name = "Ramazan",

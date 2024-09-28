@@ -1,0 +1,5 @@
+﻿.disabled-link {
+    color: #6c757d; /* Bootstrap'taki soluk renk */
+    pointer-events: none; /* Tıklanamaz hale getir */
+    cursor: not-allowed; /* İzin verilmeyen imleç */
+}

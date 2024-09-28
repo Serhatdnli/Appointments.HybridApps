@@ -40,10 +40,11 @@
     },
 
     "Watch": {
-      "commandName": "Executable",
+      "commandname": "Executable",
       "workingDirectory": "$(ProjectDir)",
       "executablePath": "dotnet",
       "commandLineArgs": "watch run debug --launchprofile https"
-    }
+    },
+
   }
 }

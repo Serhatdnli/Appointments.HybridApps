@@ -81,6 +81,13 @@ namespace Appointments.WebAPI.Controllers
             return Ok();
         }
 
-        
+        [HttpPost]
+        [AllowAnonymous]
+		[Route("GetAllUsersCount")]
+		public async Task<IActionResult> GelAllUsersCount([FromBody] GetAllUsersCountRequest getAllUsersCountRequest)
+        {
+            var response = await mediatR.Send(getAllUsersCountRequest);
+            return Ok(response);
+        }
 	}
 }

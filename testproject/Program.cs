@@ -10,7 +10,8 @@ using HttpClient httpClient = new HttpClient();
 
 try
 {
-	Thread.Sleep(15000); // 5 saniye bekleme (asenkron değil, gerek yoksa kaldırabilirsiniz)
+
+	ConsoleKeyInfo a = Console.ReadKey();
 
 	GetAllUserRequest request = new GetAllUserRequest
 	{
@@ -21,7 +22,7 @@ try
 
 	string jsonString =  JsonSerializer.Serialize(request);
 	var httpContent = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
-	var response = await httpClient.PostAsync("https://localhost:7235/api/User/GetAllUsers", httpContent);
+	var response = await httpClient.PostAsync("https://localhost:7777/api/User/GetAllUsers", httpContent);
 
 	if (response.IsSuccessStatusCode)
 	{
@@ -30,12 +31,14 @@ try
 		Console.WriteLine($"JSON Yanıt: {jsonResponse}");
 
 		// JSON'u User listesine çevir
-		var users = JsonSerializer.Deserialize<List<User>>(jsonResponse);
-		foreach (var user in users)
-		{
-			Console.WriteLine($"User Name: {user.Name}");
-		}
-	}
+		var users = JsonSerializer.Deserialize<UserResponse>(jsonResponse);
+
+        foreach (var user in users.Users)
+        {
+			Console.WriteLine(user.Name);
+        }
+
+    }
 	else
 	{
 		Console.WriteLine("Hata: " + response.ReasonPhrase);

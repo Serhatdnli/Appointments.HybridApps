@@ -4,65 +4,92 @@
 
 
 <div class="justify-content-center d-flex mt-4">
-	<div class="col-10 align-items-center">
-		@* <Grid TItem="User"
+	<div class="col-8 align-items-center">
+		<Grid TItem="User"
 			  Class="table table-hover table-bordered table-striped"
 			  DataProvider="PersonalsDataProvider"
 			  AllowFiltering="true"
-			  Responsive="true">
+			  Responsive="true"
+			  AllowSorting="true">
+
 
 			<GridColumns>
-				<GridColumn TItem="User" HeaderText="Id" PropertyName="Id">
-					@context.Id
-				</GridColumn>
-				<GridColumn TItem="User" HeaderText="Employee Name" PropertyName="Name" StringComparison="StringComparison.Ordinal">
+				
+				<GridColumn TItem="User" HeaderText="İsim" PropertyName="Name" StringComparison="StringComparison.Ordinal">
 					@context.Name
 				</GridColumn>
-				<GridColumn TItem="User" HeaderText="Designation" PropertyName="Designation">
+				<GridColumn TItem="User" HeaderText="Soyisim" PropertyName="Surname">
 					@context.Surname
 				</GridColumn>
-				<GridColumn TItem="User" HeaderText="DOJ" PropertyName="DOJ">
+				<GridColumn TItem="User" HeaderText="TC" PropertyName="TcId">
 					@context.TcId
 				</GridColumn>
-				<GridColumn TItem="User" HeaderText="Active" PropertyName="IsActive">
+				<GridColumn TItem="User" HeaderText="Telefon" PropertyName="PhoneNumber">
 					@context.PhoneNumber
 				</GridColumn>
 
-				<GridColumn TItem="User" HeaderText="Active" PropertyName="IsActive">
-					@context.CreateDate
+				<GridColumn TItem="User" HeaderText="Oluşturulma Tarihi" PropertyName="CreateDate">
+					@context.CreateDate.ToString("dd.MM.yyyy")
 				</GridColumn>
 
-				<GridColumn TItem="User" HeaderText="Active" PropertyName="IsActive">
+				<GridColumn TItem="User" HeaderText="Email" PropertyName="Email">
 					@context.Email
 				</GridColumn>
 
-				<GridColumn TItem="User" HeaderText="Active" PropertyName="IsActive">
+				<GridColumn TItem="User" HeaderText="Rol" PropertyName="Role">
 					@context.Role
 				</GridColumn>
 
 
 			</GridColumns>
 
-		</Grid> *@
+		</Grid> 
 
-		<p>Değişkenin Değeri: @count</p>
+		currentpage = @currentPage
+		totalCount = @totalData
+		lastPage = @lastPage
+		dataperpage = @dataPerPage
 
-		@* <div class="justify-content-center d-flex">
+		 <div class="justify-content-center d-flex">
 			<div class="align-items-center">
 
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="#">Önceki</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Sonraki</a></li>
+
+
+						<li class="page-item @(currentPage == 0 ? "disabled" : "")">
+							<a class="page-link @(currentPage == 0 ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage == 0)">Önceki</a>
+						</li>
+
+
+
+						@for (int i = currentPage - 2; i < lastPage; i++)
+						{
+							@if(i < 0)
+							{
+								continue;
+							}
+
+
+							@* <li> i = @i  currentPage = @currentPage</li> *@
+							@if(Math.Abs(i - currentPage) < 4)
+							{
+								<li class="page-item @(currentPage == i ? "active" : "")">
+									<a class="page-link" @onclick="() => GoToPage(i)">@(i)</a>
+								</li>
+							}
+						}
+
+
+						<li class="page-item @(currentPage == lastPage ? "disabled" : "")">
+							<a class="page-link @(currentPage == lastPage ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage == lastPage)">Sonraki</a>
+						</li>
 					</ul>
 				</nav>
 			</div>
 
 		</div>
- *@
+
 
 	</div>
 </div>
