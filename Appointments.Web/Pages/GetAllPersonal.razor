@@ -9,7 +9,6 @@
 
 			<Grid TItem="User"
 				  Class="table table-hover table-bordered table-striped"
-				  AllowFiltering="true"
 				  Responsive="true"
 				  AllowSorting="true"
 				  Data="@getAllUsersResponse.Users"
@@ -18,7 +17,6 @@
 
 
 				<GridColumns>
-
 					<GridColumn TItem="User" HeaderText="İsim" PropertyName="Name" StringComparison="StringComparison.Ordinal">
 						@context.Name
 					</GridColumn>
@@ -43,6 +41,13 @@
 					<GridColumn TItem="User" HeaderText="Rol" PropertyName="Role">
 						@context.Role
 					</GridColumn>
+
+				<GridColumn TItem="User" HeaderText="İşlemler" PropertyName="Operations">
+					<Button Color="ButtonColor.Danger" @onclick="() => ConfirmDelete(context)">
+						<i class="bi bi-trash"></i>
+					</Button>
+				</GridColumn>
+
 
 
 				</GridColumns>

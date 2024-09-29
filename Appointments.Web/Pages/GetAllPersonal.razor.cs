@@ -4,6 +4,8 @@ using Appointments.Domain.Models;
 using Azure;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -16,20 +18,23 @@ namespace Appointments.Web.Pages
 	{
 		private GetAllUsersCountRequest getAllUsersCountRequest;
 		private GetAllUserRequest getAllUserRequest;
+		private DeleteUserWithUserIdRequest deleteUserWithUserIdRequest;
 
 		private GetAllUsersCountResponse getAllUsersCountResponse;
+		private DeleteUserWithUserIdResponse deleteUserWithUserIdResponse;
 		private GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse { Users = new List<User> { 
-			new User{Id = new Guid(), TcId = "54489962556", CreateDate = DateTime.Now, Email = "boyr4z.q@gmail.com",Name = "serkan", Password = "ali", PhoneNumber = "05366452878", Role = Domain.Enums.UserRoleType.Admin, Surname = "ABBAK"},
 		} };
 
 		[Inject]
 		public IHttpClientFactory _httpClientFactory { get; set; }
+		[Inject]
+		private IJSRuntime jsRuntime { get; set; }
 
 		int currentPage = 0;
 		int lastPage = -1;
 		int totalData = -1;
 		int dataPerPage = 10;
-		
+		int curDataOrder = 0;
 
 
 		private async Task GetPersonalByPage()
@@ -122,10 +127,38 @@ namespace Appointments.Web.Pages
 
 			Console.WriteLine("---[BOYRAZ] TOPLAM KİŞİ SAYISI ÇEKİLDİ. TOPLAM KİŞİ : " + totalData + " LASTPAGE : " + lastPage);
 		}
+	
+		private async Task ConfirmDelete(User user)
+		{
+			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", user.Name + " " + user.Surname + " Kullanıcısını Silmek İstedğinize Emin misiniz?");
+			if (confirmed)
+			{
+				Console.WriteLine("evete tıkladı");
+				var httpClient = _httpClientFactory.CreateClient();
+				deleteUserWithUserIdRequest = new DeleteUserWithUserIdRequest
+				{
+					RequesterId = Guid.Empty
+				};
 
+
+				string jsonString = JsonSerializer.Serialize(getAllUsersCountRequest);
+				var httpContent = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+				var response = await httpClient.PostAsync("https://localhost:7777/api/User/DeleteUserWithUserId", httpContent);
+
+				if (response.IsSuccessStatusCode)
+				{
+					GoToPage(currentPage);
+				}
+			}
+		}
 		private async Task GoToPage(int page)
 		{
 			await SetUsersCountAsync();
+
+			if(page > lastPage)
+			{
+				lastPage = page;
+			}
 			currentPage = page;
 			Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
 			await GetPersonalByPage();

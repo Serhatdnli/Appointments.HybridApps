@@ -45,7 +45,7 @@ namespace Appointments.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [AllowAnonymous]
         [Route("DeleteUserWithTcId")]
         public async Task<IActionResult> DeleteUserWithTcId([FromBody] DeleteUserWithTcIdRequest deleteUserWithTcIdRequest)
@@ -54,7 +54,7 @@ namespace Appointments.WebAPI.Controllers
             return Ok();
         }
 
-		[HttpDelete]
+		[HttpPost]
 		[AllowAnonymous]
 		[Route("DeleteUserWithUserId")]
 		public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
@@ -63,7 +63,7 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
-        [HttpDelete]
+        [HttpPost]
         [AllowAnonymous]
         [Route("DeleteAllUsers")]
         public async Task<IActionResult> DeleteAllUsers([FromBody] DeleteAllUserRequest deleteAllUserRequest)

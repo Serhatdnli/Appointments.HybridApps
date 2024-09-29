@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Shared", "Appo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Web", "Appointments.Web\Appointments.Web.csproj", "{54755ABD-16F5-454F-BD9C-35074451DA3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testproject", "testproject\testproject.csproj", "{542F937F-FC29-4196-98B6-053C99CC79DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testproject", "testproject\testproject.csproj", "{542F937F-FC29-4196-98B6-053C99CC79DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

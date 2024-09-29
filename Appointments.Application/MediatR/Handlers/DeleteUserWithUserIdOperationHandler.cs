@@ -18,7 +18,7 @@ namespace Appointments.Application.MediatR.Handlers
 
         public async Task<DeleteUserWithUserIdResponse> Handle(DeleteUserWithUserIdRequest request, CancellationToken cancellationToken)
         {
-            var requestedUser = await userRepository.GetSingleAsync(x => x.Id == request.RequesterId);
+            //var requestedUser = await userRepository.GetSingleAsync(x => x.Id == request.RequesterId);
 
             //if (requestedUser is null)
             //    throw new Exception(Constants.USER_NOT_FOUND);
