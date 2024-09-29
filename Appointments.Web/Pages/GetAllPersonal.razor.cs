@@ -1,16 +1,13 @@
-﻿using Appointments.Application.MediatR.Requests.UserRequests;
+﻿using Appointments.Application.Filters;
+using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
+using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
-using Azure;
-using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
-using System;
-using System.Net.Http;
-using System.Net.Http.Json;
+using System.Data;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace Appointments.Web.Pages
 {
@@ -22,8 +19,15 @@ namespace Appointments.Web.Pages
 
 		private GetAllUsersCountResponse getAllUsersCountResponse;
 		private DeleteUserWithUserIdResponse deleteUserWithUserIdResponse;
-		private GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse { Users = new List<User> { 
-		} };
+		private GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse
+		{
+			
+			Users = new List<User>
+			{
+			}
+		};
+
+		private UserFilter UserFilter = new UserFilter();
 
 		[Inject]
 		public IHttpClientFactory _httpClientFactory { get; set; }
@@ -37,6 +41,20 @@ namespace Appointments.Web.Pages
 		int curDataOrder = 0;
 
 
+
+		private IEnumerable<SelectListItem> RoleOptions => Enum.GetValues(typeof(UserRoleType))
+		   .Cast<UserRoleType>()
+		   .Select(role => new SelectListItem
+		   {
+			   Value = ((int)role).ToString(),
+			   Text = role.ToString()
+		   }).ToList();
+
+		protected override async Task OnInitializedAsync()
+		{
+
+			await GoToPage(currentPage);
+		}
 		private async Task GetPersonalByPage()
 		{
 			Console.WriteLine("Kullanıcılar çekiliyor");
@@ -45,7 +63,8 @@ namespace Appointments.Web.Pages
 			{
 				Count = dataPerPage,
 				Index = currentPage * dataPerPage,
-				RequesterId = Guid.Empty
+				RequesterId = Guid.Empty,
+				userFilter = UserFilter
 			};
 
 			string jsonString = JsonSerializer.Serialize(getAllUserRequest);
@@ -83,18 +102,26 @@ namespace Appointments.Web.Pages
 			var client = _httpClientFactory.CreateClient(); // HttpClient nesnesi oluşturuluyor
 		}
 
-		protected override async Task OnInitializedAsync()
+	
+		private async Task ApplyFilterAsync()
 		{
-			
-			await GoToPage(currentPage);
-		}
+			Console.WriteLine($"Name: {getAllUserRequest.userFilter.Name}");
+			Console.WriteLine($"Surname: {getAllUserRequest.userFilter.Surname}");
+			Console.WriteLine($"Email: {getAllUserRequest.userFilter.Email}");
+			Console.WriteLine($"TC ID: {getAllUserRequest.userFilter.TcId}");
+			Console.WriteLine($"Phone Number: {getAllUserRequest.userFilter.PhoneNumber}");
+			Console.WriteLine($"Role: {getAllUserRequest.userFilter.Role}");
+			Console.WriteLine($"Create Date: {getAllUserRequest.userFilter.CreateDate}");
 
+			await GoToPage(0);
+		}
 		private async Task SetUsersCountAsync()
 		{
 			var httpClient = _httpClientFactory.CreateClient();
 			getAllUsersCountRequest = new GetAllUsersCountRequest
 			{
-				RequesterId = Guid.Empty
+				RequesterId = Guid.Empty,
+				userFilter = UserFilter
 			};
 
 
@@ -113,7 +140,7 @@ namespace Appointments.Web.Pages
 				{
 					getAllUsersCountResponse = JsonSerializer.Deserialize<GetAllUsersCountResponse>(jsonResponse);
 					totalData = getAllUsersCountResponse.UserCount;
-					lastPage = totalData % dataPerPage == 0 ? totalData / dataPerPage - 1: totalData / dataPerPage;
+					lastPage = totalData % dataPerPage == 0 ? totalData / dataPerPage - 1 : totalData / dataPerPage;
 				}
 				catch (JsonException ex)
 				{
@@ -127,14 +154,37 @@ namespace Appointments.Web.Pages
 
 			Console.WriteLine("---[BOYRAZ] TOPLAM KİŞİ SAYISI ÇEKİLDİ. TOPLAM KİŞİ : " + totalData + " LASTPAGE : " + lastPage);
 		}
-	
+
+		private void DateChanged(string createDate)
+		{
+			DateTime dateTimeValue;
+			if (DateTime.TryParse(createDate, out dateTimeValue))
+			{
+				UserFilter.CreateDate = dateTimeValue;
+			}
+			else
+			{
+				// Hatalı tarih formatı
+				Console.WriteLine("Geçersiz tarih formatı.");
+			}
+
+		}
+
+		private void OnRoleChanged(string newRole)
+		{
+			if (Enum.TryParse(typeof(UserRoleType), newRole, out var role))
+			{
+				UserFilter.Role = (UserRoleType)role;
+				Console.WriteLine($"Rol değişti: {newRole}");
+			}
+		}
 		private async Task ConfirmDelete(User user)
 		{
 			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", user.Name + " " + user.Surname + " Kullanıcısını Silmek İstedğinize Emin misiniz?");
 			if (confirmed)
 			{
-				Console.WriteLine("evete tıkladı. kullanıcı :" +user.Name + " "+ user.Surname + "id : " + user.Id );
-				
+				Console.WriteLine("evete tıkladı. kullanıcı :" + user.Name + " " + user.Surname + "id : " + user.Id);
+
 				var httpClient = _httpClientFactory.CreateClient();
 				deleteUserWithUserIdRequest = new DeleteUserWithUserIdRequest
 				{
@@ -149,7 +199,7 @@ namespace Appointments.Web.Pages
 
 				if (response.IsSuccessStatusCode)
 				{
-					GoToPage(currentPage);
+					await GoToPage(currentPage);
 				}
 			}
 		}
@@ -157,21 +207,20 @@ namespace Appointments.Web.Pages
 		{
 			await SetUsersCountAsync();
 
-			if(page > lastPage)
+			if (page > lastPage)
 			{
 				lastPage = page;
 			}
 			currentPage = page;
 			Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
 			await GetPersonalByPage();
-			
+
 			StateHasChanged();
 		}
-
-		
-
-	
-
-
 	}
+}
+public class SelectListItem
+{
+	public string Value { get; set; }
+	public string Text { get; set; }
 }

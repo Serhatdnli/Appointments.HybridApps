@@ -5,7 +5,7 @@ using Appointments.Domain.Enums;
 using Appointments.Shared;
 using MediatR;
 
-namespace Appointments.Application.MediatR.Handlers
+namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
     internal class CreateUserOperationHandler : IRequestHandler<CreateUserRequest, CreateUserResponse>
     {

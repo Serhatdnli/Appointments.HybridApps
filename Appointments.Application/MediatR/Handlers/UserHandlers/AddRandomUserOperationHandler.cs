@@ -5,7 +5,7 @@ using Appointments.Domain.Models;
 using MediatR;
 using System.Text;
 
-namespace Appointments.Application.MediatR.Handlers
+namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
     public class AddRandomUserOperationHandler : IRequestHandler<AddRandomUserRequest, AddRandomUserResponse>
     {

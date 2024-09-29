@@ -5,7 +5,7 @@ using Appointments.Domain.Enums;
 using Appointments.Shared;
 using MediatR;
 
-namespace Appointments.Application.MediatR.Handlers
+namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
     public class DeleteUserWithUserIdOperationHandler : IRequestHandler<DeleteUserWithUserIdRequest, DeleteUserWithUserIdResponse>
     {
@@ -28,7 +28,7 @@ namespace Appointments.Application.MediatR.Handlers
 
             var user = await userRepository.GetSingleAsync(x => x.Id == request.Id);
 
-            if(user is null)
+            if (user is null)
             {
                 throw new Exception(Constants.USER_NOT_FOUND);
             }
