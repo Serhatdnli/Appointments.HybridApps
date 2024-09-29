@@ -7,5 +7,7 @@ namespace Appointments.Application.MediatR.Responses.UserReponses
     {
         [JsonPropertyName("users")]
         public List<User> Users { get; set; }
+        [JsonPropertyName("count")]
+        public int Count { get; set; }
     }
 }

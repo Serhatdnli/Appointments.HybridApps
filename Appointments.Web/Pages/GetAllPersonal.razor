@@ -5,150 +5,150 @@
 
 
 <div class="justify-content-center d-flex mt-4">
-	<div class="col-8 align-items-center">
+    <div class="col-8 align-items-center">
 
-		@* <form class="name">
-		<div class="form-group">
-		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-		</div>
-		<div class="form-group">
-		<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-		</div>
-		<div class="form-check">
-		<input type="checkbox" class="form-check-input" id="exampleCheck1">
-		<label class="form-check-label" for="exampleCheck1">Check me out</label>
-		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
-		</form> *@
-
-
-
-		<div class="table-responsive">
-			<table class="table table-hover table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>İsim</th>
-						<th>Soyisim</th>
-						<th>TC</th>
-						<th>Telefon</th>
-						<th>Oluşturulma Tarihi</th>
-						<th>Email</th>
-						<th>Rol</th>
-						<th>İşlemler</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- Statik Satır -->
-					<tr>
-						<td>
-							<input @bind="UserFilter.Name" class="form-control"/>
-						</td>
-						<td>
-							<input @bind="UserFilter.Surname" class="form-control" />
-						</td>
-						<td>
-							<input @bind="UserFilter.TcId" class="form-control" />
-						</td>
-						<td>
-							<input @bind="UserFilter.PhoneNumber" class="form-control " />
-						</td>
-						<td>
-							<input type="datetime" class="form-control" @onchange="(e) => DateChanged(e.Value.ToString())" />
-						</td>
-						<td>
-							<input @bind="UserFilter.Email" class="form-control" />
-						</td>
-						<td>
-							<select @onchange="(e) => OnRoleChanged(e.Value.ToString())" class="form-control">
-								@foreach (var option in RoleOptions)
-								{
-									<option value="@option.Value">@option.Text</option>
-								}
-							</select>
-						</td>
-						<td>
-							<Button Color="ButtonColor.Success" @onclick="() => ApplyFilterAsync()">
-								<i class="bi bi-trash"></i>
-							</Button>
-						</td>
-					
-					</tr>
-
-					@foreach (var user in getAllUsersResponse.Users)
-					{
-						<tr>
-							<td>@user.Name</td>
-							<td>@user.Surname</td>
-							<td>@user.TcId</td>
-							<td>@user.PhoneNumber</td>
-							<td>@user.CreateDate.ToString("dd.MM.yyyy")</td>
-							<td>@user.Email</td>
-							<td>@user.Role</td>
-							<td>
-								<Button Color="ButtonColor.Danger" @onclick="() => ConfirmDelete(user)">
-									<i class="bi bi-trash"></i>
-								</Button>
-							</td>
-						</tr>
-					}
-
-				</tbody>
-			</table>
-		</div>
+        @* <form class="name">
+        <div class="form-group">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form> *@
 
 
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Soyisim</th>
+                        <th>TC</th>
+                        <th>Telefon</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Statik Satır -->
+                    <tr>
+                        <td>
+                            <InputText @bind-Value:get="bindingValue" @bind-Value:set="(value) => { bindingValue = value; BindFilter(Domain.Enums.UserFilterType.Name,value); }" />
+                        </td>
+                        <td>
+                            <input @bind="UserFilter.Surname" class="form-control" />
+                        </td>
+                        <td>
+                            <input @bind="UserFilter.TcId" class="form-control" />
+                        </td>
+                        <td>
+                            <input @bind="UserFilter.PhoneNumber" class="form-control " />
+                        </td>
+                        <td>
+                            <input type="datetime" class="form-control" @onchange="(e) => DateChanged(e.Value.ToString())" />
+                        </td>
+                        <td>
+                            <input @bind="UserFilter.Email" class="form-control" />
+                        </td>
+                        <td>
+                            <select @onchange="(e) => OnRoleChanged(e.Value.ToString())" class="form-control">
+                                @foreach (var option in RoleOptions)
+                                {
+                                    <option value="@option">@option.ToString()</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <Button Color="ButtonColor.Success" @onclick="() => ApplyFilterAsync()">
+                                <i class="bi bi-trash"></i>
+                            </Button>
+                        </td>
+
+                    </tr>
+
+                    @foreach (var user in Users)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td>@user.Surname</td>
+                            <td>@user.TcId</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>@user.CreateDate.ToString("dd.MM.yyyy")</td>
+                            <td>@user.Email</td>
+                            <td>@user.Role</td>
+                            <td>
+                                <Button Color="ButtonColor.Danger" @onclick="() => ConfirmDelete(user)">
+                                    <i class="bi bi-trash"></i>
+                                </Button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
 
 
 
 
-		@* 	currentpage = @currentPage
-		totalCount = @totalData
-		lastPage = @lastPage
-		dataperpage = @dataPerPage
-		*@
-		<div class="justify-content-center d-flex">
-			<div class="align-items-center">
-
-				<nav aria-label="Page navigation example">
-					<ul class="pagination">
 
 
-						<li class="page-item @(currentPage == 0 ? "disabled" : "")">
-							<a class="page-link @(currentPage == 0 ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage == 0)">Önceki</a>
-						</li>
+        @* 	currentpage = @currentPage
+        totalCount = @totalData
+        lastPage = @lastPage
+        dataperpage = @dataPerPage
+        *@
+        <div class="justify-content-center d-flex">
+            <div class="align-items-center">
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+
+
+                        <li class="page-item @(currentPage == 0 ? "disabled" : "")">
+                            <a class="page-link @(currentPage == 0 ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage == 0)">Önceki</a>
+                        </li>
 
 
 
-						@for (int i = currentPage - 2; i < lastPage + 1; i++)
-						{
-							@if (i < 0)
-							{
-								continue;
-							}
-							@* <p>[i:@i, curPage:@currentPage]</p> *@
+                        @for (int i = currentPage - 2; i < lastPage + 1; i++)
+                        {
+                            @if (i < 0)
+                            {
+                                continue;
+                            }
+                            @* <p>[i:@i, curPage:@currentPage]</p> *@
 
-							@* <li> i = @i  currentPage = @currentPage</li> *@
-							@if (Math.Abs(i - currentPage) < 4)
-							{
-								var pageNumber = i;
-								<li class="page-item @(currentPage == i ? "active" : "")">
-									<a class="page-link" @onclick="() => GoToPage(pageNumber)">@(i + 1)</a>
-								</li>
-							}
-						}
-
-
-						<li class="page-item @(currentPage == lastPage ? "disabled" : "")">
-							<a class="page-link @(currentPage == lastPage ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage == lastPage)">Sonraki</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-
-		</div>
+                            @* <li> i = @i  currentPage = @currentPage</li> *@
+                            @if (Math.Abs(i - currentPage) < 4)
+                            {
+                                var pageNumber = i;
+                                <li class="page-item @(currentPage == i ? "active" : "")">
+                                    <a class="page-link" @onclick="() => GoToPage(pageNumber)">@(i + 1)</a>
+                                </li>
+                            }
+                        }
 
 
-	</div>
+                        <li class="page-item @(currentPage == lastPage ? "disabled" : "")">
+                            <a class="page-link @(currentPage == lastPage ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage == lastPage)">Sonraki</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+
+
+    </div>
 </div>
 
 
