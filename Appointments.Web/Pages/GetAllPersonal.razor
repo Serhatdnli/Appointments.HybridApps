@@ -5,51 +5,57 @@
 
 <div class="justify-content-center d-flex mt-4">
 	<div class="col-8 align-items-center">
-		<Grid TItem="User"
-			  Class="table table-hover table-bordered table-striped"
-			  DataProvider="PersonalsDataProvider"
-			  AllowFiltering="true"
-			  Responsive="true"
-			  AllowSorting="true">
 
 
-			<GridColumns>
-				
-				<GridColumn TItem="User" HeaderText="İsim" PropertyName="Name" StringComparison="StringComparison.Ordinal">
-					@context.Name
-				</GridColumn>
-				<GridColumn TItem="User" HeaderText="Soyisim" PropertyName="Surname">
-					@context.Surname
-				</GridColumn>
-				<GridColumn TItem="User" HeaderText="TC" PropertyName="TcId">
-					@context.TcId
-				</GridColumn>
-				<GridColumn TItem="User" HeaderText="Telefon" PropertyName="PhoneNumber">
-					@context.PhoneNumber
-				</GridColumn>
-
-				<GridColumn TItem="User" HeaderText="Oluşturulma Tarihi" PropertyName="CreateDate">
-					@context.CreateDate.ToString("dd.MM.yyyy")
-				</GridColumn>
-
-				<GridColumn TItem="User" HeaderText="Email" PropertyName="Email">
-					@context.Email
-				</GridColumn>
-
-				<GridColumn TItem="User" HeaderText="Rol" PropertyName="Role">
-					@context.Role
-				</GridColumn>
+			<Grid TItem="User"
+				  Class="table table-hover table-bordered table-striped"
+				  AllowFiltering="true"
+				  Responsive="true"
+				  AllowSorting="true"
+				  Data="@getAllUsersResponse.Users"
+				  >
+				  
 
 
-			</GridColumns>
+				<GridColumns>
 
-		</Grid> 
+					<GridColumn TItem="User" HeaderText="İsim" PropertyName="Name" StringComparison="StringComparison.Ordinal">
+						@context.Name
+					</GridColumn>
+					<GridColumn TItem="User" HeaderText="Soyisim" PropertyName="Surname">
+						@context.Surname
+					</GridColumn>
+					<GridColumn TItem="User" HeaderText="TC" PropertyName="TcId">
+						@context.TcId
+					</GridColumn>
+					<GridColumn TItem="User" HeaderText="Telefon" PropertyName="PhoneNumber">
+						@context.PhoneNumber
+					</GridColumn>
 
-		currentpage = @currentPage
+					<GridColumn TItem="User" HeaderText="Oluşturulma Tarihi" PropertyName="CreateDate">
+						@context.CreateDate.ToString("dd.MM.yyyy")
+					</GridColumn>
+
+					<GridColumn TItem="User" HeaderText="Email" PropertyName="Email">
+						@context.Email
+					</GridColumn>
+
+					<GridColumn TItem="User" HeaderText="Rol" PropertyName="Role">
+						@context.Role
+					</GridColumn>
+
+
+				</GridColumns>
+			</Grid>
+
+
+		
+
+	@* 	currentpage = @currentPage
 		totalCount = @totalData
 		lastPage = @lastPage
 		dataperpage = @dataPerPage
-
+ *@
 		 <div class="justify-content-center d-flex">
 			<div class="align-items-center">
 
@@ -63,19 +69,20 @@
 
 
 
-						@for (int i = currentPage - 2; i < lastPage; i++)
+						@for (int i = currentPage - 2; i < lastPage + 1; i++)
 						{
 							@if(i < 0)
 							{
 								continue;
 							}
-
+							@* <p>[i:@i, curPage:@currentPage]</p> *@
 
 							@* <li> i = @i  currentPage = @currentPage</li> *@
 							@if(Math.Abs(i - currentPage) < 4)
 							{
+							var pageNumber = i;
 								<li class="page-item @(currentPage == i ? "active" : "")">
-									<a class="page-link" @onclick="() => GoToPage(i)">@(i)</a>
+									<a class="page-link" @onclick="() => GoToPage(pageNumber)">@(i + 1)</a>
 								</li>
 							}
 						}

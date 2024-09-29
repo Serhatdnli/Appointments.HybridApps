@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Appointments.Web.Pages
@@ -16,10 +17,13 @@ namespace Appointments.Web.Pages
 		private GetAllUsersCountRequest getAllUsersCountRequest;
 		private GetAllUserRequest getAllUserRequest;
 
-
 		private GetAllUsersCountResponse getAllUsersCountResponse;
-		private GetAllUsersResponse getAllUsersResponse;
+		private GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse { Users = new List<User> { 
+			new User{Id = new Guid(), TcId = "54489962556", CreateDate = DateTime.Now, Email = "boyr4z.q@gmail.com",Name = "serkan", Password = "ali", PhoneNumber = "05366452878", Role = Domain.Enums.UserRoleType.Admin, Surname = "ABBAK"},
+		} };
 
+		[Inject]
+		public IHttpClientFactory _httpClientFactory { get; set; }
 
 		int currentPage = 0;
 		int lastPage = -1;
@@ -27,8 +31,6 @@ namespace Appointments.Web.Pages
 		int dataPerPage = 10;
 		
 
-		[Inject]
-		public IHttpClientFactory _httpClientFactory { get; set; }
 
 		private async Task GetPersonalByPage()
 		{
@@ -76,12 +78,13 @@ namespace Appointments.Web.Pages
 			var client = _httpClientFactory.CreateClient(); // HttpClient nesnesi oluşturuluyor
 		}
 
-		protected override void OnInitialized()
+		protected override async Task OnInitializedAsync()
 		{
-			SetUsersCountAsync();
+			
+			await GoToPage(currentPage);
 		}
 
-		private async void SetUsersCountAsync()
+		private async Task SetUsersCountAsync()
 		{
 			var httpClient = _httpClientFactory.CreateClient();
 			getAllUsersCountRequest = new GetAllUsersCountRequest
@@ -118,28 +121,21 @@ namespace Appointments.Web.Pages
 			}
 
 			Console.WriteLine("---[BOYRAZ] TOPLAM KİŞİ SAYISI ÇEKİLDİ. TOPLAM KİŞİ : " + totalData + " LASTPAGE : " + lastPage);
-			StateHasChanged();
 		}
 
-		private void GoToPage(int page)
+		private async Task GoToPage(int page)
 		{
+			await SetUsersCountAsync();
 			currentPage = page;
 			Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
-			GetPersonalByPage();
+			await GetPersonalByPage();
+			
 			StateHasChanged();
 		}
 
-		private async Task<GridDataProviderResult<User>> PersonalsDataProvider(GridDataProviderRequest<User> request)
-		{
+		
 
-			await GetPersonalByPage();
-
-			return new GridDataProviderResult<User>
-			{
-				Data = getAllUsersResponse.Users, // Kullanıcı verileri
-				TotalCount = getAllUsersResponse.Users.Count // Eğer toplam sayıyı API'den alıyorsanız, bunu güncelleyin
-			};
-		}
+	
 
 
 	}
