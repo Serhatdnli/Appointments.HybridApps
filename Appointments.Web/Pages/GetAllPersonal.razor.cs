@@ -133,15 +133,17 @@ namespace Appointments.Web.Pages
 			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", user.Name + " " + user.Surname + " Kullanıcısını Silmek İstedğinize Emin misiniz?");
 			if (confirmed)
 			{
-				Console.WriteLine("evete tıkladı");
+				Console.WriteLine("evete tıkladı. kullanıcı :" +user.Name + " "+ user.Surname + "id : " + user.Id );
+				
 				var httpClient = _httpClientFactory.CreateClient();
 				deleteUserWithUserIdRequest = new DeleteUserWithUserIdRequest
 				{
-					RequesterId = Guid.Empty
+					RequesterId = Guid.Empty,
+					Id = user.Id,
 				};
 
 
-				string jsonString = JsonSerializer.Serialize(getAllUsersCountRequest);
+				string jsonString = JsonSerializer.Serialize(deleteUserWithUserIdRequest);
 				var httpContent = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
 				var response = await httpClient.PostAsync("https://localhost:7777/api/User/DeleteUserWithUserId", httpContent);
 
