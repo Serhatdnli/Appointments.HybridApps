@@ -1,157 +1,50 @@
-﻿using Appointments.Application.Filters;
-using Appointments.Domain.Enums;
+﻿using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Appointments.Application.FilterExtensions
 {
-	public static class UserFilterExtension
-	{
-	
+    public static class UserFilterExtension
+    {
 
-		public static IQueryable<User>  GetAllUsersByFilter(this IQueryable<User> users, UserFilter filter)
-		{
-			if (!filter.Name.IsNullOrEmpty())
-			{
-				users = NameFilter(users, filter.Name, filter.NameFullMatch);
-			}
+        public static bool Find(this User user, Dictionary<UserFilterType, string> filter)
+        {
+            bool allConditions = true;
+            foreach (var key in filter.Keys)
+            {
+                var value = filter[key];
 
-			if (!filter.Surname.IsNullOrEmpty())
-			{
-				users = SurnameFilter(users, filter.Surname, filter.SurnameFullMatch);
-			}
+                switch (key)
+                {
+                    case UserFilterType.Name:
+                        allConditions = allConditions && user.Name.ToLower().Contains(value.ToLower());
+                        break;
+                    case UserFilterType.Surname:
+                        allConditions = allConditions && user.Surname.ToLower().Contains(value.ToLower());
+                        break;
+                    case UserFilterType.Email:
+                        allConditions = allConditions && user.Email.ToLower().Contains(value.ToLower());
+                        break;
+                    case UserFilterType.TcId:
+                        allConditions = allConditions && user.TcId.ToLower().Contains(value.ToLower());
+                        break;
+                    case UserFilterType.PhoneNumber:
+                        allConditions = allConditions && user.PhoneNumber.ToLower().Contains(value.ToLower());
+                        break;
+                    case UserFilterType.Role:
+                        UserRoleType valueRoleType = Enum.Parse<UserRoleType>(value);
+                        allConditions = allConditions && user.Role == valueRoleType;
+                        break;
+                    default:
+                        break;
+                }
 
-			if (!filter.Email.IsNullOrEmpty())
-			{
-				users = EMailFilter(users, filter.Email, filter.EmailFullMatch);
-			}
+                if (!allConditions)
+                    break;
+            }
 
-			if (!filter.TcId.IsNullOrEmpty())
-			{
-				users = TcIdFilter(users, filter.TcId, filter.TcIdFullMatch);
-			}
+            return allConditions;
 
-			if (!filter.PhoneNumber.IsNullOrEmpty())
-			{
-				users = PhoneNumberFilter(users, filter.PhoneNumber, filter.PhoneNumberFullMatch);
-			}
+        }
 
-			if (!filter.Role.ToString().IsNullOrEmpty() && filter.Role != UserRoleType.None)
-			{
-				users = RoleFilter(users, filter.Role.ToString(), filter.RoleFullMatch);
-			}
-
-			if (!filter.CreateDate.ToString().IsNullOrEmpty() && filter.CreateDate != DateTime.MinValue)
-			{
-				users = CreateDateFilter(users, filter.CreateDate, filter.CreateDateFullMatch);
-			}
-
-			return users;
-
-		}
-
-		private static IQueryable<User> NameFilter(IQueryable<User> users, string name, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.Name == name);
-			}
-			else
-			{
-				users = users.Where(u => u.Name.Contains(name));
-			}
-			return users;
-		}
-
-
-		private static IQueryable<User> SurnameFilter(IQueryable<User> users, string surname, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.Surname == surname);
-			}
-			else
-			{
-				users = users.Where(u => u.Surname.Contains(surname));
-			}
-			return users;
-		}
-
-
-		private static IQueryable<User> EMailFilter(IQueryable<User> users, string email, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.Email == email);
-			}
-			else
-			{
-				users = users.Where(u => u.Email.Contains(email));
-			}
-			return users;
-		}
-
-		
-		private static IQueryable<User> TcIdFilter(IQueryable<User> users, string tcId, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.TcId == tcId);
-			}
-			else
-			{
-				users = users.Where(u => u.TcId.Contains(tcId));
-			}
-			return users;
-		}
-
-
-		private static IQueryable<User> PhoneNumberFilter(IQueryable<User> users, string phoneNumber, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.PhoneNumber == phoneNumber);
-			}
-			else
-			{
-				users = users.Where(u => u.PhoneNumber.Contains(phoneNumber));
-			}
-			return users;
-		}
-
-
-
-
-		private static IQueryable<User> RoleFilter(IQueryable<User> users, string role, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.Role.ToString() == role);
-			}
-			else
-			{
-				users = users.Where(u => u.Role.ToString().Contains(role));
-			}
-			return users;
-		}
-
-		private static IQueryable<User> CreateDateFilter(IQueryable<User> users, DateTime createDate, bool fullMatch)
-		{
-			if (fullMatch)
-			{
-				users = users.Where(u => u.CreateDate.Date == createDate.Date);
-			}
-			else
-			{
-				DateTime endDate = DateTime.Now;
-
-				users = users.Where(u => u.CreateDate >= createDate && u.CreateDate <= endDate);
-			}
-			return users;
-		}
-
-
-	}
+    }
 }

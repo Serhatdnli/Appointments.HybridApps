@@ -65,14 +65,14 @@ namespace Appointments.WebAPI.Controllers
             return Ok();
         }
 
-		[HttpPost]
-		[AllowAnonymous]
-		[Route("DeleteUserWithUserId")]
-		public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
-		{
-			var response = await mediatR.Send(deleteUserWithUserIdRequest);
-			return Ok();
-		}
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("DeleteUserWithUserId")]
+        public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
+        {
+            var response = await mediatR.Send(deleteUserWithUserIdRequest);
+            return Ok();
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -83,7 +83,7 @@ namespace Appointments.WebAPI.Controllers
             return Ok();
         }
 
-		[HttpPut]
+        [HttpPost]
         [AllowAnonymous]
         [Route("UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest updateUserRequest)
@@ -92,13 +92,6 @@ namespace Appointments.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-		[Route("GetAllUsersCount")]
-		public async Task<IActionResult> GelAllUsersCount([FromBody] GetAllUsersCountRequest getAllUsersCountRequest)
-        {
-            var response = await mediatR.Send(getAllUsersCountRequest);
-            return Ok(response);
-        }
-	}
+
+    }
 }

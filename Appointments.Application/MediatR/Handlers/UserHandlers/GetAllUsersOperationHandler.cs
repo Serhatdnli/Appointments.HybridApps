@@ -1,7 +1,6 @@
 ﻿using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
-using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +21,13 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
             List<User> users;
 
 
-            var query = await userRepository.GetQueryable().ToListAsync(cancellationToken);
+            var query = userRepository.GetQueryable();
             var count = query.Count();
 
             if (request.Count > 0)
-                users = query.Skip(request.Index).Take(request.Count).ToList();
+                users = await query.Skip(request.Index).Take(request.Count).ToListAsync(cancellationToken);
             else
-                users = query;
+                users = await query.ToListAsync(cancellationToken); ;
 
 
             return new GetAllUsersResponse { Users = users, Count = count };
