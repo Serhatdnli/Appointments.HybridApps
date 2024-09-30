@@ -1,14 +1,42 @@
 ﻿
+@using Web.Shared
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@page "/";
+
+@layout MainPageLayout
 
 
-@page "/Home";
 
+<div class="d-flex justify-content-between text-align-center" style="background-color:#ffffff;">
+	<div class="d-flex">
+		<img src="logo.png" alt="logo"  style="width: 300px; height: 100px;">
+	</div>
 
-<h3>Components HOME.RAZOR </h3>
+	<div class="d-flex ms-auto ">
+		<ul id="menu-main-menu" class="wpb_custom_959cc120b9070b422c0c6495679788f2 mr-0 main-menu mega-menu menu-hover-line menu-hover-underline show-arrow">
+			<li id="nav-menu-item-3159" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2 current_page_item active narrow"><a href="https://clinicperla.com/" class=" current">Ana Sayfa</a></li>
+			<li id="nav-menu-item-3161" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children has-sub narrow sub-ready">
+				<a href="#">Tedavilerimiz</a>
+				<div class="popup" style="display: block;">
+					<div class="inner" style="">
+						<ul class="sub-menu porto-narrow-sub-menu">
+							<li id="nav-menu-item-3471" class="menu-item menu-item-type-post_type menu-item-object-page" data-cols="1"><a href="https://clinicperla.com/implantoloji/">İmplantoloji</a></li>
+							<li id="nav-menu-item-3510" class="menu-item menu-item-type-post_type menu-item-object-page" data-cols="1"><a href="https://clinicperla.com/periodontoloji/">Periodontoloji</a></li>
+							<li id="nav-menu-item-3509" class="menu-item menu-item-type-post_type menu-item-object-page" data-cols="1"><a href="https://clinicperla.com/endodonti/">Endodonti</a></li>
+							<li id="nav-menu-item-3508" class="menu-item menu-item-type-post_type menu-item-object-page" data-cols="1"><a href="https://clinicperla.com/estetik-dis/">Estetik Diş</a></li>
+							<li id="nav-menu-item-3511" class="menu-item menu-item-type-post_type menu-item-object-page" data-cols="1"><a href="https://clinicperla.com/dis-beyazlatma/">Diş Beyazlatma</a></li>
+						</ul>
+					</div>
+				</div>
+			</li>
+			<li id="nav-menu-item-3163" class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a href="https://clinicperla.com/hakkimizda/">Hakkımızda</a></li>
+			<li id="nav-menu-item-3164" class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a href="https://clinicperla.com/tedavilerimiz/">Tedavilerimiz</a></li>
+			<li id="nav-menu-item-3165" class="menu-item menu-item-type-post_type menu-item-object-page narrow"><a href="https://clinicperla.com/iletisim/">İletişim</a></li>
+		</ul>
+	</div>
 
-
-
-
-@code {
-
-}
+	<div class="d-flex ms-2">
+		<button type="button" class="btn btn-light" style="width:40px;height:40px;"><i class="bi bi-menu-app"></i></button>
+	</div>
+</div>

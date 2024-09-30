@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 using System.Data;
 using System.Text.Json;
 
-namespace Appointments.Web.Pages
+namespace Appointments.Web.Pages.Admin
 {
     public partial class GetAllPersonal : ComponentBase
     {
@@ -147,7 +147,7 @@ namespace Appointments.Web.Pages
             Console.WriteLine("CALİSİYO");
 
 
-            bool isNull = string.IsNullOrEmpty(value) || (filterType == UserFilterType.Role && value == "None");
+            bool isNull = string.IsNullOrEmpty(value) || filterType == UserFilterType.Role && value == "None";
             if (!UserFilters.Any(x => x.Key == filterType))
             {
                 if (!isNull)
@@ -185,7 +185,7 @@ namespace Appointments.Web.Pages
 
             await GoToPage(0);
         }
-       
+
 
         private void DateChanged(string createDate)
         {
@@ -243,9 +243,9 @@ namespace Appointments.Web.Pages
             }
             currentPage = page;
             Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
-            if(isFiltered)
+            if (isFiltered)
                 await GetPersonalByFilterByPage();
-            else 
+            else
                 await GetPersonalByFilterByPage();
             StateHasChanged();
         }
