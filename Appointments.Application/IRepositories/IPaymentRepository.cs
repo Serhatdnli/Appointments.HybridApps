@@ -2,7 +2,7 @@
 
 namespace Appointments.Application.IRepositories
 {
-    public interface IPaymentRepository : IGenericRepository<Payments>
+    public interface IPaymentRepository : IGenericRepository<Payment>
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Appointments.Domain.Models
 {
-    public class Payments : BaseEntity
+    public class Payment : BaseEntity
     {
         public Guid AppointmentId{ get; set; }
         public float Price { get; set; }

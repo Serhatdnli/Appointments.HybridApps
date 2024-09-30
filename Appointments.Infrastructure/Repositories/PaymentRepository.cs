@@ -4,7 +4,7 @@ using Appointments.Infrastructure.Context;
 
 namespace Appointments.Infrastructure.Repositories
 {
-    public class PaymentRepository : GenericRepository<Payments>, IPaymentRepository
+    public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
     {
         public PaymentRepository(AppointmentContext context) : base(context)
         {

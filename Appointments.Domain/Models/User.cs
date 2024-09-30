@@ -22,7 +22,7 @@ namespace Appointments.Domain.Models
 		public string PhoneNumber { get; set; }
 
 		public UserRoleType Role { get; set; }
-        public virtual List<Appointment> Appointments { get; set; }
+        public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
     }
 }

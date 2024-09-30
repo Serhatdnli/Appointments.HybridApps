@@ -15,6 +15,6 @@ namespace Appointments.Domain.Models
         [Phone]
         public string PhoneNumber { get; set; }
 
-        public virtual List<Appointment> Appointments { get; set; }
+        public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }
