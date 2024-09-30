@@ -41,25 +41,31 @@
                     <!-- Statik Satır -->
                     <tr>
                         <td>
-                            <InputText @bind-Value:get="bindingValue" @bind-Value:set="(value) => { bindingValue = value; BindFilter(Domain.Enums.UserFilterType.Name,value); }" />
+                            <InputText @bind-Value:get="bindingValue[0]" @bind-Value:set="(value) => { bindingValue[0] = value; BindFilter(Domain.Enums.UserFilterType.Name,value); }" />
+
                         </td>
                         <td>
-                            <input @bind="UserFilter.Surname" class="form-control" />
+                            <InputText @bind-Value:get="bindingValue[1]" @bind-Value:set="(value) => { bindingValue[1] = value; BindFilter(Domain.Enums.UserFilterType.Surname,value); }" />
+
                         </td>
                         <td>
-                            <input @bind="UserFilter.TcId" class="form-control" />
+                            <InputText @bind-Value:get="bindingValue[2]" @bind-Value:set="(value) => { bindingValue[2] = value; BindFilter(Domain.Enums.UserFilterType.TcId,value); }" />
+
                         </td>
                         <td>
-                            <input @bind="UserFilter.PhoneNumber" class="form-control " />
+                            <InputText @bind-Value:get="bindingValue[3]" @bind-Value:set="(value) => { bindingValue[3] = value; BindFilter(Domain.Enums.UserFilterType.PhoneNumber,value); }" />
+
                         </td>
                         <td>
-                            <input type="datetime" class="form-control" @onchange="(e) => DateChanged(e.Value.ToString())" />
+                            <InputText @bind-Value:get="bindingValue[4]" @bind-Value:set="(value) => { bindingValue[4] = value; BindFilter(Domain.Enums.UserFilterType.CreateDate,value); }" />
+
                         </td>
                         <td>
-                            <input @bind="UserFilter.Email" class="form-control" />
+                            <InputText @bind-Value:get="bindingValue[5]" @bind-Value:set="(value) => { bindingValue[5] = value; BindFilter(Domain.Enums.UserFilterType.Email,value); }" />
+
                         </td>
                         <td>
-                            <select @onchange="(e) => OnRoleChanged(e.Value.ToString())" class="form-control">
+                            <select @onchange="(e) => { bindingValue[6] = e.Value.ToString(); BindFilter(Domain.Enums.UserFilterType.Role, e.Value.ToString()); }">
                                 @foreach (var option in RoleOptions)
                                 {
                                     <option value="@option">@option.ToString()</option>
@@ -69,7 +75,7 @@
                         <td>
                             <Button Color="ButtonColor.Success" @onclick="() => ApplyFilterAsync()">
                                 <i class="bi bi-trash"></i>
-                            </Button>
+                            </Button> 
                         </td>
 
                     </tr>

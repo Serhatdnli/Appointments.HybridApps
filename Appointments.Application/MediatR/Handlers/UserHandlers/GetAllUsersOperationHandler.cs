@@ -48,19 +48,20 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
                         allConditions = allConditions && user.Name.ToLower().Contains(value.ToLower());
                         break;
                     case UserFilterType.Surname:
-                        allConditions = allConditions && user.Surname == value;
+                        allConditions = allConditions && user.Surname.ToLower().Contains(value.ToLower());
                         break;
                     case UserFilterType.Email:
-                        allConditions = allConditions && user.Email == value;
+                        allConditions = allConditions && user.Email.ToLower().Contains(value.ToLower());
                         break;
                     case UserFilterType.TcId:
-                        allConditions = allConditions && user.TcId == value;
+                        allConditions = allConditions && user.TcId.ToLower().Contains(value.ToLower());
                         break;
                     case UserFilterType.PhoneNumber:
-                        allConditions = allConditions && user.PhoneNumber == value;
+                        allConditions = allConditions && user.PhoneNumber.ToLower().Contains(value.ToLower());
                         break;
                     case UserFilterType.Role:
-                        allConditions = allConditions && user.Role == Enum.Parse<UserRoleType>(value);
+                        UserRoleType valueRoleType = Enum.Parse<UserRoleType>(value);
+                        allConditions = allConditions && user.Role == valueRoleType;
                         break;
                     default:
                         break;

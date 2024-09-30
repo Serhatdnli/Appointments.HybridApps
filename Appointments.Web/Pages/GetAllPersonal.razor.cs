@@ -12,7 +12,7 @@ namespace Appointments.Web.Pages
 {
     public partial class GetAllPersonal : ComponentBase
     {
-        private string bindingValue = "";
+        private string[] bindingValue = new string[10];
         private UserFilter UserFilter = new UserFilter();
         private Dictionary<UserFilterType, string> UserFilters = new();
         private List<User> Users = new List<User>();

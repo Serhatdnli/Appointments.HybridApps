@@ -22,8 +22,8 @@ namespace Appointments.Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //var connectionString = "Data Source=DESKTOP-9RMO5H8;Initial Catalog=Appointments;Integrated Security=True;TrustServerCertificate=True"; //Boyraz
-                var connectionString = "Data Source=DESKTOP-OVR1F6F\\SQLEXPRESS;Initial Catalog=Appointments;Integrated Security=True;TrustServerCertificate=True"; //Serhat
+                var connectionString = "Data Source=DESKTOP-9RMO5H8;Initial Catalog=Appointments;Integrated Security=True;TrustServerCertificate=True"; //Boyraz
+                //var connectionString = "Data Source=DESKTOP-OVR1F6F\\SQLEXPRESS;Initial Catalog=Appointments;Integrated Security=True;TrustServerCertificate=True"; //Serhat
                 optionsBuilder.UseSqlServer(connectionString, opt =>
                 {
                     opt.EnableRetryOnFailure();
