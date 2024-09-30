@@ -45,6 +45,17 @@ namespace Appointments.WebAPI.Controllers
             return Ok(response);
         }
 
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("GetAllUsersByFilter")]
+        public async Task<IActionResult> GetAllUsersByFilter([FromBody] GetAllUserByFilterRequest getAllUserByFilterRequest)
+        {
+            var response = await mediatR.Send(getAllUserByFilterRequest);
+            return Ok(response);
+        }
+
+
         [HttpPost]
         [AllowAnonymous]
         [Route("DeleteUserWithTcId")]

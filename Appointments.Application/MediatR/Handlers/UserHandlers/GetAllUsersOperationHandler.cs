@@ -23,53 +23,15 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 
 
             var query = await userRepository.GetQueryable().ToListAsync(cancellationToken);
-            var filtered = query.Where(x => Find(x, request.userFilter)).ToList();
-            var count = filtered.Count();
+            var count = query.Count();
 
             if (request.Count > 0)
-                users = filtered.Skip(request.Index).Take(request.Count).ToList();
+                users = query.Skip(request.Index).Take(request.Count).ToList();
             else
-                users = filtered;
+                users = query;
 
 
             return new GetAllUsersResponse { Users = users, Count = count };
-        }
-
-        private bool Find(User user, Dictionary<UserFilterType, string> filter)
-        {
-            bool allConditions = true;
-            foreach (var key in filter.Keys)
-            {
-                var value = filter[key];
-
-                switch (key)
-                {
-                    case UserFilterType.Name:
-                        allConditions = allConditions && user.Name.ToLower().Contains(value.ToLower());
-                        break;
-                    case UserFilterType.Surname:
-                        allConditions = allConditions && user.Surname.ToLower().Contains(value.ToLower());
-                        break;
-                    case UserFilterType.Email:
-                        allConditions = allConditions && user.Email.ToLower().Contains(value.ToLower());
-                        break;
-                    case UserFilterType.TcId:
-                        allConditions = allConditions && user.TcId.ToLower().Contains(value.ToLower());
-                        break;
-                    case UserFilterType.PhoneNumber:
-                        allConditions = allConditions && user.PhoneNumber.ToLower().Contains(value.ToLower());
-                        break;
-                    case UserFilterType.Role:
-                        UserRoleType valueRoleType = Enum.Parse<UserRoleType>(value);
-                        allConditions = allConditions && user.Role == valueRoleType;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return allConditions;
-
         }
     }
 

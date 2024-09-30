@@ -16,6 +16,7 @@ namespace Appointments.Web.Pages
         private UserFilter UserFilter = new UserFilter();
         private Dictionary<UserFilterType, string> UserFilters = new();
         private List<User> Users = new List<User>();
+        private bool isFiltered = false;
 
         [Inject]
         public IHttpClientFactory _httpClientFactory { get; set; }
@@ -35,6 +36,60 @@ namespace Appointments.Web.Pages
             await GoToPage(currentPage);
         }
 
+        private async Task<GetAllUsersByFilterResponse> GetPersonalByFilterByPage()
+        {
+            Console.WriteLine("Kullanıcılar çekiliyor");
+            var httpClient = _httpClientFactory.CreateClient();
+            var getAllUserByFilterRequest = new GetAllUserByFilterRequest
+            {
+                Count = dataPerPage,
+                Index = currentPage * dataPerPage,
+                RequesterId = Guid.Empty,
+                userFilter = UserFilters
+            };
+
+            string jsonString = JsonSerializer.Serialize(getAllUserByFilterRequest);
+            var httpContent = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("https://localhost:7777/api/User/GetAllUsersByFilter", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Yanıt içeriğini oku
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                // JSON'u User listesine çevir
+                GetAllUsersByFilterResponse getAllUsersResponse = null;
+
+                try
+                {
+                    getAllUsersResponse = JsonSerializer.Deserialize<GetAllUsersByFilterResponse>(jsonResponse);
+                    Users = getAllUsersResponse.Users;
+                    totalData = getAllUsersResponse.Count;
+                    lastPage = totalData % dataPerPage == 0 ? totalData / dataPerPage - 1 : totalData / dataPerPage;
+                    return getAllUsersResponse;
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"JSON Dönüşüm Hatası: {ex.Message}");
+                }
+
+                //Console.WriteLine("----ISIMLER----");
+
+                //foreach (var user in getAllUsersResponse.Users)
+                //{
+                //	Console.WriteLine($"User Name: {user.Name}");
+                //}
+            }
+            else
+            {
+                Console.WriteLine("Hata: " + response.ReasonPhrase);
+            }
+
+            //var client = _httpClientFactory.CreateClient(); // HttpClient nesnesi oluşturuluyor
+            return null;
+        }
+
+
         private async Task<GetAllUsersResponse> GetPersonalByPage()
         {
             Console.WriteLine("Kullanıcılar çekiliyor");
@@ -44,7 +99,6 @@ namespace Appointments.Web.Pages
                 Count = dataPerPage,
                 Index = currentPage * dataPerPage,
                 RequesterId = Guid.Empty,
-                userFilter = UserFilters
             };
 
             string jsonString = JsonSerializer.Serialize(getAllUserRequest);
@@ -93,7 +147,7 @@ namespace Appointments.Web.Pages
             Console.WriteLine("CALİSİYO");
 
 
-            bool isNull = string.IsNullOrEmpty(value);
+            bool isNull = string.IsNullOrEmpty(value) || (filterType == UserFilterType.Role && value == "None");
             if (!UserFilters.Any(x => x.Key == filterType))
             {
                 if (!isNull)
@@ -112,13 +166,22 @@ namespace Appointments.Web.Pages
 
         private async Task ApplyFilterAsync()
         {
-            Console.WriteLine($"Name: {UserFilter.Name}");
-            Console.WriteLine($"Surname: {UserFilter.Surname}");
-            Console.WriteLine($"Email: {UserFilter.Email}");
-            Console.WriteLine($"TC ID: {UserFilter.TcId}");
-            Console.WriteLine($"Phone Number: {UserFilter.PhoneNumber}");
-            Console.WriteLine($"Role: {UserFilter.Role}");
-            Console.WriteLine($"Create Date: {UserFilter.CreateDate}");
+            //Console.WriteLine($"Name: {UserFilter.Name}");
+            //Console.WriteLine($"Surname: {UserFilter.Surname}");
+            //Console.WriteLine($"Email: {UserFilter.Email}");
+            //Console.WriteLine($"TC ID: {UserFilter.TcId}");
+            //Console.WriteLine($"Phone Number: {UserFilter.PhoneNumber}");
+            //Console.WriteLine($"Role: {UserFilter.Role}");
+            //Console.WriteLine($"Create Date: {UserFilter.CreateDate}");
+
+            if (UserFilters.Keys.Count() > 0)
+            {
+                isFiltered = true;
+            }
+            else
+            {
+                isFiltered = false;
+            }
 
             await GoToPage(0);
         }
@@ -180,8 +243,10 @@ namespace Appointments.Web.Pages
             }
             currentPage = page;
             Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
-            await GetPersonalByPage();
-
+            if(isFiltered)
+                await GetPersonalByFilterByPage();
+            else 
+                await GetPersonalByFilterByPage();
             StateHasChanged();
         }
     }
