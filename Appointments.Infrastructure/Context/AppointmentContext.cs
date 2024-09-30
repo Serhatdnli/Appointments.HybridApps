@@ -7,8 +7,12 @@ namespace Appointments.Infrastructure.Context
     public class AppointmentContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Client> Clients { get; set; }
+		public DbSet<Clinic> Clinics{ get; set; }
+		public DbSet<Payments> Payments{ get; set; }
+		public DbSet<Appointment> Appointments { get; set; }
 
-        public AppointmentContext(DbContextOptions options) : base(options)
+		public AppointmentContext(DbContextOptions options) : base(options)
         {
 
         }

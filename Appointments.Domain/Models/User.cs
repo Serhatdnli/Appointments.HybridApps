@@ -21,8 +21,8 @@ namespace Appointments.Domain.Models
 		[Phone]
 		public string PhoneNumber { get; set; }
 
-		public UserRoleType Role { get; set; } 
-
+		public UserRoleType Role { get; set; }
+        public virtual List<Appointment> Appointments { get; set; }
 
     }
 }

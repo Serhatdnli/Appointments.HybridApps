@@ -13,7 +13,7 @@ namespace Appointments.Infrastructure.Configrations
 			builder.ToTable("Users");
 			builder.HasIndex(k => k.TcId).IsUnique();
 
-
+		
 
 			builder.HasData(
 				new User

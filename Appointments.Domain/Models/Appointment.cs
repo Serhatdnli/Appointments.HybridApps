@@ -4,6 +4,8 @@ namespace Appointments.Domain.Models
 {
     public class Appointment : BaseEntity
     {
+        public Guid DoctorId { get; set; }
+        public Guid ClientId { get; set; }
         public float Price { get; set; }
         public string Notes { get; set; }
         public Clinic ClinicName { get; set; }
