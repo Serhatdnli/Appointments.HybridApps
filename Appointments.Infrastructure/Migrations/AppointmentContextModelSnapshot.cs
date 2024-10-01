@@ -34,7 +34,7 @@ namespace Appointments.Infrastructure.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClinicNameId")
+                    b.Property<Guid>("ClinicId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
@@ -48,7 +48,6 @@ namespace Appointments.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Price")
@@ -58,7 +57,7 @@ namespace Appointments.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("ClinicNameId");
+                    b.HasIndex("ClinicId");
 
                     b.HasIndex("DoctorId");
 
@@ -72,6 +71,7 @@ namespace Appointments.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -96,7 +96,7 @@ namespace Appointments.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("Appointments.Domain.Models.Clinic", b =>
@@ -106,6 +106,7 @@ namespace Appointments.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -114,10 +115,10 @@ namespace Appointments.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clinics");
+                    b.ToTable("Clinics", (string)null);
                 });
 
-            modelBuilder.Entity("Appointments.Domain.Models.Payments", b =>
+            modelBuilder.Entity("Appointments.Domain.Models.Payment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,6 +128,7 @@ namespace Appointments.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentType")
@@ -139,7 +141,7 @@ namespace Appointments.Infrastructure.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Appointments.Domain.Models.User", b =>
@@ -189,7 +191,7 @@ namespace Appointments.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8dce413b-2190-426c-9502-ad77a02e283a"),
+                            Id = new Guid("fd7d9a11-8915-4d50-b4de-a7bdd8635c82"),
                             CreateDate = new DateTime(2000, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "boyr4z.m@gmail.com",
                             Name = "Muhammet",
@@ -201,7 +203,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("de5e6197-0a68-4c8e-bd02-8944568fb08d"),
+                            Id = new Guid("03a828c7-5d0b-439c-b96f-a7d0f6d1721b"),
                             CreateDate = new DateTime(1998, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "serhatdnli@gmail.com",
                             Name = "Serhat",
@@ -213,7 +215,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9ae2fb47-5e6e-4a39-a71c-b21f1c183c4d"),
+                            Id = new Guid("c4e73501-f7cd-419f-8693-b221c0fa8d6d"),
                             CreateDate = new DateTime(2000, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "ahmetilhannm@gmail.com",
                             Name = "Ahmet",
@@ -225,7 +227,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("eb938cae-d717-451d-a2c5-9e24da0ffee0"),
+                            Id = new Guid("0aee18f7-4df7-414c-a2dd-cf953ee5a68a"),
                             CreateDate = new DateTime(1998, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "merter61m@gmail.com",
                             Name = "Gürkan",
@@ -237,7 +239,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aedc79c8-6f65-42bd-b69e-9f0f2931cad3"),
+                            Id = new Guid("01cb608e-6f16-4645-b1c2-33b7f5bcf76d"),
                             CreateDate = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "dayanir34@gmail.com",
                             Name = "Talha",
@@ -249,7 +251,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7e346200-4512-4e4e-942c-f018e940a201"),
+                            Id = new Guid("c7ba4bde-12fe-4362-9008-18f3526854fb"),
                             CreateDate = new DateTime(1999, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "iboaydin34@gmail.com",
                             Name = "İbrahim",
@@ -261,7 +263,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1d09363c-cff4-4c30-a733-21562d0fb3dd"),
+                            Id = new Guid("2f33ff03-a055-4736-b822-e140270f3932"),
                             CreateDate = new DateTime(1995, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "bakirr35@gmail.com",
                             Name = "Ali",
@@ -273,7 +275,7 @@ namespace Appointments.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9932715b-07e3-4da9-9b42-e42e1f2935d6"),
+                            Id = new Guid("8ac75a9f-fde0-4720-915f-8ba3c2706675"),
                             CreateDate = new DateTime(1998, 12, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "kayali06@gmail.com",
                             Name = "Ramazan",
@@ -293,9 +295,9 @@ namespace Appointments.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Appointments.Domain.Models.Clinic", "ClinicName")
-                        .WithMany()
-                        .HasForeignKey("ClinicNameId")
+                    b.HasOne("Appointments.Domain.Models.Clinic", "Clinic")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ClinicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -307,12 +309,12 @@ namespace Appointments.Infrastructure.Migrations
 
                     b.Navigation("Client");
 
-                    b.Navigation("ClinicName");
+                    b.Navigation("Clinic");
 
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Appointments.Domain.Models.Payments", b =>
+            modelBuilder.Entity("Appointments.Domain.Models.Payment", b =>
                 {
                     b.HasOne("Appointments.Domain.Models.Appointment", "Appointment")
                         .WithMany("Payments")
@@ -329,6 +331,11 @@ namespace Appointments.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Appointments.Domain.Models.Client", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("Appointments.Domain.Models.Clinic", b =>
                 {
                     b.Navigation("Appointments");
                 });

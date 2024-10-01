@@ -15,7 +15,10 @@ namespace Appointments.Utility
 
             using (var httpClient = new HttpClient())
             {
-                string jsonString = JsonConvert.SerializeObject(request);
+				
+
+
+				string jsonString = JsonConvert.SerializeObject(request);
                 var httpContent = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
                 var uri = request.GetNetworkAddress();
                 var response = await httpClient.PostAsync(baseAdress + uri, httpContent);
@@ -25,7 +28,9 @@ namespace Appointments.Utility
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     try
                     {
-                        var genericResponse = JsonConvert.DeserializeObject<TResponse>(jsonResponse);
+					
+
+						var genericResponse = JsonConvert.DeserializeObject<TResponse>(jsonResponse);
                         return genericResponse;
                     }
                     catch (JsonException ex)

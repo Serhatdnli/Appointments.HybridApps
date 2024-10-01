@@ -31,7 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4BCC91
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{5ECE214D-FA74-4261-AC5A-375FCF73B913}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Utility", "Appointments.Utility\Appointments.Utility.csproj", "{7E454348-1DCC-4494-A573-F6160583886B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Utility", "Appointments.Utility\Appointments.Utility.csproj", "{7E454348-1DCC-4494-A573-F6160583886B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuidGenerator", "GuidGenerator\GuidGenerator.csproj", "{1923F563-BB66-4986-B1A3-C6FF69FA0190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{7E454348-1DCC-4494-A573-F6160583886B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E454348-1DCC-4494-A573-F6160583886B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E454348-1DCC-4494-A573-F6160583886B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1923F563-BB66-4986-B1A3-C6FF69FA0190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1923F563-BB66-4986-B1A3-C6FF69FA0190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1923F563-BB66-4986-B1A3-C6FF69FA0190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1923F563-BB66-4986-B1A3-C6FF69FA0190}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

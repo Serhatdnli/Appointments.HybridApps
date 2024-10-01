@@ -1,5 +1,6 @@
 using Appointments.Application.MediatR.Registiration;
 using Appointments.Infrastructure.Extensions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 
@@ -16,7 +17,10 @@ namespace Appointments.WebAPI
 						   .AddNewtonsoftJson(options =>
 						   {
 							   options.SerializerSettings.Converters.Add(new StringEnumConverter());
+							   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
 						   });
+
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

@@ -18,7 +18,7 @@ namespace Appointments.Infrastructure.Configrations
             builder.HasData(
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("fd7d9a11-8915-4d50-b4de-a7bdd8635c82"),
                     Name = "Muhammet",
                     Surname = "Boyraz",
                     Email = "boyr4z.m@gmail.com",

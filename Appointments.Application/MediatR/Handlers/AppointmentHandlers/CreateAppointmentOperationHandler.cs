@@ -17,7 +17,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 		public async Task<CreateAppointmentResponse> Handle(CreateAppointmentRequest request, CancellationToken cancellationToken)
 		{
 			await appointmentRepository.AddAsync(request.Appointment, cancellationToken);
-			await appointmentRepository.CompleteAsync(, cancellationToken);
+			await appointmentRepository.CompleteAsync(cancellationToken);
 
 			return new CreateAppointmentResponse();
 		}
