@@ -1,18 +1,21 @@
-﻿namespace Appointments.Utility
+﻿namespace Appointment.Generator
 {
-    public static class HandlerGenerator
+    internal class Program
     {
-
+        static void Main(string[] args)
+        {
+            Generate("Ilhan", "", "");
+        }
 
         public static void Generate(string fileName, string namespaceName, string path)
         {
             string[] processTypes = new string[]
             {
-                "Create",
-                "Delete",
-                "GetAll",
-                $"GetAll{fileName}ByFilter",
-                "Update"
+        "Create",
+        "Delete",
+        "GetAll",
+        $"GetAll{fileName}ByFilter",
+        "Update"
             };
 
 
@@ -66,5 +69,7 @@
 
 
         }
+
+
     }
 }

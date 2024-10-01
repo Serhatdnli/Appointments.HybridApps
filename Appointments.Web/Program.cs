@@ -18,7 +18,6 @@ namespace Appointments.Web
 			builder.Services.AddHttpClient();
 
 
-			HandlerGenerator.Generate("Ilhan", "", "");
 
 			await builder.Build().RunAsync();
 		}
