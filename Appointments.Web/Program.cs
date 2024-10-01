@@ -1,3 +1,4 @@
+using Appointments.Utility;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -15,6 +16,9 @@ namespace Appointments.Web
 		
 
 			builder.Services.AddHttpClient();
+
+
+			HandlerGenerator.Generate("Ilhan", "", "");
 
 			await builder.Build().RunAsync();
 		}
