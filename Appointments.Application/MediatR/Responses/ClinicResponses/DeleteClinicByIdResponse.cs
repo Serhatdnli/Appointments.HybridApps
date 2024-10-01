@@ -1,6 +1,6 @@
 ﻿namespace Appointments.Application.MediatR.Responses.ClinicResponses
 {
-    public class DeleteClinicResponse : MediatRBaseResponse
+    public class DeleteClinicByIdResponse : MediatRBaseResponse
     {
 
     }

@@ -21,7 +21,12 @@ namespace Appointments.Infrastructure.Extensions
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
-            return services;
+			services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+			services.AddScoped<IClientRepository, ClientRepository>();
+			services.AddScoped<IPaymentRepository, PaymentRepository>();
+			services.AddScoped<IClinicRepository, ClinicRepository>();
+
+			return services;
         }
     }
 }

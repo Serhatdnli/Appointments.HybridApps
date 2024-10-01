@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
-    internal class CreateUserOperationHandler : IRequestHandler<CreateUserRequest, CreateUserResponse>
+    public class CreateUserOperationHandler : IRequestHandler<CreateUserRequest, CreateUserResponse>
     {
 
         private readonly IUserRepository userRepository;

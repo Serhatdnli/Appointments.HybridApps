@@ -8,6 +8,10 @@ namespace Appointments.Application.Mappers
         public MappingProfile()
         {
             CreateMap<User, User>().ReverseMap();
-        }
+			CreateMap<Client, Client>().ReverseMap();
+			CreateMap<Clinic, Clinic>().ReverseMap();
+			CreateMap<Appointment, Appointment>().ReverseMap();
+			CreateMap<Payment, Payment>().ReverseMap();
+		}
     }
 }

@@ -27,7 +27,7 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
             if (request.Count > 0)
                 users = await query.Skip(request.Index).Take(request.Count).ToListAsync(cancellationToken);
             else
-                users = await query.ToListAsync(cancellationToken); ;
+                users = await query.ToListAsync(cancellationToken);
 
 
             return new GetAllUsersResponse { Users = users, Count = count };
