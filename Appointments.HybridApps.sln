@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{5ECE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Utility", "Appointments.Utility\Appointments.Utility.csproj", "{7E454348-1DCC-4494-A573-F6160583886B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointment.Generator", "Appointment.Generator\Appointment.Generator.csproj", "{04CB936E-EB1B-442D-9F87-36DA88122D9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointment.Generator", "Appointment.Generator\Appointment.Generator.csproj", "{04CB936E-EB1B-442D-9F87-36DA88122D9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
