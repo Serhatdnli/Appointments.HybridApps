@@ -1,8 +1,8 @@
 ﻿using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Requests;
 using Appointments.Application.MediatR.Responses;
+using Appointments.Domain.Models;
 using Newtonsoft.Json;
-
 
 namespace Appointments.Utility
 {
@@ -47,5 +47,6 @@ namespace Appointments.Utility
             }
 
         }
-    }
+
+	}
 }

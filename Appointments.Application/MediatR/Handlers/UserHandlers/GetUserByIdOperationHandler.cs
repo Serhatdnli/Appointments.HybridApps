@@ -23,7 +23,10 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 			if (user is null)
 				throw new Exception(Constants.USER_NOT_FOUND);
 
-			return new GetUserByIdResponse { User = user };
+			return new GetUserByIdResponse
+			{
+				User = user
+			};
 		}
 	}
 }

@@ -98,7 +98,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> GetUserById([FromBody] GetUserByIdRequest getUserByIdRequest)
 		{
 			var response = await mediatR.Send(getUserByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 	}
 }
