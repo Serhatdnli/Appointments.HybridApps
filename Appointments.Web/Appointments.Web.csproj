@@ -18,6 +18,11 @@
     <ProjectReference Include="..\Appointments.Components\Appointments.Components.csproj" />
     <ProjectReference Include="..\Appointments.Utility\Appointments.Utility.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Pages\Admin\UpdatePersonal.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
 
 
 

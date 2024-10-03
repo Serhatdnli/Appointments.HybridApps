@@ -1,0 +1,108 @@
+﻿@page "/admin/updatepersonal/{id}"
+
+@using Microsoft.AspNetCore.Components.Forms;
+
+
+<Toasts class="p-3" Messages="messages" Placement="ToastsPlacement.TopRight" />
+
+<h3>Personel Güncelle</h3>
+<div class="row">
+	<div class="col-4"></div>
+
+	<div class="col-4 align-items-center">
+		<div class="table-responsive ">
+			<table class="table table-hover table-bordered table-striped">
+
+				<tbody>
+					<!-- Statik Satır -->
+					<tr>
+						<td>
+							İsim
+						</td>
+
+						<td>
+							<InputText @bind-Value:get="User.Name" @bind-Value:set="(value) => {User.Name = value;}" />
+						</td>
+
+					</tr>
+					<tr>
+						<td>
+							Soyisim
+						</td>
+
+						<td>
+							<InputText @bind-Value:get="User.Surname" @bind-Value:set="(value) => {User.Surname= value;}" />
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Email
+						</td>
+						<td>
+							<InputText @bind-Value:get="User.Email" @bind-Value:set="(value) => {User.Email = value;}" />
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Şifre
+						</td>
+						<td>
+							<InputText @bind-Value:get="User.Password" @bind-Value:set="(value) => {User.Password = value;}" />
+
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							TC
+						</td>
+						<td>
+							<InputText @bind-Value:get="User.TcId" @bind-Value:set="(value) => {User.TcId = value;}" />
+
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							Telefon
+						</td>
+						<td>
+							<InputText @bind-Value:get="User.PhoneNumber" @bind-Value:set="(value) => {User.PhoneNumber = value;}" />
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Rol
+						</td>
+						<td>
+							<select @bind="User.Role">
+								@foreach (var option in RoleOptions)
+								{
+									<option value="@option">@option.ToString()</option>
+								}
+							</select>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2">
+							<Button Class="col-12" Color="ButtonColor.Success" @onclick="() => CreateAsync()">
+								Oluştur
+							</Button>
+						</td>
+					</tr>
+					
+
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+	<div class="col-4"></div>
+
+</div>
