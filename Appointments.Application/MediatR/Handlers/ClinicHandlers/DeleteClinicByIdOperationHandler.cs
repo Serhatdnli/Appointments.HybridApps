@@ -1,4 +1,4 @@
-﻿using Appointments.Application.IRepositories;
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.ClinicRequests;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using MediatR;
@@ -7,19 +7,20 @@ namespace Appointments.Application.MediatR.Handlers.ClinicHandlers
 {
 	public class DeleteClinicByIdOperationHandler : IRequestHandler<DeleteClinicByIdRequest, DeleteClinicByIdResponse>
 	{
-		private readonly IClinicRepository clinicRepository;
+		private readonly IClinicRepository ClinicRepository;
 
-		public DeleteClinicByIdOperationHandler(IClinicRepository clinicRepository)
+		public DeleteClinicByIdOperationHandler(IClinicRepository ClinicRepository)
 		{
-			this.clinicRepository = clinicRepository;
+			this.ClinicRepository = ClinicRepository;
 		}
 
 		public async Task<DeleteClinicByIdResponse> Handle(DeleteClinicByIdRequest request, CancellationToken cancellationToken)
 		{
-			await clinicRepository.HardDeleteAsync(request.Id, cancellationToken);
-			await clinicRepository.CompleteAsync(cancellationToken);
+			await ClinicRepository.HardDeleteAsync(request.Id, cancellationToken);
+			await ClinicRepository.CompleteAsync(cancellationToken);
 
 			return new DeleteClinicByIdResponse();
 		}
 	}
 }
+

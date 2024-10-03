@@ -1,8 +1,6 @@
-﻿using Appointments.Application.MediatR.Requests.ClientRequests;
-using Appointments.Application.MediatR.Requests.ClinicRequests;
+using Appointments.Application.MediatR.Requests.ClientRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointments.WebAPI.Controllers
@@ -28,14 +26,35 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("AddRandomClient")]
+		public async Task<IActionResult> AddRandomClient([FromBody] AddRandomClientRequest createClientRequest)
+		{
+			await mediatR.Send(createClientRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllClients")]
-		public async Task<IActionResult> GetAllClients([FromBody] GetAllClientRequest getAllClientRequest)
+		public async Task<IActionResult> GetAllClients([FromBody] GetAllClientsRequest getAllClientsRequest)
 		{
-			var response = await mediatR.Send(getAllClientRequest);
+			var response = await mediatR.Send(getAllClientsRequest);
 			return Ok(response);
 		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAllClientsByFilter")]
+		public async Task<IActionResult> GetAllClientsByFilter([FromBody] GetAllClientsByFilterRequest getAllClientsByFilterRequest)
+		{
+			var response = await mediatR.Send(getAllClientsByFilterRequest);
+			return Ok(response);
+		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -46,12 +65,32 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("DeleteAllClients")]
+		public async Task<IActionResult> DeleteAllClients([FromBody] DeleteAllClientsRequest deleteAllClientsRequest)
+		{
+			var response = await mediatR.Send(deleteAllClientsRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("UpdateClient")]
 		public async Task<IActionResult> UpdateClient([FromBody] UpdateClientRequest updateClientRequest)
 		{
 			var response = await mediatR.Send(updateClientRequest);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetClientById")]
+		public async Task<IActionResult> GetClientById([FromBody] GetClientByIdRequest getClientByIdRequest)
+		{
+			var response = await mediatR.Send(getClientByIdRequest);
 			return Ok();
 		}
 	}

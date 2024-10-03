@@ -39,9 +39,9 @@ namespace Appointments.WebAPI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllUsers")]
-		public async Task<IActionResult> GetAllUsers([FromBody] GetAllUserRequest getAllUserRequest)
+		public async Task<IActionResult> GetAllUsers([FromBody] GetAllUsersRequest getAllUsersRequest)
 		{
-			var response = await mediatR.Send(getAllUserRequest);
+			var response = await mediatR.Send(getAllUsersRequest);
 			return Ok(response);
 		}
 
@@ -49,37 +49,30 @@ namespace Appointments.WebAPI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllUsersByFilter")]
-		public async Task<IActionResult> GetAllUsersByFilter([FromBody] GetAllUserByFilterRequest getAllUserByFilterRequest)
+		public async Task<IActionResult> GetAllUsersByFilter([FromBody] GetAllUsersByFilterRequest getAllUsersByFilterRequest)
 		{
-			var response = await mediatR.Send(getAllUserByFilterRequest);
+			var response = await mediatR.Send(getAllUsersByFilterRequest);
 			return Ok(response);
 		}
 
 
 		[HttpPost]
 		[AllowAnonymous]
-		[Route("DeleteUserWithTcId")]
-		public async Task<IActionResult> DeleteUserWithTcId([FromBody] DeleteUserWithTcIdRequest deleteUserWithTcIdRequest)
+		[Route("DeleteUserById")]
+		public async Task<IActionResult> DeleteUserById([FromBody] DeleteUserByIdRequest deleteUserByIdRequest)
 		{
-			var response = await mediatR.Send(deleteUserWithTcIdRequest);
+			var response = await mediatR.Send(deleteUserByIdRequest);
 			return Ok();
 		}
 
-		[HttpPost]
-		[AllowAnonymous]
-		[Route("DeleteUserWithUserId")]
-		public async Task<IActionResult> DeleteUserWithUserId([FromBody] DeleteUserWithUserIdRequest deleteUserWithUserIdRequest)
-		{
-			var response = await mediatR.Send(deleteUserWithUserIdRequest);
-			return Ok();
-		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("DeleteAllUsers")]
-		public async Task<IActionResult> DeleteAllUsers([FromBody] DeleteAllUserRequest deleteAllUserRequest)
+		public async Task<IActionResult> DeleteAllUsers([FromBody] DeleteAllUsersRequest deleteAllUsersRequest)
 		{
-			var response = await mediatR.Send(deleteAllUserRequest);
+			var response = await mediatR.Send(deleteAllUsersRequest);
 			return Ok();
 		}
 
@@ -98,7 +91,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> GetUserById([FromBody] GetUserByIdRequest getUserByIdRequest)
 		{
 			var response = await mediatR.Send(getUserByIdRequest);
-			return Ok(response);
+			return Ok();
 		}
 	}
 }

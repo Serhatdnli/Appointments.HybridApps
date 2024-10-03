@@ -1,11 +1,11 @@
 ﻿using Appointments.Domain.Enums;
+using Appointments.Domain.Enums.FilterTypes;
 using Appointments.Domain.Models;
 
 namespace Appointments.Application.FilterExtensions
 {
     public static class UserFilterExtension
     {
-
         public static bool Find(this User user, Dictionary<UserFilterType, string> filter)
         {
             bool allConditions = true;
@@ -41,9 +41,7 @@ namespace Appointments.Application.FilterExtensions
                 if (!allConditions)
                     break;
             }
-
             return allConditions;
-
         }
 
     }

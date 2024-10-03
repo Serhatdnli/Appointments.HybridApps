@@ -1,4 +1,6 @@
-﻿using Appointments.Application.IRepositories;
+
+
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.PaymentRequests;
 using Appointments.Application.MediatR.Responses.PaymentResponses;
 using Appointments.Shared;
@@ -9,29 +11,28 @@ namespace Appointments.Application.MediatR.Handlers.PaymentHandlers
 {
 	public class UpdatePaymentOperationHandler : IRequestHandler<UpdatePaymentRequest, UpdatePaymentResponse>
 	{
-		private readonly IPaymentRepository paymentRepository;
+		private readonly IPaymentRepository PaymentRepository;
 		private readonly IMapper mapper;
 
-		public UpdatePaymentOperationHandler(IMapper mapper, IPaymentRepository paymentRepository)
+		public UpdatePaymentOperationHandler(IPaymentRepository PaymentRepository, IMapper mapper)
 		{
+			this.PaymentRepository = PaymentRepository;
 			this.mapper = mapper;
-			this.paymentRepository = paymentRepository;
 		}
 
 		public async Task<UpdatePaymentResponse> Handle(UpdatePaymentRequest request, CancellationToken cancellationToken)
 		{
-			var payment = await paymentRepository.GetSingleAsync(x => x.Id == request.Payment.Id);
+			var Payment = await PaymentRepository.GetSingleAsync(x => x.Id == request.Payment.Id);
 
-			if (payment is null)
+			if (Payment is null)
+			{
 				throw new Exception(Constants.USER_NOT_FOUND);
+			}
 
+			mapper.Map(request.Payment, Payment);
 
-
-			mapper.Map( request.Payment, payment);
-
-			await paymentRepository.UpdateAsync(payment, cancellationToken);
-			await paymentRepository.CompleteAsync(cancellationToken);
-
+			await PaymentRepository.UpdateAsync(Payment, cancellationToken);
+			await PaymentRepository.CompleteAsync(cancellationToken);
 			return new UpdatePaymentResponse();
 		}
 	}

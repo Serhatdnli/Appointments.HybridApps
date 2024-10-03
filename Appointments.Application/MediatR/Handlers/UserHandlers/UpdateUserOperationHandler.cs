@@ -1,4 +1,6 @@
-﻿using Appointments.Application.IRepositories;
+
+
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Shared;
@@ -7,32 +9,31 @@ using MediatR;
 
 namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
-    public class UpdateUserOperationHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
-    {
-        private readonly IUserRepository userRepository;
-        private readonly IMapper mapper;
+	public class UpdateUserOperationHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
+	{
+		private readonly IUserRepository UserRepository;
+		private readonly IMapper mapper;
 
-        public UpdateUserOperationHandler(IUserRepository userRepository, IMapper mapper)
-        {
-            this.userRepository = userRepository;
-            this.mapper = mapper;
-        }
+		public UpdateUserOperationHandler(IUserRepository UserRepository, IMapper mapper)
+		{
+			this.UserRepository = UserRepository;
+			this.mapper = mapper;
+		}
 
-        public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
-        {
-            var user = await userRepository.GetSingleAsync(x => x.Id == request.User.Id);
+		public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+		{
+			var User = await UserRepository.GetSingleAsync(x => x.Id == request.User.Id);
 
-            if (user is null)
-            {
-                throw new Exception(Constants.USER_NOT_FOUND);
-            }
+			if (User is null)
+			{
+				throw new Exception(Constants.USER_NOT_FOUND);
+			}
 
-            mapper.Map(request.User, user);
+			mapper.Map(request.User, User);
 
-            await userRepository.UpdateAsync(user);
-            await userRepository.CompleteAsync();
-
-            return new UpdateUserResponse();
-        }
-    }
+			await UserRepository.UpdateAsync(User, cancellationToken);
+			await UserRepository.CompleteAsync(cancellationToken);
+			return new UpdateUserResponse();
+		}
+	}
 }

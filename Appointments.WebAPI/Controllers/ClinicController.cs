@@ -1,8 +1,6 @@
-﻿using Appointments.Application.MediatR.Requests.ClinicRequests;
-using Appointments.Application.MediatR.Requests.PaymentRequests;
+using Appointments.Application.MediatR.Requests.ClinicRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointments.WebAPI.Controllers
@@ -28,6 +26,16 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("AddRandomClinic")]
+		public async Task<IActionResult> AddRandomClinic([FromBody] AddRandomClinicRequest createClinicRequest)
+		{
+			await mediatR.Send(createClinicRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllClinics")]
@@ -36,6 +44,17 @@ namespace Appointments.WebAPI.Controllers
 			var response = await mediatR.Send(getAllClinicsRequest);
 			return Ok(response);
 		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAllClinicsByFilter")]
+		public async Task<IActionResult> GetAllClinicsByFilter([FromBody] GetAllClinicsByFilterRequest getAllClinicsByFilterRequest)
+		{
+			var response = await mediatR.Send(getAllClinicsByFilterRequest);
+			return Ok(response);
+		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -46,12 +65,32 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("DeleteAllClinics")]
+		public async Task<IActionResult> DeleteAllClinics([FromBody] DeleteAllClinicsRequest deleteAllClinicsRequest)
+		{
+			var response = await mediatR.Send(deleteAllClinicsRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("UpdateClinic")]
 		public async Task<IActionResult> UpdateClinic([FromBody] UpdateClinicRequest updateClinicRequest)
 		{
 			var response = await mediatR.Send(updateClinicRequest);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetClinicById")]
+		public async Task<IActionResult> GetClinicById([FromBody] GetClinicByIdRequest getClinicByIdRequest)
+		{
+			var response = await mediatR.Send(getClinicByIdRequest);
 			return Ok();
 		}
 	}

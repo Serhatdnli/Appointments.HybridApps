@@ -1,7 +1,8 @@
 ﻿namespace Appointments.Application.MediatR.Responses.AppointmentResponses
 {
-    public class DeleteAppointmentByIdResponse : MediatRBaseResponse
-    {
+	public class DeleteAppointmentByIdResponse : MediatRBaseResponse
+	{
 
-    }
+	}
+
 }

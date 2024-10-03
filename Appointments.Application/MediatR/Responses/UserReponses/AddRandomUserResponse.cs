@@ -1,6 +1,7 @@
 ﻿namespace Appointments.Application.MediatR.Responses.UserReponses
 {
-    public class AddRandomUserResponse : MediatRBaseResponse
-    {
-    }
+	public class AddRandomUserResponse : MediatRBaseResponse
+	{
+
+	}
 }

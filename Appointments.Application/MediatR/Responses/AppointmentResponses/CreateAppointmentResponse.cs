@@ -1,7 +1,7 @@
 ﻿namespace Appointments.Application.MediatR.Responses.AppointmentResponses
 {
-    public class CreateAppointmentResponse : MediatRBaseResponse
-    {
+	public class CreateAppointmentResponse : MediatRBaseResponse
+	{
 
-    }
+	}
 }

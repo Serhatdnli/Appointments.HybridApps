@@ -1,4 +1,4 @@
-﻿using Appointments.Application.MediatR.Requests.PaymentRequests;
+using Appointments.Application.MediatR.Requests.PaymentRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +26,16 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("AddRandomPayment")]
+		public async Task<IActionResult> AddRandomPayment([FromBody] AddRandomPaymentRequest createPaymentRequest)
+		{
+			await mediatR.Send(createPaymentRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllPayments")]
@@ -34,6 +44,17 @@ namespace Appointments.WebAPI.Controllers
 			var response = await mediatR.Send(getAllPaymentsRequest);
 			return Ok(response);
 		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAllPaymentsByFilter")]
+		public async Task<IActionResult> GetAllPaymentsByFilter([FromBody] GetAllPaymentsByFilterRequest getAllPaymentsByFilterRequest)
+		{
+			var response = await mediatR.Send(getAllPaymentsByFilterRequest);
+			return Ok(response);
+		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -44,12 +65,32 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("DeleteAllPayments")]
+		public async Task<IActionResult> DeleteAllPayments([FromBody] DeleteAllPaymentsRequest deleteAllPaymentsRequest)
+		{
+			var response = await mediatR.Send(deleteAllPaymentsRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("UpdatePayment")]
 		public async Task<IActionResult> UpdatePayment([FromBody] UpdatePaymentRequest updatePaymentRequest)
 		{
 			var response = await mediatR.Send(updatePaymentRequest);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetPaymentById")]
+		public async Task<IActionResult> GetPaymentById([FromBody] GetPaymentByIdRequest getPaymentByIdRequest)
+		{
+			var response = await mediatR.Send(getPaymentByIdRequest);
 			return Ok();
 		}
 	}

@@ -20,7 +20,7 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
         {
 
             List<User> users = new();
-            for (int i = 0; i < request.UserCount; i++)
+            for (int i = 0; i < request.Count; i++)
             {
                 User user = new User
                 {

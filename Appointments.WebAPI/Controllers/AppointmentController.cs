@@ -1,7 +1,6 @@
-﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
+using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointments.WebAPI.Controllers
@@ -27,14 +26,35 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("AddRandomAppointment")]
+		public async Task<IActionResult> AddRandomAppointment([FromBody] AddRandomAppointmentRequest createAppointmentRequest)
+		{
+			await mediatR.Send(createAppointmentRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllAppointments")]
-		public async Task<IActionResult> GetAllAppointments([FromBody] GetAllAppointmentRequest getAllAppointmentRequest)
+		public async Task<IActionResult> GetAllAppointments([FromBody] GetAllAppointmentsRequest getAllAppointmentsRequest)
 		{
-			var response = await mediatR.Send(getAllAppointmentRequest);
+			var response = await mediatR.Send(getAllAppointmentsRequest);
 			return Ok(response);
 		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAllAppointmentsByFilter")]
+		public async Task<IActionResult> GetAllAppointmentsByFilter([FromBody] GetAllAppointmentsByFilterRequest getAllAppointmentsByFilterRequest)
+		{
+			var response = await mediatR.Send(getAllAppointmentsByFilterRequest);
+			return Ok(response);
+		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -45,12 +65,32 @@ namespace Appointments.WebAPI.Controllers
 			return Ok();
 		}
 
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("DeleteAllAppointments")]
+		public async Task<IActionResult> DeleteAllAppointments([FromBody] DeleteAllAppointmentsRequest deleteAllAppointmentsRequest)
+		{
+			var response = await mediatR.Send(deleteAllAppointmentsRequest);
+			return Ok();
+		}
+
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("UpdateAppointment")]
 		public async Task<IActionResult> UpdateAppointment([FromBody] UpdateAppointmentRequest updateAppointmentRequest)
 		{
 			var response = await mediatR.Send(updateAppointmentRequest);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAppointmentById")]
+		public async Task<IActionResult> GetAppointmentById([FromBody] GetAppointmentByIdRequest getAppointmentByIdRequest)
+		{
+			var response = await mediatR.Send(getAppointmentByIdRequest);
 			return Ok();
 		}
 	}

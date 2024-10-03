@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="IServices\" />
+    <Folder Include="MediatR\Requests\AppointmentRequests\" />
   </ItemGroup>
 
   <ItemGroup>

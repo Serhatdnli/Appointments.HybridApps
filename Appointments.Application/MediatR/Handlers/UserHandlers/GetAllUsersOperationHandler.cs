@@ -1,4 +1,7 @@
-﻿using Appointments.Application.IRepositories;
+
+
+
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Models;
@@ -7,33 +10,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
-    public class GetAllUsersOperationHandler : IRequestHandler<GetAllUserRequest, GetAllUsersResponse>
-    {
-        private readonly IUserRepository userRepository;
+	public class GetAllUsersOperationHandler : IRequestHandler<GetAllUsersRequest, GetAllUsersResponse>
+	{
+		private readonly IUserRepository UserRepository;
 
-        public GetAllUsersOperationHandler(IUserRepository userRepository)
-        {
-            this.userRepository = userRepository;
-        }
+		public GetAllUsersOperationHandler(IUserRepository UserRepository)
+		{
+			this.UserRepository = UserRepository;
+		}
 
-        public async Task<GetAllUsersResponse> Handle(GetAllUserRequest request, CancellationToken cancellationToken)
-        {
-            List<User> users;
+		public async Task<GetAllUsersResponse> Handle(GetAllUsersRequest request, CancellationToken cancellationToken)
+		{
+			List<User> Users;
 
+			var query = UserRepository.GetQueryable();
+			var count = query.Count();
 
-            var query = userRepository.GetQueryable();
-            var count = query.Count();
+			if (request.Count > 0)
+			{
+				Users = await query.Skip(request.Index).Take(request.Count).ToListAsync(cancellationToken);
+			}
+			else
+			{
+				Users = await query.ToListAsync(cancellationToken);
+			}
 
-            if (request.Count > 0)
-                users = await query.Skip(request.Index).Take(request.Count).ToListAsync(cancellationToken);
-            else
-                users = await query.ToListAsync(cancellationToken);
-
-
-            return new GetAllUsersResponse { Users = users, Count = count };
-        }
-    }
-
-
-
+			return new GetAllUsersResponse()
+			{
+				Count = count,
+				Users = Users
+			};
+		}
+	}
 }

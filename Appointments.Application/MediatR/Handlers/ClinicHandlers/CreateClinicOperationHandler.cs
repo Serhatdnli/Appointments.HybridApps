@@ -1,4 +1,7 @@
-﻿using Appointments.Application.IRepositories;
+
+
+
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.ClinicRequests;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using MediatR;
@@ -7,17 +10,17 @@ namespace Appointments.Application.MediatR.Handlers.ClinicHandlers
 {
 	public class CreateClinicOperationHandler : IRequestHandler<CreateClinicRequest, CreateClinicResponse>
 	{
-		private readonly IClinicRepository clinicRepository;
+		private readonly IClinicRepository ClinicRepository;
 
-		public CreateClinicOperationHandler(IClinicRepository clinicRepository)
+		public CreateClinicOperationHandler(IClinicRepository ClinicRepository)
 		{
-			this.clinicRepository = clinicRepository;
+			this.ClinicRepository = ClinicRepository;
 		}
 
 		public async Task<CreateClinicResponse> Handle(CreateClinicRequest request, CancellationToken cancellationToken)
 		{
-			await clinicRepository.AddAsync(request.Clinic, cancellationToken);
-			await clinicRepository.CompleteAsync(cancellationToken);
+			await ClinicRepository.AddAsync(request.Clinic, cancellationToken);
+			await ClinicRepository.CompleteAsync(cancellationToken);
 
 			return new CreateClinicResponse();
 		}

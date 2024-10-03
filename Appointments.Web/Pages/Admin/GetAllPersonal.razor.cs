@@ -1,6 +1,7 @@
 ﻿using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Enums;
+using Appointments.Domain.Enums.FilterTypes;
 using Appointments.Domain.Models;
 using Appointments.Utility;
 using Microsoft.AspNetCore.Components;
@@ -37,15 +38,15 @@ namespace Appointments.Web.Pages.Admin
         private async Task<GetAllUsersByFilterResponse> GetPersonalByFilterByPage()
         {
             Console.WriteLine("Kullanıcılar çekiliyor");
-            var request = new GetAllUserByFilterRequest
+            var request = new GetAllUsersByFilterRequest
             {
                 Count = dataPerPage,
                 Index = currentPage * dataPerPage,
                 RequesterId = Guid.Empty,
-                userFilter = UserFilters
+                Filter = UserFilters
             };
 
-            GetAllUsersByFilterResponse response = await NetworkManager.SendAsync<GetAllUserByFilterRequest, GetAllUsersByFilterResponse>(request);
+            GetAllUsersByFilterResponse response = await NetworkManager.SendAsync<GetAllUsersByFilterRequest, GetAllUsersByFilterResponse>(request);
 
             Users = response.Users;
             totalData = response.Count;
@@ -57,14 +58,14 @@ namespace Appointments.Web.Pages.Admin
 
         private async Task<GetAllUsersResponse> GetPersonalByPage()
         {
-            var request = new GetAllUserRequest
+            var request = new GetAllUsersRequest
             {
                 Count = dataPerPage,
                 Index = currentPage * dataPerPage,
                 RequesterId = Guid.Empty,
             };
 
-            var response = await NetworkManager.SendAsync<GetAllUserRequest, GetAllUsersResponse>(request);
+            var response = await NetworkManager.SendAsync<GetAllUsersRequest, GetAllUsersResponse>(request);
 
 
             Users = response.Users;
@@ -118,13 +119,13 @@ namespace Appointments.Web.Pages.Admin
             if (confirmed)
             {
 
-                var request = new DeleteUserWithUserIdRequest
+                var request = new DeleteUserByIdRequest
                 {
                     RequesterId = Guid.Empty,
                     Id = user.Id,
                 };
 
-                var response = await NetworkManager.SendAsync<DeleteUserWithUserIdRequest, DeleteUserWithUserIdResponse>(request);
+                var response = await NetworkManager.SendAsync<DeleteUserByIdRequest, DeleteUserByIdResponse>(request);
 
             }
         }

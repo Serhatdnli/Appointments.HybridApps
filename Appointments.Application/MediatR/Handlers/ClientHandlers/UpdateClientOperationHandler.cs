@@ -1,4 +1,6 @@
-﻿using Appointments.Application.IRepositories;
+
+
+using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.ClientRequests;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Shared;
@@ -9,28 +11,28 @@ namespace Appointments.Application.MediatR.Handlers.ClientHandlers
 {
 	public class UpdateClientOperationHandler : IRequestHandler<UpdateClientRequest, UpdateClientResponse>
 	{
-		private readonly IClientRepository clientRepository;
+		private readonly IClientRepository ClientRepository;
 		private readonly IMapper mapper;
 
-		public UpdateClientOperationHandler(IClientRepository clientRepository, IMapper mapper)
+		public UpdateClientOperationHandler(IClientRepository ClientRepository, IMapper mapper)
 		{
-			this.clientRepository = clientRepository;
+			this.ClientRepository = ClientRepository;
 			this.mapper = mapper;
 		}
 
 		public async Task<UpdateClientResponse> Handle(UpdateClientRequest request, CancellationToken cancellationToken)
 		{
-			var client = await clientRepository.GetSingleAsync(x => x.Id == request.Client.Id);
+			var Client = await ClientRepository.GetSingleAsync(x => x.Id == request.Client.Id);
 
-			if (client is null)
+			if (Client is null)
+			{
 				throw new Exception(Constants.USER_NOT_FOUND);
+			}
 
-			mapper.Map(request.Client, client);
+			mapper.Map(request.Client, Client);
 
-			await clientRepository.UpdateAsync(client,cancellationToken);
-			await clientRepository.CompleteAsync(cancellationToken);
-
-
+			await ClientRepository.UpdateAsync(Client, cancellationToken);
+			await ClientRepository.CompleteAsync(cancellationToken);
 			return new UpdateClientResponse();
 		}
 	}
