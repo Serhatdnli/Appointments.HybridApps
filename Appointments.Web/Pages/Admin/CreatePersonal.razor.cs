@@ -14,30 +14,33 @@ namespace Appointments.Web.Pages.Admin
 		private List<UserRoleType> RoleOptions => Enum.GetValues(typeof(UserRoleType)).Cast<UserRoleType>().ToList();
 		private async Task CreateAsync()
         {
-            //User.CreateDate = DateTime.Now;
-            //CreateUserRequest request = new CreateUserRequest
-            //{
-            //    User = User,
-            //};
+            User.CreateDate = DateTime.Now;
+            CreateUserRequest request = new CreateUserRequest
+            {
+                User = User,
+                RequesterId = Guid.Empty
+            };
 
             try
             {
-                //var response = await NetworkManager.SendAsync<CreateUserRequest, CreateUserResponse>(request);
-                CreateToastMessage(ToastType.Primary, "Başarılı Şekilde Eklendi");
+                var response = await NetworkManager.SendAsync<CreateUserRequest, CreateUserResponse>(request);
+                ShowMessage(ToastType.Primary , $"{User.Name} {User.Surname} Personeli Başarılı Şekilde Eklendi");
             }
             catch (Exception e)
             {
 
-                CreateToastMessage(ToastType.Primary, e.ToString());
+                ShowMessage(ToastType.Primary, e.ToString());
                 throw;
             }
 
             //ObjectWriter.Write(User);
         }
+		List<ToastMessage> messages = new List<ToastMessage>();
+
+		private void ShowMessage(ToastType toastType, string message) => messages.Add(CreateToastMessage(toastType, message));
 
 
-
-        private ToastMessage CreateToastMessage(ToastType toastType, string text)
+		private ToastMessage CreateToastMessage(ToastType toastType, string text)
         => new ToastMessage
         {
             Type = toastType,
