@@ -21,4 +21,8 @@
     <Folder Include="Components\Pages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Appointments.Application\Appointments.Application.csproj" />
+  </ItemGroup>
+
 </Project>
