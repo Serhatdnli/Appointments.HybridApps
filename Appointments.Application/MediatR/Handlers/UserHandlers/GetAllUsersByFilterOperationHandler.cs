@@ -1,13 +1,11 @@
-
-
-
-using Appointments.Application.FilterExtensions;
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Models;
+using Appointments.Shared.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
@@ -24,9 +22,12 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 		{
 			List<User> Users;
 
+			var query = UserRepository.GetQueryable();
+			//var filtered = query.Where(x => x.Find(request.Filter)).ToList();
 
-			var query = await UserRepository.GetQueryable().ToListAsync(cancellationToken);
-			var filtered = query.Where(x => x.Find(request.Filter)).ToList();
+			
+
+			var filtered = await query.Where(request.Filter.GetFilterExpression()).ToListAsync();
 			var count = filtered.Count();
 
 			if (request.Count > 0)
@@ -37,10 +38,5 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 
 			return new GetAllUsersByFilterResponse { Users = Users, Count = count };
 		}
-
-
 	}
-
-
-
 }

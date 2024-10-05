@@ -1,34 +1,119 @@
 ﻿@typeparam T
+@using Appointments.Utility
+@using Shared.Extensions
+@using Appointments.Components.Components
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
+<div class="row">
+	<div class="col-@((12-ColumnCount)/ 2)"></div>
+	<div class="col-@ColumnCount">
+		
 
-            @foreach (var item in GetHeads())
-            {
-                <th scope="col">@item</th>
-            }
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>twitter</td>
-        </tr>
-    </tbody>
-</table>
+					@foreach (var head in FilterItem.GetHeads())
+					{
+						<th scope="col">@head</th>
+					}
+					@if (isOperationArea)
+					{
+						<th scope="col">Operations</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr>
+					
+					@if (isFilter)
+					{
+						@foreach (var filterableItem in FilterItem.GetFilterable())
+						{
+					
+							
+							var propType = typeof(T).GetProperty(filterableItem).PropertyType;
+							var propValue = typeof(T).GetProperty(filterableItem).GetValue(FilterItem);
+
+
+							<td>
+								@if (propType == typeof(string))
+								{
+									<input class="form-control" @onchange="@(e => UpdateProperty(filterableItem, e.Value.ToString()))" placeholder="@filterableItem" />
+								}
+								else if (propType == typeof(int)  )
+								{
+									<input type="number" class="form-control" @onchange="@(e => UpdateProperty(filterableItem, Convert.ToInt32(e.Value)))" placeholder="@filterableItem" />
+								}
+								else if (propType == typeof(DateTime))
+								{
+									<input type="date" class="form-control" @onchange="@(e => UpdateProperty(filterableItem, Convert.ToDateTime(e.Value)))" placeholder="@filterableItem" />
+								}else if (propType.IsEnum)
+								{
+									<td>
+									<select class="form-control" @onchange="@(e => UpdateEnumValue(filterableItem, e.Value.ToString()))">
+											@foreach (var option in Enum.GetValues(propType))
+											{
+												<option value="@option">@option.ToString()</option>
+											}
+									</select>
+									</td> 
+								}
+								else
+								{
+									<p>tip uyumsuz</p>
+								}
+							</td>
+
+						}
+						<td>
+							<Button Color="ButtonColor.Success" @onclick="() => {ApplyFilterMethod.InvokeAsync();}">
+								<i class="fa-solid fa-circle-play"></i>
+							</Button>
+						</td>
+					
+					}
+
+				</tr>
+
+				@foreach (var data in ModelList)
+				{
+					<tr>
+						@foreach (var head in data.GetHeads())
+						{
+							<td>@data.GetType().GetProperty(head).GetValue(data)</td>
+						}
+
+						@if (isOperationArea)
+						{
+							<td>
+								<div class="d-flex align-items-center">
+									@if (isDeleteButton)
+									{
+										<Button Color="ButtonColor.Danger" @onclick="() =>  DeleteMethod.InvokeAsync(data)" class="me-2">
+											<i class="bi bi-trash"></i>
+										</Button>
+									}
+									@if (isUpdateButton)
+									{
+										<a class="btn btn-primary" href="@UpdatePath/@data.GetType().GetProperty("Id").GetValue(data)">
+											<i class="fa-solid fa-pen-to-square"></i>
+										</a>
+									}
+								</div>
+
+							</td>
+						}
+
+					</tr>
+
+				}
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+
+
+	

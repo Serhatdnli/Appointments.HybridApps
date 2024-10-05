@@ -1,13 +1,25 @@
 ﻿@page "/admin/allpersonal"
-@using Appointments.Domain.Enums.FilterTypes
-@using Microsoft.AspNetCore.Components.Forms
 @using Appointments.Domain.Models
-@using Microsoft.AspNetCore.Components.Forms
 @using Appointments.Components.Components
 
-<Table T="@User" ColumnCount="10" ModelList="@Users"/>
 
-<div class="justify-content-center d-flex mt-4">
+
+<Table 
+    T="@User" 
+    ColumnCount="8" 
+    ModelList="@Users" 
+    isDeleteButton ="true" 
+    DeleteMethod="@ConfirmDelete"
+    isUpdateButton="true" 
+    UpdatePath="/admin/updatepersonal" 
+    isPagination="true"
+    isFilter ="true"
+    FilterItem="@Filter"
+    ApplyFilterMethod="ApplyFilterAsync"/>
+
+
+
+@* <div class="justify-content-center d-flex mt-4">
 
     <div class="col-1 ps-3">
     </div>
@@ -100,11 +112,7 @@
 
 
 
-        @* 	currentpage = @currentPage
-        totalCount = @totalData
-        lastPage = @lastPage
-        dataperpage = @dataPerPage
-        *@
+
         <div class="justify-content-center d-flex">
             <div class="align-items-center">
 
@@ -124,9 +132,7 @@
                             {
                                 continue;
                             }
-                            @* <p>[i:@i, curPage:@currentPage]</p> *@
 
-                            @* <li> i = @i  currentPage = @currentPage</li> *@
                             @if (Math.Abs(i - currentPage) < 4)
                             {
                                 var pageNumber = i;
@@ -152,4 +158,4 @@
 </div>
 
 
-
+ *@

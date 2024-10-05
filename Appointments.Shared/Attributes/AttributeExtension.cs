@@ -1,19 +1,29 @@
-﻿namespace Appointments.Shared.Attributes
+﻿using System.Reflection;
+
+namespace Appointments.Shared.Attributes
 {
-    public static partial class AttributeExtension
-    {
+	public static partial class AttributeExtension
+	{
 
 
-        public static bool GetShowInfo<T>(this T obj)
-        {
-            var type = obj.GetType();
+		public static bool GetShowInfo(this PropertyInfo info)
+		{
+			if (!Attribute.IsDefined(info, typeof(NotShowAttribute)))
+			{
+				return true;
+			}
+			return false;
 
-            var attributes = type.GetCustomAttributes(typeof(NotShowAttribute), true);
+		}
 
-            return attributes.Length > 0;
+		public static bool GetFilterableInfo(this PropertyInfo info)
+		{
+			if (!Attribute.IsDefined(info, typeof(NotFilterableAttribute)))
+			{
+				return true;
+			}
+			return false;
 
-
-
-        }
-    }
+		}
+	}
 }

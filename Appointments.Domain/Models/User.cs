@@ -8,19 +8,19 @@ namespace Appointments.Domain.Models
     {
 
         public string Name { get; set; }
+		public string Surname { get; set; }
+		public string Email { get; set; }
 
-        public string Surname { get; set; }
-
-        public string Email { get; set; }
-        [NotShow]
+		[NotFilterable]
+		[NotShow]
         public string Password { get; set; }
-
-        public string TcId { get; set; }
-
-        [Phone]
+		public string TcId { get; set; }
+		[Phone]
         public string PhoneNumber { get; set; }
+		public UserRoleType Role { get; set; }
 
-        public UserRoleType Role { get; set; }
+		[NotFilterable]
+		[NotShow]
         public virtual List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
     }
