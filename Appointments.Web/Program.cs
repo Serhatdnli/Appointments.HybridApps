@@ -1,4 +1,3 @@
-using Appointments.Utility;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -13,7 +12,7 @@ namespace Appointments.Web
 			builder.RootComponents.Add<HeadOutlet>("head::after");
 
 			builder.Services.AddBlazorBootstrap();
-		
+
 
 			builder.Services.AddHttpClient();
 

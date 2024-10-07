@@ -20,6 +20,9 @@ namespace Appointments.Components.Components
 		public EventCallback ApplyFilterMethod { get; set; }
 
 		[Parameter]
+		public EventCallback<int> GoToPageMethod { get; set; }
+
+		[Parameter]
 		public T FilterItem { get; set; }
 
 		[Parameter]
@@ -36,6 +39,12 @@ namespace Appointments.Components.Components
 
 		[Parameter]
 		public bool isPagination { get; set; } = false;
+
+		[Parameter]
+		public int CurrentPage { get; set; } = 0;
+
+		[Parameter]
+		public int LastPage { get; set; } = 0;
 
 		[Parameter]
 		public bool isFilter { get; set; }
@@ -70,8 +79,15 @@ namespace Appointments.Components.Components
 		private void UpdateProperty(string propertyName, object value)
 		{
 			var propertyInfo = typeof(T).GetProperty(propertyName);
+			
+			
+
 			if (propertyInfo != null)
 			{
+				if (propertyInfo.PropertyType == typeof(DateTime))
+				{
+					propertyInfo.SetValue(FilterItem, DateTime.MinValue);
+				}
 				propertyInfo.SetValue(FilterItem, value);
 				//ObjectWriter.Write(FilterItem);
 			}

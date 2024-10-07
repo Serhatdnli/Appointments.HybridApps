@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Data;
 
+
 namespace Appointments.Web.Pages.Admin
 {
 	public partial class GetAllPersonal : ComponentBase

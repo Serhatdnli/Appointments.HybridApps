@@ -1,0 +1,33 @@
+﻿@if (propType == typeof(string))
+{
+	<input class="form-control" @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, e.Value.ToString()))" placeholder="@propertyName" />
+}
+else if (propType == typeof(int))
+{
+	<input type="number" class="form-control" @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, Convert.ToInt32(e.Value)))" placeholder="@propertyName" />
+}
+else if (propType == typeof(DateTime))
+{
+	<input type="date" class="form-control" @onchange="@(e =>
+		{
+			DateTime result;
+			bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
+			UpdatePropertyMethod.Invoke(propertyName, isValidDate ? (DateTime?)result : null);
+		}
+	)" placeholder="@propertyName" />
+}
+else if (propType.IsEnum)
+{
+	<td>
+		<select class="form-control" @onchange="@(e => UpdateEnumMethod.Invoke(propertyName, e.Value.ToString()))">
+			@foreach (var option in Enum.GetValues(propType))
+			{
+				<option value="@option">@option.ToString()</option>
+			}
+		</select>
+	</td>
+}
+else
+{
+	<p>tip uyumsuz</p>
+}
