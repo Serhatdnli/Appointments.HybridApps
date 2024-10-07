@@ -1,6 +1,7 @@
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Domain.Enums.FilterTypes;
+using Appointments.Domain.Models;
 namespace Appointments.Application.MediatR.Requests.ClientRequests
 {
 	[NetworkAddress("Client/GetAllClientsByFilter")]
@@ -9,7 +10,7 @@ namespace Appointments.Application.MediatR.Requests.ClientRequests
 	{
 		public int Index { get; set; }
 		public int Count { get; set; }
-		public Dictionary<ClientFilterType, string> Filter { get; set; }
+		public Client Filter { get; set; }
 
 	}
 }

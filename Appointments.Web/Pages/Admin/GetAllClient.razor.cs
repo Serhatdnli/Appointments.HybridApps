@@ -1,7 +1,7 @@
 ﻿using Appointments.Application.MediatR.Requests.ClientRequests;
 using Appointments.Application.MediatR.Responses.ClientResponses;
-using Appointments.Domain.Enums.FilterTypes;
 using Appointments.Domain.Models;
+using Appointments.Shared.Extensions;
 using Appointments.Utility;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -10,14 +10,13 @@ namespace Appointments.Web.Pages.Admin
 {
 	public partial class GetAllClient : ComponentBase
 	{
-		private string[] bindingValue = new string[10];
-		private Dictionary<ClientFilterType, string> ClientFilters = new();
-		private List<Client> Clients = new List<Client>();
-		private bool isFiltered = false;
-
-
 		[Inject]
 		private IJSRuntime jsRuntime { get; set; }
+
+		private List<Client> Clients = new List<Client>();
+		private Client Filter { get; set; } = new();
+
+		private bool isFiltered = false;
 
 		int currentPage = 0;
 		int lastPage = -1;
@@ -33,13 +32,12 @@ namespace Appointments.Web.Pages.Admin
 
 		private async Task<GetAllClientsByFilterResponse> GetClientByFilterByPage()
 		{
-			Console.WriteLine("Müşteriler çekiliyor");
+
 			var request = new GetAllClientsByFilterRequest
 			{
 				Count = dataPerPage,
 				Index = currentPage * dataPerPage,
-				RequesterId = Guid.Empty,
-				Filter = ClientFilters
+				Filter = Filter
 			};
 
 			GetAllClientsByFilterResponse response = await NetworkManager.SendAsync<GetAllClientsByFilterRequest, GetAllClientsByFilterResponse>(request);
@@ -50,7 +48,6 @@ namespace Appointments.Web.Pages.Admin
 
 			return response;
 		}
-
 
 		private async Task<GetAllClientsResponse> GetClientByPage()
 		{
@@ -72,72 +69,46 @@ namespace Appointments.Web.Pages.Admin
 
 		}
 
-		private void BindFilter(ClientFilterType filterType, string value)
-		{
-			Console.WriteLine("CALİSİYO");
-
-
-			bool isNull = string.IsNullOrEmpty(value);
-			if (!ClientFilters.Any(x => x.Key == filterType))
-			{
-				if (!isNull)
-					ClientFilters.Add(filterType, value);
-
-			}
-			else
-			{
-				ClientFilters[filterType] = value;
-
-				if (isNull)
-					ClientFilters.Remove(filterType);
-			}
-
-		}
-
 		private async Task ApplyFilterAsync()
 		{
-			//Console.WriteLine($"Name: {ClientFilter.Name}");
-			//Console.WriteLine($"Surname: {ClientFilter.Surname}");
-			//Console.WriteLine($"Email: {ClientFilter.Email}");
-			//Console.WriteLine($"TC ID: {ClientFilter.TcId}");
-			//Console.WriteLine($"Phone Number: {ClientFilter.PhoneNumber}");
-			//Console.WriteLine($"Role: {ClientFilter.Role}");
-			//Console.WriteLine($"Create Date: {ClientFilter.CreateDate}");
+			//ObjectWriter.Write(Filter);
+			isFiltered = Filter.IsFilterValid();
+			//Console.WriteLine(Filter.IsFilterValid());
 
-			isFiltered = ClientFilters.Keys.Count() > 0;
 			await GoToPage(0);
 		}
 
 
-		private async Task ConfirmDelete(Client Client)
+		private async Task ConfirmDelete(Client client)
 		{
-			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", Client.Name + " " + Client.Surname + " Kullanıcısını Silmek İstedğinize Emin misiniz?");
+			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", client.Name + " " + client.Surname + " Kullanıcısını Silmek İstedğinize Emin misiniz?");
 			if (confirmed)
 			{
 
 				var request = new DeleteClientByIdRequest
 				{
 					RequesterId = Guid.Empty,
-					Id = Client.Id,
+					Id = client.Id,
 				};
 
 				var response = await NetworkManager.SendAsync<DeleteClientByIdRequest, DeleteClientByIdResponse>(request);
-
+				GoToPage(currentPage);
 			}
 		}
-		private async Task GoToPage(int page)
+		private async Task GoToPage(int page = 0)
 		{
+
 			if (page > lastPage)
 			{
 				lastPage = page;
 			}
 			currentPage = page;
-			Console.WriteLine("[BOYRAZ] SAYFAYA GİDİLİYOR, CURRENT PAGE: " + currentPage);
 			if (isFiltered)
 				await GetClientByFilterByPage();
 			else
 				await GetClientByPage();
 			StateHasChanged();
+
 		}
 	}
 }

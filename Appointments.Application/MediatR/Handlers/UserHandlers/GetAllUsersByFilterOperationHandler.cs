@@ -27,7 +27,7 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 			//Console.WriteLine(request.Filter.GetFilterExpression());
 
 			var filtered = await query.Where(request.Filter.GetFilterExpression()).ToListAsync();
-			filtered.ToJson();
+			//filtered.ToJson();
 			var count = filtered.Count();
 
 			if (request.Count > 0)

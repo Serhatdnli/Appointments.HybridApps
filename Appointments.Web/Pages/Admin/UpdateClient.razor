@@ -1,0 +1,87 @@
+﻿@page "/admin/updateclient/{id}"
+
+@using Microsoft.AspNetCore.Components.Forms;
+
+
+<Toasts class="p-3" Messages="messages" Placement="ToastsPlacement.TopRight" />
+
+<h3>Personel Güncelle</h3>
+<div class="row">
+	<div class="col-4"></div>
+
+	<div class="col-4 align-items-center">
+		<div class="table-responsive ">
+			<table class="table table-hover table-bordered table-striped">
+
+				<tbody>
+					<!-- Statik Satır -->
+					<tr>
+						<td>
+							İsim
+						</td>
+
+						<td>
+							<InputText @bind-Value:get="Client.Name" @bind-Value:set="(value) => {Client.Name = value;}" />
+						</td>
+
+					</tr>
+					<tr>
+						<td>
+							Soyisim
+						</td>
+
+						<td>
+							<InputText @bind-Value:get="Client.Surname" @bind-Value:set="(value) => {Client.Surname= value;}" />
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Email
+						</td>
+						<td>
+							<InputText @bind-Value:get="Client.Email" @bind-Value:set="(value) => {Client.Email = value;}" />
+
+						</td>
+					</tr>
+				
+					<tr>
+
+						<td>
+							TC
+						</td>
+						<td>
+							<InputText @bind-Value:get="Client.TcId" @bind-Value:set="(value) => {Client.TcId = value;}" />
+
+						</td>
+					</tr>
+					<tr>
+
+						<td>
+							Telefon
+						</td>
+						<td>
+							<InputText @bind-Value:get="Client.PhoneNumber" @bind-Value:set="(value) => {Client.PhoneNumber = value;}" />
+
+						</td>
+					</tr>
+					
+
+					<tr>
+						<td colspan="2">
+							<Button Class="col-12" Color="ButtonColor.Success" @onclick="() => UpdateAsync()">
+								Güncelle
+							</Button>
+						</td>
+					</tr>
+					
+
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+	<div class="col-4"></div>
+
+</div>

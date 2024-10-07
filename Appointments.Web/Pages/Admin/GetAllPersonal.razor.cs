@@ -1,24 +1,24 @@
 ﻿using Appointments.Application.MediatR.Requests.UserRequests;
 using Appointments.Application.MediatR.Responses.UserReponses;
-using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using Appointments.Utility;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Data;
 
 
 namespace Appointments.Web.Pages.Admin
 {
 	public partial class GetAllPersonal : ComponentBase
 	{
-		private string[] bindingValue = new string[10];
-		private List<User> Users = new List<User>();
-		private bool isFiltered = false;
-		private User Filter { get; set; } = new();
 		[Inject]
 		private IJSRuntime jsRuntime { get; set; }
+
+		private List<User> Users = new List<User>();
+		private User Filter { get; set; } = new();
+
+		private bool isFiltered = false;
+
 
 		int currentPage = 0;
 		int lastPage = -1;
@@ -26,7 +26,6 @@ namespace Appointments.Web.Pages.Admin
 		int dataPerPage = 10;
 		int curDataOrder = 0;
 
-		private List<UserRoleType> RoleOptions => Enum.GetValues(typeof(UserRoleType)).Cast<UserRoleType>().ToList();
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -76,7 +75,7 @@ namespace Appointments.Web.Pages.Admin
 		{
 			//ObjectWriter.Write(Filter);
 			isFiltered = Filter.IsFilterValid();
-			Console.WriteLine(Filter.IsFilterValid());
+			//Console.WriteLine(Filter.IsFilterValid());
 
 			await GoToPage(0);
 		}

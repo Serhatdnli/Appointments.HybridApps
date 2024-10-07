@@ -1,6 +1,6 @@
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Enums.FilterTypes;
+using Appointments.Domain.Models;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 {
@@ -10,7 +10,7 @@ namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 	{
 		public int Index { get; set; }
 		public int Count { get; set; }
-		public Dictionary<AppointmentFilterType, string> Filter { get; set; }
+		public Appointment Filter { get; set; }
 
 	}
 }

@@ -1,145 +1,21 @@
 ﻿@page "/admin/allclient"
-@using Microsoft.AspNetCore.Components.Forms
+@using Appointments.Components.Components
 @using Appointments.Domain.Models
-@using Microsoft.AspNetCore.Components.Forms
 
 
 
-<div class="justify-content-center d-flex mt-4">
-
-    <div class="col-1 ps-3">
-
-    </div>
-    <div class="col-10 align-items-center">
-        <div class="table-responsive ">
-            <table class="table table-hover table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>İsim</th>
-                        <th>Soyisim</th>
-                        <th>TC</th>
-                        <th>Telefon</th>
-                        <th>Oluşturulma Tarihi</th>
-                        <th>Email</th>
-                        <th>İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Statik Satır -->
-                    <tr>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[0]" @bind-Value:set="(value) => { bindingValue[0] = value; }" />
-
-                        </td>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[1]" @bind-Value:set="(value) => { bindingValue[1] = value; }" />
-
-                        </td>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[2]" @bind-Value:set="(value) => { bindingValue[2] = value; }" />
-
-                        </td>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[3]" @bind-Value:set="(value) => { bindingValue[3] = value; }" />
-
-                        </td>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[4]" @bind-Value:set="(value) => { bindingValue[4] = value; }" />
-
-                        </td>
-                        <td>
-                            <InputText @bind-Value:get="bindingValue[5]" @bind-Value:set="(value) => { bindingValue[5] = value; }" />
-
-                        </td>
-                       
-                        <td>
-                            <Button Color="ButtonColor.Success" @onclick="() => ApplyFilterAsync()">
-                                <i class="fa-solid fa-circle-play"></i>
-                            </Button> 
-                        </td>
-
-                    </tr>
-
-                    @foreach (var client in Clients)
-                    {
-                        <tr>
-                            <td>@client.Name</td>
-                            <td>@client.Surname</td>
-                            <td>@client.TcId</td>
-                            <td>@client.PhoneNumber</td>
-                            <td>@client.CreateDate.ToString("dd.MM.yyyy")</td>
-                            <td>@client.Email</td>
-                            <td>
-                                <Button Color="ButtonColor.Danger" @onclick="() => ConfirmDelete(client)">
-                                    <i class="bi bi-trash"></i>
-                                </Button>
-
-                                <a class="btn btn-primary" href="/admin/updatepersonal/@client.Id">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-        </div>
-
-
-
-
-
-
-        @* 	currentpage = @currentPage
-        totalCount = @totalData
-        lastPage = @lastPage
-        dataperpage = @dataPerPage
-        *@
-        <div class="justify-content-center d-flex">
-            <div class="align-items-center">
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-
-
-                        <li class="page-item @(currentPage == 0 ? "disabled" : "")">
-                            <a class="page-link @(currentPage == 0 ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage - 1)" disabled="@(currentPage == 0)">Önceki</a>
-                        </li>
-
-
-
-                        @for (int i = currentPage - 2; i < lastPage + 1; i++)
-                        {
-                            @if (i < 0)
-                            {
-                                continue;
-                            }
-                            @* <p>[i:@i, curPage:@currentPage]</p> *@
-
-                            @* <li> i = @i  currentPage = @currentPage</li> *@
-                            @if (Math.Abs(i - currentPage) < 4)
-                            {
-                                var pageNumber = i;
-                                <li class="page-item @(currentPage == i ? "active" : "")">
-                                    <a class="page-link" @onclick="() => GoToPage(pageNumber)">@(i + 1)</a>
-                                </li>
-                            }
-                        }
-
-
-                        <li class="page-item @(currentPage == lastPage ? "disabled" : "")">
-                            <a class="page-link @(currentPage == lastPage ? "disabled-link" : "")" @onclick="() => GoToPage(currentPage + 1)" disabled="@(currentPage == lastPage)">Sonraki</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-        </div>
-
-
-    </div>
-    <div class="col-1 "></div>
-</div>
-
-
-
+<Table 
+    T="@Client" 
+    ColumnCount="8" 
+    ModelList="@Clients" 
+    isDeleteButton ="true" 
+    DeleteMethod="@ConfirmDelete"
+    isUpdateButton="true" 
+    UpdatePath="/admin/updateclient" 
+    isPagination="true"
+    CurrentPage="@currentPage"
+    LastPage="@lastPage"
+    GoToPageMethod="GoToPage"
+    isFilter ="true"
+    FilterItem="@Filter"
+    ApplyFilterMethod="ApplyFilterAsync"/>

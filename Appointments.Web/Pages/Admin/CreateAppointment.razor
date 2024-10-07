@@ -1,0 +1,82 @@
+﻿@page "/admin/createappointment"
+
+@using Microsoft.AspNetCore.Components.Forms;
+
+
+<Toasts class="p-3" Messages="messages" Placement="ToastsPlacement.TopRight" />
+
+<h3>Yeni Personel Oluştur</h3>
+<div class="row">
+	<div class="col-4"></div>
+
+	<div class="col-4 align-items-center">
+		<div class="table-responsive ">
+			<table class="table table-hover table-bordered table-striped">
+
+				<tbody>
+					<!-- Statik Satır -->
+					<tr>
+						<td>
+							Personel
+						</td>
+
+						<td>
+							<select @bind="Appointment.DoctorId">
+								@foreach (var option in Doctors)
+								{
+									<option value="@option.Id">@option.Name @option.Surname </option>
+								}
+							</select>
+						</td>
+
+					</tr>
+
+					<tr>
+						<td>
+							Klinik
+						</td>
+
+						<td>
+							<select @bind="Appointment.ClinicId">
+								@foreach (var option in Clinics)
+								{
+									<option value="@option.Id">@option.Name</option>
+								}
+							</select>
+						</td>
+
+					</tr>
+
+					<tr>
+						<td>
+							Hasta TC
+						</td>
+
+						<td>
+							<InputText @bind-Value:get="ClientTcId" @bind-Value:set="(value) => {ClientTcId = value; ConfirmClientTC();}" />
+
+						</td>
+					</tr>
+					
+					
+					
+
+
+					<tr>
+						<td colspan="2">
+							<Button Class="col-12" Color="ButtonColor.Success" @onclick="() => CreateAsync()">
+								Oluştur
+							</Button>
+						</td>
+					</tr>
+
+
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+	<div class="col-4"></div>
+
+</div>

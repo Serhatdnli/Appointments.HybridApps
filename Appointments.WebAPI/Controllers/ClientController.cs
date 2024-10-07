@@ -22,8 +22,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("CreateClient")]
 		public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest createClientRequest)
 		{
-			await mediatR.Send(createClientRequest);
-			return Ok();
+			var response = await mediatR.Send(createClientRequest);
+			return Ok(response);
 		}
 
 
@@ -32,8 +32,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("AddRandomClient")]
 		public async Task<IActionResult> AddRandomClient([FromBody] AddRandomClientRequest createClientRequest)
 		{
-			await mediatR.Send(createClientRequest);
-			return Ok();
+			var response = await mediatR.Send(createClientRequest);
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -62,7 +62,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteClientById([FromBody] DeleteClientByIdRequest deleteClientByIdRequest)
 		{
 			var response = await mediatR.Send(deleteClientByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 
@@ -73,7 +73,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteAllClients([FromBody] DeleteAllClientsRequest deleteAllClientsRequest)
 		{
 			var response = await mediatR.Send(deleteAllClientsRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -82,7 +82,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> UpdateClient([FromBody] UpdateClientRequest updateClientRequest)
 		{
 			var response = await mediatR.Send(updateClientRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -91,7 +91,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> GetClientById([FromBody] GetClientByIdRequest getClientByIdRequest)
 		{
 			var response = await mediatR.Send(getClientByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 	}
 }

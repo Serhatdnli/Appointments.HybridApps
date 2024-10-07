@@ -22,6 +22,9 @@
     <Content Update="Pages\Admin\CreateClient.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Pages\Admin\UpdateClient.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Pages\Admin\UpdatePersonal.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

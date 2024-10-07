@@ -1,6 +1,5 @@
-﻿using Appointments.Application.MediatR.Requests.UserRequests;
-using Appointments.Application.MediatR.Responses.UserReponses;
-using Appointments.Domain.Enums;
+﻿using Appointments.Application.MediatR.Requests.ClientRequests;
+using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Domain.Models;
 using Appointments.Utility;
 using BlazorBootstrap;
@@ -8,41 +7,43 @@ using Microsoft.AspNetCore.Components;
 
 namespace Appointments.Web.Pages.Admin
 {
-	public partial class UpdatePersonal : ComponentBase
+	public partial class UpdateClient : ComponentBase
 	{
 		[Parameter]
 		public string id { get; set; }
 
-		private User User { get; set; } = new User();
+		private Client Client { get; set; } = new Client();
 
-		private List<UserRoleType> RoleOptions => Enum.GetValues(typeof(UserRoleType)).Cast<UserRoleType>().ToList();
 
 
 		protected override async Task OnInitializedAsync()
 		{
 			Console.WriteLine("alınan id değeri : " + id);
 
-			var request = new GetUserByIdRequest{
+			var request = new GetClientByIdRequest
+			{
 				Id = Guid.Parse(id)
 			};
 
-			var response = await NetworkManager.SendAsync<GetUserByIdRequest, GetUserByIdResponse>(request);
-			User = response.User;
-			//ObjectWriter.Write(User);
+			var response = await NetworkManager.SendAsync<GetClientByIdRequest, GetClientByIdResponse>(request);
+
+			ObjectWriter.Write(response);
+			Client = response.Client;
+			//ObjectWriter.Write(Client);
 		}
 
 		private async Task UpdateAsync()
 		{
-			var request = new UpdateUserRequest
+			var request = new UpdateClientRequest
 			{
-				User = User,
+				Client = Client,
 			};
 
 
 			try
 			{
-				await NetworkManager.SendAsync<UpdateUserRequest, UpdateUserResponse>(request);
-				ShowMessage(ToastType.Primary, $"{User.Name} {User.Surname} Personeli Başarılı Şekilde Güncellendi");
+				await NetworkManager.SendAsync<UpdateClientRequest, UpdateClientResponse>(request);
+				ShowMessage(ToastType.Primary, $"{Client.Name} {Client.Surname} Personeli Başarılı Şekilde Güncellendi");
 			}
 			catch (Exception e)
 			{
@@ -51,7 +52,7 @@ namespace Appointments.Web.Pages.Admin
 				throw;
 			}
 
-			//ObjectWriter.Write(User);
+			//ObjectWriter.Write(Client);
 		}
 		List<ToastMessage> messages = new List<ToastMessage>();
 

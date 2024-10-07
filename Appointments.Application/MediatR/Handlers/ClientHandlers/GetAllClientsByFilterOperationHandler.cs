@@ -5,6 +5,7 @@ using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.ClientRequests;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Domain.Models;
+using Appointments.Shared.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,19 +25,17 @@ namespace Appointments.Application.MediatR.Handlers.ClientHandlers
 			List<Client> Clients;
 
 
-			//var query = await ClientRepository.GetQueryable().ToListAsync(cancellationToken);
-			//var filtered = query.Where(x => x.Find(request.Filter)).ToList();
-			//var count = filtered.Count();
+			var query = ClientRepository.GetQueryable();
+			var filtered = await query.Where(request.Filter.GetFilterExpression()).ToListAsync();
+			var count = filtered.Count();
 
-			//if (request.Count > 0)
-			//	Clients = filtered.Skip(request.Index).Take(request.Count).ToList();
-			//else
-			//	Clients = filtered;
+			if (request.Count > 0)
+				Clients = filtered.Skip(request.Index).Take(request.Count).ToList();
+			else
+				Clients = filtered;
 
 
-			//return new GetAllClientsByFilterResponse { Clients = Clients, Count = count };
-
-			return null;
+			return new GetAllClientsByFilterResponse { Clients = Clients, Count = count };
 		}
 
 
