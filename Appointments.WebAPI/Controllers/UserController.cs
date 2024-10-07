@@ -51,7 +51,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("GetAllUsersByFilter")]
 		public async Task<IActionResult> GetAllUsersByFilter([FromBody] GetAllUsersByFilterRequest getAllUsersByFilterRequest)
 		{
-			var response = await mediatR.Send(getAllUsersByFilterRequest);
+            Console.WriteLine("api isteðine girdimm");
+            var response = await mediatR.Send(getAllUsersByFilterRequest);
 			return Ok(response);
 		}
 

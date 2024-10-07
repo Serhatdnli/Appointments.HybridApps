@@ -16,7 +16,6 @@ namespace Appointments.Web.Pages.Admin
 		private List<User> Users = new List<User>();
 		private bool isFiltered = false;
 		private User Filter { get; set; } = new();
-
 		[Inject]
 		private IJSRuntime jsRuntime { get; set; }
 
@@ -40,7 +39,6 @@ namespace Appointments.Web.Pages.Admin
 			{
 				Count = dataPerPage,
 				Index = currentPage * dataPerPage,
-				RequesterId = Guid.Empty,
 				Filter = Filter
 			};
 
@@ -79,7 +77,7 @@ namespace Appointments.Web.Pages.Admin
 			isFiltered = Filter.IsFilterValid();
 			Console.WriteLine(Filter.IsFilterValid());
 
-            await GoToPage(0);
+			await GoToPage(0);
 		}
 
 
@@ -101,7 +99,7 @@ namespace Appointments.Web.Pages.Admin
 		}
 		private async Task GoToPage(int page = 0)
 		{
-			
+
 			if (page > lastPage)
 			{
 				lastPage = page;

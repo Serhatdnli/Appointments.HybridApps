@@ -5,7 +5,6 @@ using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Appointments.Application.MediatR.Handlers.UserHandlers
 {
@@ -25,9 +24,10 @@ namespace Appointments.Application.MediatR.Handlers.UserHandlers
 			var query = UserRepository.GetQueryable();
 			//var filtered = query.Where(x => x.Find(request.Filter)).ToList();
 
-			
+			//Console.WriteLine(request.Filter.GetFilterExpression());
 
 			var filtered = await query.Where(request.Filter.GetFilterExpression()).ToListAsync();
+			filtered.ToJson();
 			var count = filtered.Count();
 
 			if (request.Count > 0)

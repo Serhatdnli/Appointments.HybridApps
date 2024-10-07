@@ -79,7 +79,6 @@ namespace Appointments.Shared.Extensions
 			var parameter = Expression.Parameter(typeof(T), "x");
 			Expression combinedExpression = null;
 
-
 			foreach (var prop in properties)
 			{
 				var value = prop.GetValue(t);
@@ -96,23 +95,27 @@ namespace Appointments.Shared.Extensions
 						if (!string.IsNullOrEmpty(value?.ToString()))
 						{
 							var stringValue = Expression.Constant(value.ToString());
-							currentExpression = Expression.Equal(propertyExpression, stringValue);
+							// Contains kullanımı
+							currentExpression = Expression.Call(propertyExpression,
+								typeof(string).GetMethod("Contains", new[] { typeof(string) }),
+								stringValue);
 						}
 						break;
 
 					case TypeCode.Int32:
-						if (propertyType.IsEnum)
+						if (value is int intValue && intValue != 0)
+						{
+							var intValueExpr = Expression.Constant(intValue);
+							currentExpression = Expression.Equal(propertyExpression, intValueExpr);
+						}
+						// Eğer enum ise
+						else if (propertyType.IsEnum)
 						{
 							if (value is Enum enumValue && Convert.ToInt32(enumValue) != 0)
 							{
 								var enumValueExpr = Expression.Constant(enumValue);
 								currentExpression = Expression.Equal(propertyExpression, enumValueExpr);
 							}
-						}
-						else if (value is int intValue && intValue != 0)
-						{
-							var intValueExpr = Expression.Constant(intValue);
-							currentExpression = Expression.Equal(propertyExpression, intValueExpr);
 						}
 						break;
 
@@ -125,11 +128,9 @@ namespace Appointments.Shared.Extensions
 						break;
 
 					default:
-						// Diğer türler için ekleme yapabilirsin
 						break;
 				}
 
-				// Eğer mevcut ifade varsa, bunu birleştir
 				if (currentExpression != null)
 				{
 					combinedExpression = combinedExpression == null
@@ -142,6 +143,7 @@ namespace Appointments.Shared.Extensions
 				? x => true // Eğer hiç bir filtre yoksa tüm kayıtları döner
 				: Expression.Lambda<Func<T, bool>>(combinedExpression, parameter);
 		}
+
 	}
 }
 
