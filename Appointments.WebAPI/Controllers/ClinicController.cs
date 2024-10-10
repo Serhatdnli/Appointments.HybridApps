@@ -1,4 +1,5 @@
 using Appointments.Application.MediatR.Requests.ClinicRequests;
+using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("CreateClinic")]
 		public async Task<IActionResult> CreateClinic([FromBody] CreateClinicRequest createClinicRequest)
 		{
-			await mediatR.Send(createClinicRequest);
-			return Ok();
+			var response = await mediatR.Send(createClinicRequest);
+			return Ok(response);
 		}
 
 
@@ -32,8 +33,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("AddRandomClinic")]
 		public async Task<IActionResult> AddRandomClinic([FromBody] AddRandomClinicRequest createClinicRequest)
 		{
-			await mediatR.Send(createClinicRequest);
-			return Ok();
+            var response = await mediatR.Send(createClinicRequest);
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -62,7 +63,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteClinicById([FromBody] DeleteClinicByIdRequest deleteClinicByIdRequest)
 		{
 			var response = await mediatR.Send(deleteClinicByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 
@@ -73,7 +74,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteAllClinics([FromBody] DeleteAllClinicsRequest deleteAllClinicsRequest)
 		{
 			var response = await mediatR.Send(deleteAllClinicsRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -82,7 +83,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> UpdateClinic([FromBody] UpdateClinicRequest updateClinicRequest)
 		{
 			var response = await mediatR.Send(updateClinicRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -91,7 +92,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> GetClinicById([FromBody] GetClinicByIdRequest getClinicByIdRequest)
 		{
 			var response = await mediatR.Send(getClinicByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 	}
 }

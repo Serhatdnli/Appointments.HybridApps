@@ -1,0 +1,19 @@
+﻿@page "/admin/allclinic"
+@using Appointments.Components.Components
+@using Appointments.Domain.Models
+
+
+
+<Table 
+    T="@Clinic" 
+    ColumnCount="8" 
+    ModelList="@Clinics" 
+    isDeleteButton ="true" 
+    DeleteMethod="@ConfirmDelete"
+    isUpdateButton="true" 
+    UpdatePath="/admin/updateclinic" 
+    isPagination="true"
+    CurrentPage="@currentPage"
+    LastPage="@lastPage"
+    GoToPageMethod="GoToPage"
+/>

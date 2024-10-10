@@ -18,12 +18,11 @@ namespace Appointments.Web.Pages.Admin
 {
     public partial class CreateClinic : ComponentBase
     {
-        private Clinic Clinic { get; set; }
+        private Clinic Clinic { get; set; } = new Clinic();
         private string ClinicName { get; set; }
 
 		private async Task CreateAsync()
         {
-            Clinic.CreateDate = DateTime.Now;
 
             var request = new GetAllClinicsByFilterRequest
             {
@@ -55,7 +54,8 @@ namespace Appointments.Web.Pages.Admin
                 RequesterId = Guid.Empty,
                 Clinic = new Clinic
                 {
-                    Name = ClinicName
+                    Name = ClinicName,
+                    CreateDate = DateTime.Now
                 }
             };
 
