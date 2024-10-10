@@ -68,7 +68,8 @@ namespace Appointments.Components.Components
 
 		private void UpdateEnumValue(string propertyName, string selectedValue)
 		{
-			var enumType = typeof(T).GetProperty(propertyName).PropertyType;
+            //Console.WriteLine("Update methodddayım.");
+            var enumType = typeof(T).GetProperty(propertyName).PropertyType;
 			if (Enum.TryParse(enumType, selectedValue, out var enumValue))
 			{
 				typeof(T).GetProperty(propertyName).SetValue(FilterItem, enumValue);

@@ -22,8 +22,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("CreateAppointment")]
 		public async Task<IActionResult> CreateAppointment([FromBody] CreateAppointmentRequest createAppointmentRequest)
 		{
-			await mediatR.Send(createAppointmentRequest);
-			return Ok();
+			var response = await mediatR.Send(createAppointmentRequest);
+			return Ok(response);
 		}
 
 
@@ -32,8 +32,8 @@ namespace Appointments.WebAPI.Controllers
 		[Route("AddRandomAppointment")]
 		public async Task<IActionResult> AddRandomAppointment([FromBody] AddRandomAppointmentRequest createAppointmentRequest)
 		{
-			await mediatR.Send(createAppointmentRequest);
-			return Ok();
+            var response = await mediatR.Send(createAppointmentRequest);
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -55,6 +55,15 @@ namespace Appointments.WebAPI.Controllers
 			return Ok(response);
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("GetAllAppointmentsByExpression")]
+		public async Task<IActionResult> GetAllAppointmentsByExpression([FromBody] GetAllAppointmentsByExpressionRequest getAllAppointmentsByExpressionRequest)
+		{
+			var response = await mediatR.Send(getAllAppointmentsByExpressionRequest);
+			return Ok(response);
+		}
+
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -62,7 +71,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteAppointmentById([FromBody] DeleteAppointmentByIdRequest deleteAppointmentByIdRequest)
 		{
 			var response = await mediatR.Send(deleteAppointmentByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 
@@ -73,7 +82,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> DeleteAllAppointments([FromBody] DeleteAllAppointmentsRequest deleteAllAppointmentsRequest)
 		{
 			var response = await mediatR.Send(deleteAllAppointmentsRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -82,7 +91,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> UpdateAppointment([FromBody] UpdateAppointmentRequest updateAppointmentRequest)
 		{
 			var response = await mediatR.Send(updateAppointmentRequest);
-			return Ok();
+			return Ok(response);
 		}
 
 		[HttpPost]
@@ -91,7 +100,7 @@ namespace Appointments.WebAPI.Controllers
 		public async Task<IActionResult> GetAppointmentById([FromBody] GetAppointmentByIdRequest getAppointmentByIdRequest)
 		{
 			var response = await mediatR.Send(getAppointmentByIdRequest);
-			return Ok();
+			return Ok(response);
 		}
 	}
 }

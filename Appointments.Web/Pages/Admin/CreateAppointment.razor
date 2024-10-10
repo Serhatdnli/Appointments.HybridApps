@@ -49,17 +49,39 @@
 
 					<tr>
 						<td>
-							Hasta TC
+							Hasta
 						</td>
 
 						<td>
-							<InputText @bind-Value:get="ClientTcId" @bind-Value:set="(value) => {ClientTcId = value; ConfirmClientTC();}" />
+							<select @bind="Appointment.ClientId">
+								@foreach (var option in Clients)
+								{
+									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
+								}
+							</select>
 
 						</td>
 					</tr>
-					
-					
-					
+
+					<tr>
+						<td>
+							Tarih
+						</td>
+
+						<td>
+							<select @bind="Appointment.ClientId">
+								@foreach (var option in Clients)
+								{
+									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
+								}
+							</select>
+
+						</td>
+					</tr>
+
+
+
+
 
 
 					<tr>

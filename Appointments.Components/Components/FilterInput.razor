@@ -19,7 +19,7 @@ else if (propType == typeof(DateTime))
 else if (propType.IsEnum)
 {
 	<td>
-		<select class="form-control" @onchange="@(e => UpdateEnumMethod.Invoke(propertyName, e.Value.ToString()))">
+		<select class="form-control" @onchange="@(e => { UpdateEnumMethod.Invoke(propertyName, e.Value.ToString()); })">
 			@foreach (var option in Enum.GetValues(propType))
 			{
 				<option value="@option">@option.ToString()</option>
