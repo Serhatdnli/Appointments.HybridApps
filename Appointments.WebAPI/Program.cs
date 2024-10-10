@@ -18,7 +18,6 @@ namespace Appointments.WebAPI
 						   {
 							   options.SerializerSettings.Converters.Add(new StringEnumConverter());
 							   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
 						   });
 
 

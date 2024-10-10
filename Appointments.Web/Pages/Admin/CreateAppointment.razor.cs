@@ -11,29 +11,87 @@ using Appointments.Domain.Models;
 using Appointments.Utility;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
 
 namespace Appointments.Web.Pages.Admin
 {
 	public partial class CreateAppointment : ComponentBase
 	{
-		private Appointment Appointment { get; set; } = new Appointment();
+		private Appointment Appointment { get; set; } = new Appointment()
+		{
+			AppointmentTime = DateTime.Now
+		};
+		private List<Appointment> Appointments { get; set; } = new();
 		private List<Clinic> Clinics = new();
 		private List<Client> Clients = new();
 		private List<User> Doctors = new();
 
+		private Clinic Clinic;
+		private User Doctor;
+		private Client Client;
 
-		private Client Client { get; set; }
-		private User Doctor { get; set; }
-		private Clinic Clinic { get; set; }
 
+
+	
+
+
+
+		
+
+		private List<DateTime> emptyHours { get; set; } = new();
+
+		private async void UpdateEmptyHours()
+		{
+            Console.WriteLine("fonktayız");
+            emptyHours.Clear();
+
+			var request = new GetAllAppointmentsByExpressionRequest
+			{
+				Count = 0,
+				Index = 0,
+				DoctorId = Appointment.DoctorId,
+				Datetime = Appointment.AppointmentTime.Date,
+			};
+
+			var response = await NetworkManager.SendAsync<GetAllAppointmentsByExpressionRequest, GetAllAppointmentsByExpressionResponse>(request);
+			if (response != null)
+			{
+				Appointments = response.Appointments;
+			}
+
+			DateTime currentTime = new DateTime(year : Appointment.AppointmentTime.Year , month : Appointment.AppointmentTime.Month, day : Appointment.AppointmentTime.Day, hour : 9, minute : 0 , second : 0);
+			
+            for(int i = 0; i < 18; i++)
+			{
+				var fuckingAppointments =  Appointments.Where(x => x.AppointmentTime <= currentTime && x.AppointmentFinishTime >= currentTime).ToList();
+				if(fuckingAppointments is null || fuckingAppointments.Count == 0)
+					emptyHours.Add(currentTime);
+
+				currentTime = currentTime.AddMinutes(30);
+			}
+			Appointment.AppointmentTime = emptyHours.FirstOrDefault();
+			StateHasChanged();
+        }
 		
 
 
 		protected override async Task OnInitializedAsync()
 		{
+			
 			Doctors = await GetDoctors();
 			Clinics = await GetClinics();
 			Clients = await GetClients();
+
+
+			Appointment.ClinicId = Clinics.FirstOrDefault().Id;
+			Appointment.DoctorId = Doctors.FirstOrDefault().Id;
+			Appointment.ClientId = Clients.FirstOrDefault().Id;
+
+			Clinic = Clinics.FirstOrDefault();
+			Doctor = Doctors.FirstOrDefault();
+			Client = Clients.FirstOrDefault();
+
+			UpdateEmptyHours();
 		}
 
 		private async Task<List<Client>> GetClients()
@@ -79,6 +137,8 @@ namespace Appointments.Web.Pages.Admin
 		private async Task CreateAsync()
 		{
 			Appointment.CreateDate = DateTime.Now;
+            Console.WriteLine("Clinic : " + Clinic.Minute);
+            Appointment.AppointmentFinishTime = Appointment.AppointmentTime.AddMinutes(Clinic.Minute);
 			CreateAppointmentRequest request = new CreateAppointmentRequest
 			{
 				Appointment = Appointment,
@@ -88,13 +148,18 @@ namespace Appointments.Web.Pages.Admin
 			try
 			{
 				var response = await NetworkManager.SendAsync<CreateAppointmentRequest, CreateAppointmentResponse>(request);
-				ShowMessage(ToastType.Primary, $" {Client.Name} isimli hastanın randevusu Başarılı Şekilde Eklendi");
+
+				if(response is not  null)
+					ShowMessage(ToastType.Primary, $" {Client.Name} isimli hastanın randevusu Başarılı Şekilde Eklendi");
+
+				else
+				{
+					ShowMessage(ToastType.Primary, $" response null");
+				}
 			}
 			catch (Exception e)
 			{
-
-				ShowMessage(ToastType.Primary, e.ToString());
-				throw;
+				ShowMessage(ToastType.Primary, e.Message);
 			}
 
 			//ObjectWriter.Write(Appointment);

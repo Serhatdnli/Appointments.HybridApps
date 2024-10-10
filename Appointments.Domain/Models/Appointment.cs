@@ -12,7 +12,9 @@ namespace Appointments.Domain.Models
         public float Price { get; set; }
         public string? Notes { get; set; }
         public DateTime AppointmentTime { get; set; }
+        public DateTime AppointmentFinishTime { get; set; } = DateTime.MinValue;
         public bool IsPayed { get; set; }
+
 
         [NotShow]
         [NotFilterable]

@@ -21,13 +21,23 @@
 						</td>
 
 						<td>
-							<InputText @bind-Value:get="ClinicName" @bind-Value:set="(value) => {ClinicName = value; }" />
+							<InputText @bind-Value:get="Clinic.Name" @bind-Value:set="(value) => {Clinic.Name= value; }" />
 
 						</td>
 					</tr>
-					
-					
-					
+
+
+
+					<tr>
+						<td>
+							Randevu Süresi
+						</td>
+
+						<td>
+							<input type="number" class="form-control" @onchange="@(e => {Clinic.Minute = Convert.ToInt32(e.Value);})" placeholder="Dakika" />
+
+						</td>
+					</tr>
 
 
 					<tr>

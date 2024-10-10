@@ -30,6 +30,34 @@ namespace Appointments.WebAPI.Controllers
 			this.userRepository = userRepository;
 		}
 
+		[HttpGet]
+		[AllowAnonymous]
+		[Route("CheckAppointment")]
+		public async Task<IActionResult> CheckAppointment()
+		{
+			var clinic = await clinicRepository.GetQueryable().FirstOrDefaultAsync();
+			var doctor = await userRepository.GetQueryable(x => x.Role == Domain.Enums.UserRoleType.Doctor).FirstOrDefaultAsync();
+			var client = await clientRepository.GetQueryable().FirstOrDefaultAsync();
+
+			Appointment appointment = new Appointment
+			{
+				ClientId = client.Id,
+				DoctorId = doctor.Id,
+				ClinicId = clinic.Id,
+				Notes = "ilk notum",
+				IsPayed = false,
+				CreateDate = DateTime.Now,
+				Price = 1000,
+				AppointmentTime = DateTime.Now,
+				AppointmentFinishTime = DateTime.Now.AddMinutes(45)
+
+			};
+
+			var response = await appointmentRepository.AddAsync(appointment);
+			await appointmentRepository.CompleteAsync();
+			return Ok(response);
+		}
+
 
 		[HttpGet]
 		[AllowAnonymous]

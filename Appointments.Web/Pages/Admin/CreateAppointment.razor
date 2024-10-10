@@ -21,12 +21,12 @@
 						</td>
 
 						<td>
-							<select @bind="Appointment.DoctorId">
+							 <select @onchange="@(e => {  Appointment.DoctorId = Guid.Parse(e.Value.ToString()); UpdateEmptyHours();})">
 								@foreach (var option in Doctors)
 								{
 									<option value="@option.Id">@option.Name @option.Surname </option>
 								}
-							</select>
+							</select> 
 						</td>
 
 					</tr>
@@ -69,12 +69,59 @@
 						</td>
 
 						<td>
-							<select @bind="Appointment.ClientId">
-								@foreach (var option in Clients)
+
+							<input type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" @onchange="@(e =>
+							{
+								DateTime result;
+								bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
+								if(isValidDate){
+									Appointment.AppointmentTime = result;
+									Console.WriteLine("Tarih setlendi : " + Appointment.AppointmentTime);
+									UpdateEmptyHours();
+								}
+							})" placeholder="Randevu Tarihi" />
+
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							Saat
+						</td>
+
+						<td>
+							
+							<select @bind="Appointment.AppointmentTime">
+								@foreach (var option in emptyHours)
 								{
-									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
+									<option value="@option"> @option.ToString("HH:mm") </option>
 								}
 							</select>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							Not
+						</td>
+
+						<td>
+
+							<input class="form-control" @onchange="@(e => Appointment.Notes = e.Value.ToString())" placeholder="Not" />
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td>
+							Randevu Ücreti
+						</td>
+
+						<td>
+
+							<input type="number" class="form-control" @onchange="@(e =>  Appointment.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
 
 						</td>
 					</tr>
