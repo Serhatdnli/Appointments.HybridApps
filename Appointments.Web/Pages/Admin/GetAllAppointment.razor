@@ -125,8 +125,9 @@
 						<td>@data.CreateDate</td>
 						<td>@data.IsPayed.ToString()</td>
 						<td>
-							<a class="btn btn-primary" href="">
-								<i class="fa-solid fa-pen-to-square"></i>
+							
+							<a class="btn btn-primary" href="/admin/updatepersonal/@data.Id">
+								@(data.Payments.Count.ToString() + " Ödeme")
 							</a>
 						</td>
 						<td>
@@ -135,10 +136,11 @@
 								<i class="bi bi-trash"></i>
 							</Button>
 
-
 							<a class="btn btn-primary" href="/admin/updatepersonal/@data.Id">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</a>
+
+						
 
 						</td>
 

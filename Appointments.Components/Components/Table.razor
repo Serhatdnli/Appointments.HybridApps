@@ -64,7 +64,7 @@
 								<div class="d-flex align-items-center">
 									@if (isDeleteButton)
 									{
-										<Button Color="ButtonColor.Danger" @onclick="() =>  DeleteMethod.InvokeAsync(data)" class="me-2">
+										<Button Color="ButtonColor.Danger" @onclick="() =>  DeleteMethod.InvokeAsync(data)">
 											<i class="bi bi-trash"></i>
 										</Button>
 									}
@@ -74,6 +74,17 @@
 											<i class="fa-solid fa-pen-to-square"></i>
 										</a>
 									}
+
+									
+									@if (isVisitButton)
+									{
+										<a class="btn btn-secondary" href="@VisitPath/@data.GetType().GetProperty("Id").GetValue(data)">
+											<i class="fa-solid fa-eye"></i>
+										</a>
+									}
+									
+
+
 								</div>
 
 							</td>

@@ -49,7 +49,14 @@ namespace Appointments.Components.Components
 		[Parameter]
 		public bool isFilter { get; set; }
 
-		private bool isOperationArea => isDeleteButton || isUpdateButton;
+
+		[Parameter]
+		public bool isVisitButton { get; set; }
+
+		[Parameter]
+		public string VisitPath { get; set; }
+
+		private bool isOperationArea => isDeleteButton || isUpdateButton || isVisitButton;
 
 	
 
