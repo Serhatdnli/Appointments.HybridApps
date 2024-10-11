@@ -49,6 +49,7 @@ namespace Appointments.Web.Pages.Admin
 			{
 				Count = 0,
 				Index = 0,
+				//Expression = (x => x.DoctorId == Appointment.DoctorId && x.AppointmentTime == Appointment.AppointmentTime.Date)
 				DoctorId = Appointment.DoctorId,
 				Datetime = Appointment.AppointmentTime.Date,
 			};

@@ -1,5 +1,4 @@
-﻿
-@page "/admin/allappointment"
+﻿@page "/admin/allappointment"
 @using Appointments.Domain.Models
 @using Appointments.Components.Components
 
@@ -28,25 +27,78 @@
 			<tbody>
 
 				<tr>
-
-
 					<td>
-						<select class="form-control" @onchange="@(e =>  Client = (Client)e.Value )">
+						<select class="form-control" @onchange="@(e =>  Filter.Client = (Client)e.Value )">
 							@foreach (var option in Clients)
 							{
-								<option value="@option">@option.Name.ToString()</option>
+								<option value="@option">@option.Name @option.Surname</option>
 							}
 						</select>
 					</td>
 
 
 					<td>
-						<select class="form-control" @onchange="@(e =>  Doctor = (User)e.Value )">
+						<select class="form-control" @onchange="@(e =>  Filter.Doctor = (User)e.Value )">
 							@foreach (var option in Doctors)
 							{
-								<option value="@option">@(option.Name.ToString() + "" + option.Surname.ToString())</option>
+								<option value="@option">@option.Name  @option.Surname</option>
 							}
 						</select>
+					</td>
+
+					<td>
+						<select class="form-control" @onchange="@(e =>  Filter.Clinic = (Clinic)e.Value )">
+							@foreach (var option in Clinics)
+							{
+								<option value="@option">@option.Name</option>
+							}
+						</select>
+					</td>
+					<td>
+						<input class="form-control" placeholder="Not" @onchange="@(e => Filter.Notes = e.Value.ToString())" />
+
+					</td>
+
+					<td>
+						<input type="number" class="form-control" placeholder="Ücret" @onchange="@(e => Filter.Price = Convert.ToInt32(e.Value.ToString()))" />
+
+					</td>
+
+					<td>
+						<input type="date" class="form-control" placeholder="Randevu Tarihi" value="@DateTime.Now.ToString("yyyy-MM-dd")" @onchange="@(e =>
+						{
+							DateTime result;
+							bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
+							if(isValidDate){
+								Filter.AppointmentTime = result;
+							}
+						})" />
+
+					</td>
+
+					<td>
+						<input type="date" class="form-control" placeholder="Randevu Oluşturma Tarihi" value="@DateTime.Now.ToString("yyyy-MM-dd")" @onchange="@(e =>
+						{
+							DateTime result;
+							bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
+							if(isValidDate){
+								Filter.CreateDate = result;
+							}
+						})" />
+
+					</td>
+
+
+					<td>
+						<select class="form-control" @onchange="@(e =>  Filter.IsPayed = e.Value.ToString() == "1" )">
+							<option value="0" selected>Ödenmedi</option>
+							<option value="1">Ödendi</option>
+						</select>
+
+					</td>
+
+					<td>
+						
 					</td>
 
 
@@ -55,18 +107,18 @@
 							<i class="fa-solid fa-circle-play"></i>
 						</Button>
 					</td>
-
-
-
 				</tr>
+
+
+
 
 				@foreach (var data in Appointments)
 				{
 					<tr>
 
-						<td>@data.Client.Name @data.Client.Surname</td>
-						<td>@data.Doctor.Name @data.Doctor.Surname</td>
-						<td>@data.Clinic.Name</td>
+						<td>@data.Client?.Name @data.Client?.Surname</td>
+						<td>@data.Doctor?.Name @data.Doctor?.Surname</td>
+						<td>@data.Clinic?.Name</td>
 						<td>@data.Notes</td>
 						<td>@data.Price</td>
 						<td>@data.AppointmentTime</td>
@@ -97,6 +149,8 @@
 					</tr>
 
 				}
+
+
 			</tbody>
 		</table>
 	</div>

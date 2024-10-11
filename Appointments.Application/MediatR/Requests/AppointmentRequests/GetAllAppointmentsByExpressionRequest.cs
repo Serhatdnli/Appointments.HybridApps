@@ -1,7 +1,6 @@
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Domain.Models;
-using Newtonsoft.Json;
 using System.Linq.Expressions;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
@@ -13,7 +12,9 @@ namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 		public int Index { get; set; }
 		public int Count { get; set; }
 		public Guid DoctorId { get; set; }
-		public DateTime Datetime{ get; set; }
+		public DateTime Datetime { get; set; }
+
+		//public Expression<Func<Appointment, bool>> Expression { get; set; }
 
 	}
 }

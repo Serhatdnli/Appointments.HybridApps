@@ -28,11 +28,6 @@ namespace Appointments.Web.Pages.Admin
 		private List<User> Doctors = new List<User>();
 
 		private Appointment Filter { get; set; } = new Appointment();
-		private Clinic Clinic { get; set; } = new Clinic();
-		private Client Client { get; set; } = new Client();
-		private User Doctor { get; set; } = new User();
-
-
 
 		private int CurrentPage { get; set; } = 0;
 		private int LastPage { get; set; } = -1;
@@ -43,11 +38,12 @@ namespace Appointments.Web.Pages.Admin
 
 		protected override async Task OnInitializedAsync()
 		{
-			await GoToPage(CurrentPage);
 
 			Clients = await GetClients();
-			Clinics = await GetClinics();	
+			Clinics = await GetClinics();
 			Doctors = await GetDoctors();
+
+			await GoToPage(CurrentPage);
 		}
 
 		private async Task<GetAllAppointmentsByFilterResponse> GetAppointmentByFilterByPage()

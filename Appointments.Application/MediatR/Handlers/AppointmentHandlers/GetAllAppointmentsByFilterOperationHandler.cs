@@ -26,7 +26,10 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
 
 			var query = AppointmentRepository.GetQueryable();
-			var filtered = await query.Where(request.Filter.GetFilterExpression()).ToListAsync();
+			var filtered = await query.Where(request.Filter.GetFilterExpression())
+				.Include(x => x.Client)
+				.Include(x => x.Doctor).Include(x => x.Clinic)
+				.Include(x => x.Payments).ToListAsync();
 			var count = filtered.Count();
 
 			if (request.Count > 0)

@@ -23,7 +23,10 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 		{
 			List<Appointment> Appointments;
 
-			var query = AppointmentRepository.GetQueryable();
+			var query = AppointmentRepository.GetQueryable()
+				.Include(x => x.Client)
+				.Include(x => x.Doctor).Include(x => x.Clinic)
+				.Include(x => x.Payments);
 			var count = query.Count();
 
 			if (request.Count > 0)

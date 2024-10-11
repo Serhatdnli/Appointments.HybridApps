@@ -1,20 +1,20 @@
 ﻿@if (propType == typeof(string))
 {
-	<input class="form-control" @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, e.Value.ToString()))" placeholder="@propertyName" />
+	<input class="form-control" placeholder="@propertyName"  @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, e.Value.ToString()))" />
 }
 else if (propType == typeof(int))
 {
-	<input type="number" class="form-control" @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, Convert.ToInt32(e.Value)))" placeholder="@propertyName" />
+	<input type="number" class="form-control" placeholder="@propertyName"  @onchange="@(e => UpdatePropertyMethod.Invoke(propertyName, Convert.ToInt32(e.Value)))" />
 }
 else if (propType == typeof(DateTime))
 {
-	<input type="date" class="form-control" @onchange="@(e =>
+	<input type="date" class="form-control" placeholder="@propertyName" @onchange="@(e =>
 		{
 			DateTime result;
 			bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
 			UpdatePropertyMethod.Invoke(propertyName, isValidDate ? (DateTime?)result : null);
 		}
-	)" placeholder="@propertyName" />
+	)"  />
 }
 else if (propType.IsEnum)
 {

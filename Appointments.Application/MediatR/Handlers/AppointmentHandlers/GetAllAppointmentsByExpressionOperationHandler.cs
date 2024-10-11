@@ -26,9 +26,10 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 			Expression<Func<Appointment, bool>> myExp;
 			
 
-			var query = await AppointmentRepository.GetQueryable(x => x.AppointmentTime == request.Datetime && x.DoctorId == request.DoctorId )
+			var query = await AppointmentRepository.GetQueryable(x=> x.DoctorId == request.DoctorId && x.AppointmentTime.Date == request.Datetime)
 				.Include(x=> x.Client)
 				.Include(x => x.Doctor)
+				.Include(x => x.Clinic )
 				.Include(x => x.Payments)
 				.ToListAsync();
 			var count = query.Count;
