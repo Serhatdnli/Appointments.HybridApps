@@ -3,6 +3,7 @@
 
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
@@ -11,6 +12,6 @@ namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 
 	public class UpdateAppointmentRequest : MediatRBaseRequest<UpdateAppointmentResponse>
 	{
-		public Appointment Appointment { get; set; }
-	}
+        public UpdateAppointmentDto UpdateDto { get; set; }
+    }
 }

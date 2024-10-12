@@ -1,4 +1,5 @@
-﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
+﻿using Appointments.Application.MediatR.Handlers.AppointmentHandlers;
+using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Requests.ClientRequests;
 using Appointments.Application.MediatR.Requests.ClinicRequests;
 using Appointments.Application.MediatR.Requests.UserRequests;
@@ -6,6 +7,7 @@ using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using Appointments.Application.MediatR.Responses.UserReponses;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Utility;
@@ -16,11 +18,12 @@ namespace Appointments.Web.Pages.Admin
 {
 	public partial class CreateAppointment : ComponentBase
 	{
-		private Appointment Appointment { get; set; } = new Appointment()
+		private CreateAppointmentDto CreateDto { get; set; } = new ()
 		{
 			AppointmentTime = DateTime.Now
 		};
-		private List<Appointment> Appointments { get; set; } = new();
+
+		private List<GetAppointmentDto> Appointments { get; set; } = new();
 		private List<Clinic> Clinics = new();
 		private List<Client> Clients = new();
 		private List<User> Doctors = new();
@@ -35,24 +38,23 @@ namespace Appointments.Web.Pages.Admin
 		{
 			emptyHours.Clear();
 
-			var request = new GetAllAppointmentsByExpressionRequest
+			var request = new GetAppointmentsByDoctorAndDateRequest
 			{
 				Count = 0,
 				Index = 0,
-				//Expression = (x => x.DoctorId == Appointment.DoctorId && x.AppointmentTime == Appointment.AppointmentTime.Date)
-				DoctorId = Appointment.DoctorId,
-				Datetime = Appointment.AppointmentTime.Date,
+				DoctorId = CreateDto.DoctorId,
+				Datetime = CreateDto.AppointmentTime.Date,
 			};
 
-			var response = await NetworkManager.SendAsync<GetAllAppointmentsByExpressionRequest, GetAllAppointmentsByExpressionResponse>(request);
+			var response = await NetworkManager.SendAsync<GetAppointmentsByDoctorAndDateRequest, GetAppointmentsByDoctorAndDateResponse>(request);
 			if (response != null)
 			{
 				Appointments = response.Appointments;
 			}
 
-			DateTime currentTime = new DateTime(year: Appointment.AppointmentTime.Year, month: Appointment.AppointmentTime.Month, day: Appointment.AppointmentTime.Day, hour: 9, minute: 0, second: 0);
+			DateTime currentTime = new DateTime(year: CreateDto.AppointmentTime.Year, month: CreateDto.AppointmentTime.Month, day: CreateDto.AppointmentTime.Day, hour: 9, minute: 0, second: 0);
 
-			Console.WriteLine("Appointments Count : " + Appointments.Count);
+			//Console.WriteLine("Appointments Count : " + Appointments.Count);
 
 			for (int i = 0; i < 18; i++)
 			{
@@ -62,7 +64,7 @@ namespace Appointments.Web.Pages.Admin
 
 				currentTime = currentTime.AddMinutes(30);
 			}
-			Appointment.AppointmentTime = emptyHours.FirstOrDefault();
+			CreateDto.AppointmentTime = emptyHours.FirstOrDefault();
 			StateHasChanged();
 		}
 
@@ -76,9 +78,9 @@ namespace Appointments.Web.Pages.Admin
 			Clients = await GetClients();
 
 
-			Appointment.ClinicId = Clinics.FirstOrDefault().Id;
-			Appointment.DoctorId = Doctors.FirstOrDefault().Id;
-			Appointment.ClientId = Clients.FirstOrDefault().Id;
+			CreateDto.ClinicId = Clinics.FirstOrDefault().Id;
+			CreateDto.DoctorId = Doctors.FirstOrDefault().Id;
+			CreateDto.ClientId = Clients.FirstOrDefault().Id;
 
 			Clinic = Clinics.FirstOrDefault();
 			Doctor = Doctors.FirstOrDefault();
@@ -129,12 +131,12 @@ namespace Appointments.Web.Pages.Admin
 
 		private async Task CreateAsync()
 		{
-			Appointment.CreateDate = DateTime.Now;
-			Console.WriteLine("Clinic : " + Clinic.Minute);
-			Appointment.AppointmentFinishTime = Appointment.AppointmentTime.AddMinutes(Clinic.Minute);
+			CreateDto.CreateDate = DateTime.Now;
+			//Console.WriteLine("Clinic : " + Clinic.Minute);
+			CreateDto.AppointmentFinishTime = CreateDto.AppointmentTime.AddMinutes(Clinic.Minute);
 			CreateAppointmentRequest request = new CreateAppointmentRequest
 			{
-				Appointment = Appointment,
+				CreateDto = CreateDto,
 				RequesterId = Guid.Empty
 			};
 

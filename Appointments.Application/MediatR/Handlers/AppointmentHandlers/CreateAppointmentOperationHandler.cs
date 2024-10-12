@@ -4,6 +4,8 @@
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
+using Appointments.Domain.Models;
+using AutoMapper;
 using MediatR;
 
 namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
@@ -11,15 +13,17 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 	public class CreateAppointmentOperationHandler : IRequestHandler<CreateAppointmentRequest, CreateAppointmentResponse>
 	{
 		private readonly IAppointmentRepository AppointmentRepository;
+		private readonly IMapper mapper;
 
-		public CreateAppointmentOperationHandler(IAppointmentRepository AppointmentRepository)
+		public CreateAppointmentOperationHandler(IAppointmentRepository AppointmentRepository, IMapper mapper)
 		{
 			this.AppointmentRepository = AppointmentRepository;
+			this.mapper = mapper;
 		}
 
 		public async Task<CreateAppointmentResponse> Handle(CreateAppointmentRequest request, CancellationToken cancellationToken)
 		{
-			await AppointmentRepository.AddAsync(request.Appointment, cancellationToken);
+			await AppointmentRepository.AddAsync( mapper.Map<Appointment>(request.CreateDto), cancellationToken);
 			await AppointmentRepository.CompleteAsync(cancellationToken);
 
 			return new CreateAppointmentResponse();

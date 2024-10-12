@@ -15,13 +15,13 @@ namespace Appointments.Domain.Models
 
 		[NotShow]
 		[NotFilterable]
-		public virtual Clinic? Clinic { get; set; }
+		public virtual Clinic Clinic { get; set; }
 		[NotShow]
 		[NotFilterable]
-		public virtual User? Doctor { get; set; }
+		public virtual User Doctor { get; set; }
 		[NotShow]
 		[NotFilterable]
-		public virtual Client? Client { get; set; }
+		public virtual Client Client { get; set; }
 		[NotShow]
 		[NotFilterable]
 		public virtual List<Payment> Payments { get; set; } = new List<Payment>();

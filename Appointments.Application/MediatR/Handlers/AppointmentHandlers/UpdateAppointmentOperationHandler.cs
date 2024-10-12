@@ -22,14 +22,14 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
 		public async Task<UpdateAppointmentResponse> Handle(UpdateAppointmentRequest request, CancellationToken cancellationToken)
 		{
-			var Appointment = await AppointmentRepository.GetSingleAsync(x => x.Id == request.Appointment.Id);
+			var Appointment = await AppointmentRepository.GetSingleAsync(x => x.Id == request.UpdateDto.Id);
 
 			if (Appointment is null)
 			{
 				throw new Exception(Constants.USER_NOT_FOUND);
 			}
 
-			mapper.Map(request.Appointment, Appointment);
+			mapper.Map(request.UpdateDto, Appointment);
 
 			await AppointmentRepository.UpdateAsync(Appointment, cancellationToken);
 			await AppointmentRepository.CompleteAsync(cancellationToken);

@@ -1,3 +1,4 @@
+using Appointments.Application.MediatR.Handlers.AppointmentHandlers;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -58,7 +59,7 @@ namespace Appointments.WebAPI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("GetAllAppointmentsByExpression")]
-		public async Task<IActionResult> GetAllAppointmentsByExpression([FromBody] GetAllAppointmentsByExpressionRequest getAllAppointmentsByExpressionRequest)
+		public async Task<IActionResult> GetAllAppointmentsByExpression([FromBody] GetAppointmentsByDoctorAndDateRequest req)
 		{
 			var response = await mediatR.Send(getAllAppointmentsByExpressionRequest);
 			return Ok(response);

@@ -1,6 +1,9 @@
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
+using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
+using Appointments.Shared.Attributes;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 {
@@ -8,6 +11,6 @@ namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 
 	public class CreateAppointmentRequest : MediatRBaseRequest<CreateAppointmentResponse>
 	{
-		public Appointment Appointment { get; set; }
-	}
+        public CreateAppointmentDto CreateDto{ get; set; }
+    }
 }

@@ -6,6 +6,7 @@ using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using Appointments.Application.MediatR.Responses.UserReponses;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
@@ -22,7 +23,7 @@ namespace Appointments.Web.Pages.Admin
 		[Inject]
 		private IJSRuntime jsRuntime { get; set; }
 
-		private List<Appointment> Appointments = new List<Appointment>();
+		private List<GetAppointmentDto> Appointments = new List<GetAppointmentDto>();
 		private List<Client> Clients = new List<Client>();
 		private List<Clinic> Clinics = new List<Clinic>();
 		private List<User> Doctors = new List<User>();
@@ -94,8 +95,11 @@ namespace Appointments.Web.Pages.Admin
 			await GoToPage(0);
 		}
 
-		private async Task ConfirmDelete(Appointment Appointment)
+		private async Task ConfirmDelete(Guid Id)
 		{
+			var request2 = new GetAppointmentByIdRequest { Id = Id, RequesterId = Guid.Empty };
+			GetAppointmentDto appointment = await NetworkManager.SendAsync<GetAppointmentByIdRequest, GetAppointmentByIdResponse>(request2);
+
 			var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", Appointment.Client.Name  + " " + Appointment.Client.Surname + " isimli hastanın randevusunu Silmek İstedğinize Emin misiniz?");
 			if (confirmed)
 			{

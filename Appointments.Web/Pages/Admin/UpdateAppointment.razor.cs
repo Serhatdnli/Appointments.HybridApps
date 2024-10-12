@@ -1,24 +1,30 @@
 ﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using Appointments.Utility;
+using AutoMapper;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using System.Runtime.CompilerServices;
 
 namespace Appointments.Web.Pages.Admin
 {
 	public partial class UpdateAppointment : ComponentBase
 	{
+
+
 		[Parameter]
 		public string id { get; set; }
 
-		private Appointment Appointment { get; set; } = new Appointment();
-
+		[Inject]
+		private IMapper mapper { get; set; } // IMapper'ı burada enjekte ediyoruz
+		private UpdateAppointmentDto UpdateDto { get; set; } = new UpdateAppointmentDto();
 
 
 		protected override async Task OnInitializedAsync()
 		{
-			Console.WriteLine("alınan id değeri : " + id);
+			//Console.WriteLine("alınan id değeri : " + id);
 
 			var request = new GetAppointmentByIdRequest
 			{
@@ -26,7 +32,8 @@ namespace Appointments.Web.Pages.Admin
 			};
 
 			var response = await NetworkManager.SendAsync<GetAppointmentByIdRequest, GetAppointmentByIdResponse>(request);
-			Appointment = response.Appointment;
+			
+			UpdateDto = mapper.Map<UpdateAppointmentDto>(response.Appointment);
 			//ObjectWriter.Write(Appointment);
 		}
 
@@ -34,14 +41,14 @@ namespace Appointments.Web.Pages.Admin
 		{
 			var request = new UpdateAppointmentRequest
 			{
-				Appointment = Appointment,
+				UpdateDto = UpdateDto,
 			};
 
 
 			try
 			{
 				await NetworkManager.SendAsync<UpdateAppointmentRequest, UpdateAppointmentResponse>(request);
-				ShowMessage(ToastType.Primary, $"{Appointment.Client.Name} {Appointment.Client.Surname} isimli hastanın randevusu Başarılı Şekilde Güncellendi");
+				ShowMessage(ToastType.Primary, $"{UpdateDto.ClientId} id'li hastanın randevusu Başarılı Şekilde Güncellendi");
 			}
 			catch (Exception e)
 			{

@@ -1,10 +1,11 @@
-﻿using Appointments.Domain.Models;
+﻿using Appointments.Domain.Dtos.AppointmentDtos;
+using Appointments.Domain.Models;
 
 namespace Appointments.Application.MediatR.Responses.AppointmentResponses
 {
 	public class GetAppointmentByIdResponse : MediatRBaseResponse
 	{
-		public Appointment Appointment { get; set; }
+		public GetAppointmentDto Appointment { get; set; }
 	}
 
 }

@@ -1,20 +1,15 @@
 using Appointments.Application.Attributes;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Models;
-using System.Linq.Expressions;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 {
-	[NetworkAddress("Appointment/GetAllAppointmentsByExpression")]
+	[NetworkAddress("Appointment/GetAppointmentsByDoctorAndDateRequest")]
 
-	public class GetAllAppointmentsByExpressionRequest : MediatRBaseRequest<GetAllAppointmentsByExpressionResponse>
+	public class GetAppointmentsByDoctorAndDateRequest : MediatRBaseRequest<GetAppointmentsByDoctorAndDateResponse>
 	{
 		public int Index { get; set; }
 		public int Count { get; set; }
 		public Guid DoctorId { get; set; }
 		public DateTime Datetime { get; set; }
-
-		//public Expression<Func<Appointment, bool>> Expression { get; set; }
-
 	}
 }
