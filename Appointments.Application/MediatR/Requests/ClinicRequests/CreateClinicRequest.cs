@@ -7,6 +7,8 @@ namespace Appointments.Application.MediatR.Requests.ClinicRequests
 
 	public class CreateClinicRequest : MediatRBaseRequest<CreateClinicResponse>
 	{
-		public Clinic Clinic { get; set; }
+		public string Name { get; set; }
+		public int Minute { get; set; } = 0;
+
 	}
 }

@@ -21,7 +21,7 @@
 						</td>
 
 						<td>
-							<InputText @bind-Value:get="Clinic.Name" @bind-Value:set="(value) => {Clinic.Name= value; }" />
+							<InputText @bind-Value:get="CreateClinicRequest.Name" @bind-Value:set="(value) => {CreateClinicRequest.Name= value; }" />
 
 						</td>
 					</tr>
@@ -34,7 +34,7 @@
 						</td>
 
 						<td>
-							<input type="number" class="form-control" @onchange="@(e => {Clinic.Minute = Convert.ToInt32(e.Value);})" placeholder="Dakika" />
+							<input type="number" class="form-control" @onchange="@(e => {CreateClinicRequest.Minute = Convert.ToInt32(e.Value);})" placeholder="Dakika" />
 
 						</td>
 					</tr>

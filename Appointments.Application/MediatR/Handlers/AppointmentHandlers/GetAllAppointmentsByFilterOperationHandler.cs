@@ -4,7 +4,7 @@
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Dtos.AppointmentDtos;
+using Appointments.Domain.Dtos;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using AutoMapper;
@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 {
-	public class GetAllAppointmentsByFilterOperationHandler : IRequestHandler<GetAllAppointmentsByFilterRequest, GetAllAppointmentsByFilterResponse>
+    public class GetAllAppointmentsByFilterOperationHandler : IRequestHandler<GetAllAppointmentsByFilterRequest, GetAllAppointmentsByFilterResponse>
 	{
 		private readonly IAppointmentRepository AppointmentRepository;
 		private readonly IMapper mapper;
@@ -26,7 +26,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
 		public async Task<GetAllAppointmentsByFilterResponse> Handle(GetAllAppointmentsByFilterRequest request, CancellationToken cancellationToken)
 		{
-			List<GetAppointmentDto> Appointments;
+			List<AppointmentDto> Appointments;
 
 
 			var query = AppointmentRepository.GetQueryable();
@@ -35,7 +35,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 				.Include(x => x.Doctor).
 				 Include(x => x.Clinic)
 				.Include(x => x.Payments)
-				.Select(x => mapper.Map<GetAppointmentDto>(x)).ToListAsync();
+				.Select(x => mapper.Map<AppointmentDto>(x)).ToListAsync();
 			var count = filtered.Count();
 
 			if (request.Count > 0)

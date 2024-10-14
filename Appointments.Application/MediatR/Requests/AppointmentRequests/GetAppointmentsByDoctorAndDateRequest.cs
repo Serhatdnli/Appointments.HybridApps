@@ -3,7 +3,7 @@ using Appointments.Application.MediatR.Responses.AppointmentResponses;
 
 namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 {
-	[NetworkAddress("Appointment/GetAppointmentsByDoctorAndDateRequest")]
+	[NetworkAddress("Appointment/GetAppointmentsByDoctorAndDate")]
 
 	public class GetAppointmentsByDoctorAndDateRequest : MediatRBaseRequest<GetAppointmentsByDoctorAndDateResponse>
 	{

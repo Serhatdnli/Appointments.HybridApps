@@ -11,7 +11,7 @@ namespace Appointments.Infrastructure.Configrations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.CreateDate).ValueGeneratedOnAdd();
+            builder.Property<DateTime>(x => x.CreateDate).ValueGeneratedOnAdd();
         }
     }
 }

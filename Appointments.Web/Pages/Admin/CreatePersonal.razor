@@ -21,7 +21,7 @@
 						</td>
 
 						<td>
-							<InputText @bind-Value:get="User.Name" @bind-Value:set="(value) => {User.Name = value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.Name" @bind-Value:set="(value) => {CreateUserRequest.Name = value;}" />
 						</td>
 
 					</tr>
@@ -31,7 +31,7 @@
 						</td>
 
 						<td>
-							<InputText @bind-Value:get="User.Surname" @bind-Value:set="(value) => {User.Surname= value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.Surname" @bind-Value:set="(value) => {CreateUserRequest.Surname= value;}" />
 
 						</td>
 					</tr>
@@ -40,7 +40,7 @@
 							Email
 						</td>
 						<td>
-							<InputText @bind-Value:get="User.Email" @bind-Value:set="(value) => {User.Email = value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.Email" @bind-Value:set="(value) => {CreateUserRequest.Email = value;}" />
 
 						</td>
 					</tr>
@@ -49,7 +49,7 @@
 							Şifre
 						</td>
 						<td>
-							<InputText @bind-Value:get="User.Password" @bind-Value:set="(value) => {User.Password = value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.Password" @bind-Value:set="(value) => {CreateUserRequest.Password = value;}" />
 
 						</td>
 					</tr>
@@ -59,7 +59,7 @@
 							TC
 						</td>
 						<td>
-							<InputText @bind-Value:get="User.TcId" @bind-Value:set="(value) => {User.TcId = value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.TcId" @bind-Value:set="(value) => {CreateUserRequest.TcId = value;}" />
 
 						</td>
 					</tr>
@@ -69,7 +69,7 @@
 							Telefon
 						</td>
 						<td>
-							<InputText @bind-Value:get="User.PhoneNumber" @bind-Value:set="(value) => {User.PhoneNumber = value;}" />
+							<InputText @bind-Value:get="CreateUserRequest.PhoneNumber" @bind-Value:set="(value) => {CreateUserRequest.PhoneNumber = value;}" />
 
 						</td>
 					</tr>
@@ -78,7 +78,7 @@
 							Rol
 						</td>
 						<td>
-							<select @bind="User.Role">
+							<select @bind="CreateUserRequest.Role">
 								@foreach (var option in RoleOptions)
 								{
 									<option value="@option">@option.ToString()</option>

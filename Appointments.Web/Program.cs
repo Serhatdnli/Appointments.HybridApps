@@ -1,3 +1,4 @@
+using Appointments.Application.Mappers;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -15,10 +16,9 @@ namespace Appointments.Web
 
 
 			builder.Services.AddHttpClient();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-
-
-			await builder.Build().RunAsync();
+            await builder.Build().RunAsync();
 		}
 	}
 }

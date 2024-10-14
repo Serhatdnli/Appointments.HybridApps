@@ -9,7 +9,7 @@ namespace Appointments.Web.Pages.Admin
 {
 	public partial class CreateClinic : ComponentBase
 	{
-		private Clinic Clinic { get; set; } = new Clinic();
+		private CreateClinicRequest CreateClinicRequest { get; set; } = new();
 
 		private async Task CreateAsync()
 		{
@@ -20,7 +20,7 @@ namespace Appointments.Web.Pages.Admin
 				Index = 0,
 				Filter = new Clinic
 				{
-					Name = Clinic.Name,
+					Name = CreateClinicRequest.Name,
 				}
 			};
 
@@ -29,7 +29,7 @@ namespace Appointments.Web.Pages.Admin
 			{
 				foreach (var clinic in response.Clinics)
 				{
-					if (clinic.Name == Clinic.Name)
+					if (clinic.Name == CreateClinicRequest.Name)
 					{
 						ShowMessage(ToastType.Danger, "Daha önce bu isimde bir klinik eklenmiş");
 						return;
@@ -39,20 +39,10 @@ namespace Appointments.Web.Pages.Admin
 
 
 
-			CreateClinicRequest createRequest = new CreateClinicRequest
-			{
-				RequesterId = Guid.Empty,
-				Clinic = new Clinic
-				{
-					Name = Clinic.Name,
-					CreateDate = DateTime.Now
-				}
-			};
-
 			try
 			{
-				var response2 = await NetworkManager.SendAsync<CreateClinicRequest, CreateClinicResponse>(createRequest);
-				ShowMessage(ToastType.Primary, $" {Clinic.Name} isimli klinik başarıyla eklendi");
+				var response2 = await NetworkManager.SendAsync<CreateClinicRequest, CreateClinicResponse>(CreateClinicRequest);
+				ShowMessage(ToastType.Primary, $" {CreateClinicRequest.Name} isimli klinik başarıyla eklendi");
 			}
 			catch (Exception e)
 			{

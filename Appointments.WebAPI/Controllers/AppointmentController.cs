@@ -58,8 +58,8 @@ namespace Appointments.WebAPI.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		[Route("GetAllAppointmentsByExpression")]
-		public async Task<IActionResult> GetAllAppointmentsByExpression([FromBody] GetAppointmentsByDoctorAndDateRequest req)
+		[Route("GetAppointmentsByDoctorAndDate")]
+		public async Task<IActionResult> GetAppointmentsByDoctorAndDate([FromBody] GetAppointmentsByDoctorAndDateRequest getAllAppointmentsByExpressionRequest)
 		{
 			var response = await mediatR.Send(getAllAppointmentsByExpressionRequest);
 			return Ok(response);

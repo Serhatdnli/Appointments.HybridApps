@@ -7,10 +7,12 @@ using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using Appointments.Application.MediatR.Responses.UserReponses;
-using Appointments.Domain.Dtos.AppointmentDtos;
+using Appointments.Domain.Dtos;
 using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Utility;
+using Appointments.Utility.Helper;
+using Appointments.Utiliy.Helper;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 
@@ -18,12 +20,12 @@ namespace Appointments.Web.Pages.Admin
 {
 	public partial class CreateAppointment : ComponentBase
 	{
-		private CreateAppointmentDto CreateDto { get; set; } = new ()
+		private CreateAppointmentRequest CreateRequest { get; set; } = new()
 		{
 			AppointmentTime = DateTime.Now
 		};
 
-		private List<GetAppointmentDto> Appointments { get; set; } = new();
+		private List<AppointmentDto> Appointments { get; set; } = new();
 		private List<Clinic> Clinics = new();
 		private List<Client> Clients = new();
 		private List<User> Doctors = new();
@@ -32,39 +34,14 @@ namespace Appointments.Web.Pages.Admin
 		private User Doctor;
 		private Client Client;
 
+
 		private List<DateTime> emptyHours { get; set; } = new();
 
 		private async void UpdateEmptyHours()
 		{
-			emptyHours.Clear();
+			emptyHours = await AppointmentHelper.GetEmptyHours(CreateRequest.DoctorId, CreateRequest.AppointmentTime);
 
-			var request = new GetAppointmentsByDoctorAndDateRequest
-			{
-				Count = 0,
-				Index = 0,
-				DoctorId = CreateDto.DoctorId,
-				Datetime = CreateDto.AppointmentTime.Date,
-			};
-
-			var response = await NetworkManager.SendAsync<GetAppointmentsByDoctorAndDateRequest, GetAppointmentsByDoctorAndDateResponse>(request);
-			if (response != null)
-			{
-				Appointments = response.Appointments;
-			}
-
-			DateTime currentTime = new DateTime(year: CreateDto.AppointmentTime.Year, month: CreateDto.AppointmentTime.Month, day: CreateDto.AppointmentTime.Day, hour: 9, minute: 0, second: 0);
-
-			//Console.WriteLine("Appointments Count : " + Appointments.Count);
-
-			for (int i = 0; i < 18; i++)
-			{
-				var fuckingAppointments = Appointments.Where(x => x.AppointmentTime <= currentTime && x.AppointmentFinishTime >= currentTime).ToList();
-				if (fuckingAppointments is null || fuckingAppointments.Count == 0)
-					emptyHours.Add(currentTime);
-
-				currentTime = currentTime.AddMinutes(30);
-			}
-			CreateDto.AppointmentTime = emptyHours.FirstOrDefault();
+			CreateRequest.AppointmentTime = emptyHours.FirstOrDefault();
 			StateHasChanged();
 		}
 
@@ -73,14 +50,15 @@ namespace Appointments.Web.Pages.Admin
 		protected override async Task OnInitializedAsync()
 		{
 
-			Doctors = await GetDoctors();
-			Clinics = await GetClinics();
-			Clients = await GetClients();
+
+			Doctors = await UserHelper.GetAllDoctors();
+			Clinics = await ClinicHelper.GetAllClinics();
+			Clients = await ClientHelper.GetAllClients();
 
 
-			CreateDto.ClinicId = Clinics.FirstOrDefault().Id;
-			CreateDto.DoctorId = Doctors.FirstOrDefault().Id;
-			CreateDto.ClientId = Clients.FirstOrDefault().Id;
+			CreateRequest.ClinicId = Clinics.FirstOrDefault().Id;
+			CreateRequest.DoctorId = Doctors.FirstOrDefault().Id;
+			CreateRequest.ClientId = Clients.FirstOrDefault().Id;
 
 			Clinic = Clinics.FirstOrDefault();
 			Doctor = Doctors.FirstOrDefault();
@@ -89,60 +67,15 @@ namespace Appointments.Web.Pages.Admin
 			UpdateEmptyHours();
 		}
 
-		private async Task<List<Client>> GetClients()
-		{
-			var request = new GetAllClientsRequest
-			{
-				Count = 0,
-				Index = 0,
-			};
-
-			var response = await NetworkManager.SendAsync<GetAllClientsRequest, GetAllClientsResponse>(request);
-			return response.Clients;
-		}
-
-		private async Task<List<Clinic>> GetClinics()
-		{
-			var request = new GetAllClinicsRequest
-			{
-				Count = 0,
-				Index = 0,
-			};
-
-			var response = await NetworkManager.SendAsync<GetAllClinicsRequest, GetAllClinicsResponse>(request);
-			return response.Clinics;
-		}
-
-		private async Task<List<User>> GetDoctors()
-		{
-			var request = new GetAllUsersByFilterRequest
-			{
-				Count = 0,
-				Index = 0,
-				Filter = new User
-				{
-					Role = UserRoleType.Doctor
-				}
-			};
-
-			var response = await NetworkManager.SendAsync<GetAllUsersByFilterRequest, GetAllUsersByFilterResponse>(request);
-			return response.Users;
-		}
-
 		private async Task CreateAsync()
 		{
-			CreateDto.CreateDate = DateTime.Now;
 			//Console.WriteLine("Clinic : " + Clinic.Minute);
-			CreateDto.AppointmentFinishTime = CreateDto.AppointmentTime.AddMinutes(Clinic.Minute);
-			CreateAppointmentRequest request = new CreateAppointmentRequest
-			{
-				CreateDto = CreateDto,
-				RequesterId = Guid.Empty
-			};
+			CreateRequest.AppointmentFinishTime = CreateRequest.AppointmentTime.AddMinutes(Clinic.Minute);
+
 
 			try
 			{
-				var response = await NetworkManager.SendAsync<CreateAppointmentRequest, CreateAppointmentResponse>(request);
+				var response = await NetworkManager.SendAsync<CreateAppointmentRequest, CreateAppointmentResponse>(CreateRequest);
 
 				if (response is not null)
 					ShowMessage(ToastType.Primary, $" {Client.Name} isimli hastanın randevusu Başarılı Şekilde Eklendi");

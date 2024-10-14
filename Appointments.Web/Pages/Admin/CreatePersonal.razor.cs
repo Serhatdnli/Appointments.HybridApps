@@ -10,21 +10,14 @@ namespace Appointments.Web.Pages.Admin
 {
     public partial class CreatePersonal : ComponentBase
 	{
-        private User User { get; set; } = new User();
+        private CreateUserRequest CreateUserRequest { get; set; } = new();
 		private List<UserRoleType> RoleOptions => Enum.GetValues(typeof(UserRoleType)).Cast<UserRoleType>().ToList();
 		private async Task CreateAsync()
         {
-            User.CreateDate = DateTime.Now;
-            CreateUserRequest request = new CreateUserRequest
-            {
-                User = User,
-                RequesterId = Guid.Empty
-            };
-
             try
             {
-                var response = await NetworkManager.SendAsync<CreateUserRequest, CreateUserResponse>(request);
-                ShowMessage(ToastType.Primary , $"{User.Name} {User.Surname} Personeli Başarılı Şekilde Eklendi");
+                var response = await NetworkManager.SendAsync<CreateUserRequest, CreateUserResponse>(CreateUserRequest);
+                ShowMessage(ToastType.Primary , $"{CreateUserRequest.Name} {CreateUserRequest.Surname} Personeli Başarılı Şekilde Eklendi");
             }
             catch (Exception e)
             {

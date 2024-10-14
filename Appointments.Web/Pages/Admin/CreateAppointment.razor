@@ -21,7 +21,7 @@
 						</td>
 
 						<td>
-							 <select @onchange="@(e => {  Appointment.DoctorId = Guid.Parse(e.Value.ToString()); UpdateEmptyHours();})">
+							<select @onchange="@(e => {  CreateRequest.DoctorId = Guid.Parse(e.Value.ToString()); UpdateEmptyHours();})">
 								@foreach (var option in Doctors)
 								{
 									<option value="@option.Id">@option.Name @option.Surname </option>
@@ -37,7 +37,7 @@
 						</td>
 
 						<td>
-							<select @bind="Appointment.ClinicId">
+							<select @bind="CreateRequest.ClinicId">
 								@foreach (var option in Clinics)
 								{
 									<option value="@option.Id">@option.Name</option>
@@ -53,7 +53,7 @@
 						</td>
 
 						<td>
-							<select @bind="Appointment.ClientId">
+							<select @bind="CreateRequest.ClientId">
 								@foreach (var option in Clients)
 								{
 									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
@@ -75,8 +75,8 @@
 								DateTime result;
 								bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
 								if(isValidDate){
-									Appointment.AppointmentTime = result;
-									Console.WriteLine("Tarih setlendi : " + Appointment.AppointmentTime);
+									CreateRequest.AppointmentTime = result;
+									Console.WriteLine("Tarih setlendi : " + CreateRequest.AppointmentTime);
 									UpdateEmptyHours();
 								}
 							})" placeholder="Randevu Tarihi" />
@@ -91,7 +91,7 @@
 
 						<td>
 							
-							<select @bind="Appointment.AppointmentTime">
+							<select @bind="CreateRequest.AppointmentTime">
 								@foreach (var option in emptyHours)
 								{
 									<option value="@option"> @option.ToString("HH:mm") </option>
@@ -108,7 +108,7 @@
 
 						<td>
 
-							<input class="form-control" @onchange="@(e => Appointment.Notes = e.Value.ToString())" placeholder="Not" />
+							<input class="form-control" @onchange="@(e => CreateRequest.Notes = e.Value.ToString())" placeholder="Not" />
 
 						</td>
 					</tr>
@@ -121,7 +121,7 @@
 
 						<td>
 
-							<input type="number" class="form-control" @onchange="@(e =>  Appointment.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
+							<input type="number" class="form-control" @onchange="@(e =>  CreateRequest.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
 
 						</td>
 					</tr>

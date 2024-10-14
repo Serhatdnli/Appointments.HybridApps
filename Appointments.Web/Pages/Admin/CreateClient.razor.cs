@@ -9,20 +9,14 @@ namespace Appointments.Web.Pages.Admin
 {
     public partial class CreateClient : ComponentBase
     {
-        private Client Client { get; set; } = new Client();
+        private CreateClientRequest CreateClientRequest { get; set; } = new ();
         private async Task CreateAsync()
         {
-            Client.CreateDate = DateTime.Now;
-            CreateClientRequest request = new CreateClientRequest
-            {
-                Client = Client,
-                RequesterId = Guid.Empty
-            };
 
             try
             {
-                var response = await NetworkManager.SendAsync<CreateClientRequest, CreateClientResponse>(request);
-                ShowMessage(ToastType.Primary, $"{Client.Name} {Client.Surname} Isimli Hasta Başarılı Şekilde Eklendi");
+                var response = await NetworkManager.SendAsync<CreateClientRequest, CreateClientResponse>(CreateClientRequest);
+                ShowMessage(ToastType.Primary, $"{CreateClientRequest.Name} {CreateClientRequest.Surname} Isimli Hasta Başarılı Şekilde Eklendi");
             }
             catch (Exception e)
             {
