@@ -18,6 +18,7 @@
                     <th scope="col">Notlar</th>
                     <th scope="col">Fiyat</th>
                     <th scope="col">Randevu Tarihi</th>
+                    <th scope="col">Randevu Bitiş Tarihi</th>
                     <th scope="col">Randevu Oluşturma Tarihi</th>
                     <th scope="col">Ödendi Bilgisi</th>
                     <th scope="col">Ödemeler</th>
@@ -77,6 +78,11 @@
                     </td>
 
                     <td>
+                        -
+
+                    </td>
+
+                    <td>
                         <input type="date" class="form-control" placeholder="Randevu Oluşturma Tarihi" value="@DateTime.Now.ToString("yyyy-MM-dd")" @onchange="@(e =>
 						{
 							DateTime result;
@@ -120,8 +126,9 @@
                         <td>@data.Clinic?.Name</td>
                         <td>@data.Notes</td>
                         <td>@data.Price</td>
-                        <td>@data.AppointmentTime</td>
-                        <td>@data.CreateDate</td>
+                        <td>@data.AppointmentTime.ToString("dd:MM:yyyy HH:mm")</td>
+                        <td>@data.AppointmentFinishTime.ToString("dd:MM:yyyy HH:mm")</td>
+                        <td>@data.CreateDate.ToString("dd:MM:yyyy HH:mm")</td>
                         <td>@data.IsPayed.ToString()</td>
                         <td>
 

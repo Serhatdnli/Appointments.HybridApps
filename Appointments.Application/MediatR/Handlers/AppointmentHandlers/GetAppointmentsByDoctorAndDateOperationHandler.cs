@@ -25,7 +25,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 		{
 			List<AppointmentDto> Appointments;
 
-			var query = await AppointmentRepository.GetQueryable(x=> x.DoctorId == request.DoctorId && x.AppointmentTime.Date == request.Datetime)
+			var query = await AppointmentRepository.GetQueryable(x=> x.DoctorId == request.DoctorId && x.AppointmentTime.Date == request.Datetime.Date)
 				.Include(x=> x.Client)
 				.Include(x => x.Doctor)
 				.Include(x => x.Clinic )

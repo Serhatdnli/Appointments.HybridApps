@@ -1,6 +1,7 @@
 ﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Domain.Dtos;
+using Appointments.Shared.Extensions;
 using Appointments.Utility;
 
 namespace Appointments.Utiliy.Helper
@@ -23,6 +24,8 @@ namespace Appointments.Utiliy.Helper
             if (response != null)
             {
                 appointments = response.Appointments;
+                Console.WriteLine("----- Randevular  -------");
+                response.Appointments.ToJson();
             }
 
             DateTime currentTime = new DateTime(year: date.Year, month: date.Month, day: date.Day, hour: 9, minute: 0, second: 0);
