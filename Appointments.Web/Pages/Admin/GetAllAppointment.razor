@@ -126,8 +126,8 @@
                         <td>@data.Clinic?.Name</td>
                         <td>@data.Notes</td>
                         <td>@data.Price</td>
-                        <td>@data.AppointmentTime.ToString("dd:MM:yyyy HH:mm")</td>
-                        <td>@data.AppointmentFinishTime.ToString("dd:MM:yyyy HH:mm")</td>
+                        <td>@data.AppointmentTime.ToString("dd:MM:yyyy  HH:mm")</td>
+                        <td>@data.AppointmentFinishTime.ToString("dd:MM:yyyy  HH:mm")</td>
                         <td>@data.CreateDate.ToString("dd:MM:yyyy HH:mm")</td>
                         <td>@data.IsPayed.ToString()</td>
                         <td>
@@ -216,7 +216,5 @@
 
 @if (isEditAppointment)
 {
-
-
-    <UpdateAppointment Appointment="editedAppointment" CloseAction="()=>{EditAppointment(null,false);}"></UpdateAppointment>
+    <UpdateAppointment appointment="editedAppointment" CloseAction="()=>{EditAppointment(null,false);}"></UpdateAppointment>
 }

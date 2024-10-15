@@ -1,5 +1,6 @@
 ﻿@page "/admin/createappointment"
 
+@using Appointments.Domain.Models
 @using Microsoft.AspNetCore.Components.Forms;
 
 
@@ -21,8 +22,8 @@
 						</td>
 
 						<td>
-							<select @onchange="@(e => {  CreateRequest.DoctorId = Guid.Parse(e.Value.ToString()); UpdateEmptyHours();})">
-								@foreach (var option in Doctors)
+							<select @onchange="@(e => { SetDoctorByDoctorId(e.Value.ToString()); })">
+								@foreach (var option in doctors)
 								{
 									<option value="@option.Id">@option.Name @option.Surname </option>
 								}
@@ -37,8 +38,8 @@
 						</td>
 
 						<td>
-							<select @bind="CreateRequest.ClinicId">
-								@foreach (var option in Clinics)
+							<select  @onchange="(e => {SetClinicByClinicId(e.Value.ToString()); })" >
+								@foreach (var option in clinics)
 								{
 									<option value="@option.Id">@option.Name</option>
 								}
@@ -53,10 +54,10 @@
 						</td>
 
 						<td>
-							<select @bind="CreateRequest.ClientId">
-								@foreach (var option in Clients)
+							<select @onchange="(e => {SetClientByClientId(e.Value.ToString());})">
+								@foreach (var option in clients)
 								{
-									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
+									<option value="@option">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
 								}
 							</select>
 
@@ -75,8 +76,8 @@
 								DateTime result;
 								bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
 								if(isValidDate){
-									CreateRequest.AppointmentTime = result;
-									Console.WriteLine("Tarih setlendi : " + CreateRequest.AppointmentTime);
+									createRequest.AppointmentTime = result;
+									Console.WriteLine("Tarih setlendi : " + createRequest.AppointmentTime);
 									UpdateEmptyHours();
 								}
 							})" placeholder="Randevu Tarihi" />
@@ -91,7 +92,7 @@
 
 						<td>
 							
-							<select @bind="CreateRequest.AppointmentTime">
+							<select @bind="createRequest.AppointmentTime">
 								@foreach (var option in emptyHours)
 								{
 									<option value="@option"> @option.ToString("HH:mm") </option>
@@ -108,7 +109,7 @@
 
 						<td>
 
-							<input class="form-control" @onchange="@(e => CreateRequest.Notes = e.Value.ToString())" placeholder="Not" />
+							<input class="form-control" @onchange="@(e => createRequest.Notes = e.Value.ToString())" placeholder="Not" />
 
 						</td>
 					</tr>
@@ -121,7 +122,7 @@
 
 						<td>
 
-							<input type="number" class="form-control" @onchange="@(e =>  CreateRequest.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
+							<input type="number" class="form-control" @onchange="@(e =>  createRequest.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
 
 						</td>
 					</tr>

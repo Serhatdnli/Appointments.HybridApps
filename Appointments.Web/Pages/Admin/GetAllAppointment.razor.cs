@@ -11,6 +11,7 @@ using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using Appointments.Utility;
+using AutoMapper;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,7 +24,10 @@ namespace Appointments.Web.Pages.Admin
         [Inject]
         private IJSRuntime jsRuntime { get; set; }
 
-        private List<AppointmentDto> Appointments = new List<AppointmentDto>();
+		[Inject]
+		private IMapper mapper{ get; set; }
+
+		private List<AppointmentDto> Appointments = new List<AppointmentDto>();
         private List<Client> Clients = new List<Client>();
         private List<Clinic> Clinics = new List<Clinic>();
         private List<User> Doctors = new List<User>();
@@ -117,7 +121,7 @@ namespace Appointments.Web.Pages.Admin
 
         private void EditAppointment(AppointmentDto appointment,bool isOpen)
         {
-            editedAppointment = appointment;
+            editedAppointment = mapper.Map<AppointmentDto>(appointment);
 			isEditAppointment = isOpen;
             
             StateHasChanged();

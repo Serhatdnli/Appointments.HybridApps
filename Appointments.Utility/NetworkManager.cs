@@ -12,7 +12,6 @@ namespace Appointments.Utility
         public async static Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request) where TResponse : MediatRBaseResponse where TRequest : MediatRBaseRequest<TResponse>
         {
 
-
             using (var httpClient = new HttpClient())
             {
                 string jsonString = JsonConvert.SerializeObject(request ,new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore ,ReferenceLoopHandling = ReferenceLoopHandling.Ignore});

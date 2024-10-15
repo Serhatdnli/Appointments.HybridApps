@@ -1,47 +1,40 @@
-﻿using Appointments.Application.MediatR.Handlers.AppointmentHandlers;
-using Appointments.Application.MediatR.Requests.AppointmentRequests;
-using Appointments.Application.MediatR.Requests.ClientRequests;
-using Appointments.Application.MediatR.Requests.ClinicRequests;
-using Appointments.Application.MediatR.Requests.UserRequests;
+﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Application.MediatR.Responses.ClientResponses;
-using Appointments.Application.MediatR.Responses.ClinicResponses;
-using Appointments.Application.MediatR.Responses.UserReponses;
 using Appointments.Domain.Dtos;
-using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Utility;
 using Appointments.Utility.Helper;
 using Appointments.Utiliy.Helper;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Appointments.Web.Pages.Admin
 {
 	public partial class CreateAppointment : ComponentBase
 	{
-		private CreateAppointmentRequest CreateRequest { get; set; } = new()
+		private CreateAppointmentRequest createRequest { get; set; } = new()
 		{
 			AppointmentTime = DateTime.Now
 		};
 
-		private List<AppointmentDto> Appointments { get; set; } = new();
-		private List<Clinic> Clinics = new();
-		private List<Client> Clients = new();
-		private List<User> Doctors = new();
-
-		private Clinic Clinic;
-		private User Doctor;
-		private Client Client;
-
+		private List<AppointmentDto> appointments { get; set; } = new();
+		private List<Clinic> clinics = new();
+		private List<Client> clients = new();
+		private List<User> doctors = new();
 
 		private List<DateTime> emptyHours { get; set; } = new();
 
+		Client selectedClient;
+		Clinic selectedClinic;
+		User selectedDoctor;
+
 		private async void UpdateEmptyHours()
 		{
-			emptyHours = await AppointmentHelper.GetEmptyHours(CreateRequest.DoctorId, CreateRequest.AppointmentTime);
+			emptyHours = await AppointmentHelper.GetEmptyHours(createRequest.DoctorId, createRequest.AppointmentTime, selectedClinic.Minute);
 
-			CreateRequest.AppointmentTime = emptyHours.FirstOrDefault();
+			createRequest.AppointmentTime = emptyHours.FirstOrDefault();
 			StateHasChanged();
 		}
 
@@ -50,19 +43,13 @@ namespace Appointments.Web.Pages.Admin
 		protected override async Task OnInitializedAsync()
 		{
 
+			doctors = await UserHelper.GetAllDoctors();
+			clinics = await ClinicHelper.GetAllClinics();
+			clients = await ClientHelper.GetAllClients();
 
-			Doctors = await UserHelper.GetAllDoctors();
-			Clinics = await ClinicHelper.GetAllClinics();
-			Clients = await ClientHelper.GetAllClients();
-
-
-			CreateRequest.ClinicId = Clinics.FirstOrDefault().Id;
-			CreateRequest.DoctorId = Doctors.FirstOrDefault().Id;
-			CreateRequest.ClientId = Clients.FirstOrDefault().Id;
-
-			Clinic = Clinics.FirstOrDefault();
-			Doctor = Doctors.FirstOrDefault();
-			Client = Clients.FirstOrDefault();
+			createRequest.ClinicId = clinics.FirstOrDefault().Id;
+			createRequest.DoctorId = doctors.FirstOrDefault().Id;
+			createRequest.ClientId = clients.FirstOrDefault().Id;
 
 			UpdateEmptyHours();
 		}
@@ -70,15 +57,15 @@ namespace Appointments.Web.Pages.Admin
 		private async Task CreateAsync()
 		{
 			//Console.WriteLine("Clinic : " + Clinic.Minute);
-			CreateRequest.AppointmentFinishTime = CreateRequest.AppointmentTime.AddMinutes(Clinic.Minute);
+			createRequest.AppointmentFinishTime = createRequest.AppointmentTime.AddMinutes(selectedClinic.Minute);
 
 
 			try
 			{
-				var response = await NetworkManager.SendAsync<CreateAppointmentRequest, CreateAppointmentResponse>(CreateRequest);
+				var response = await NetworkManager.SendAsync<CreateAppointmentRequest, CreateAppointmentResponse>(createRequest);
 
 				if (response is not null)
-					ShowMessage(ToastType.Primary, $" {Client.Name} isimli hastanın randevusu Başarılı Şekilde Eklendi");
+					ShowMessage(ToastType.Primary, $" {selectedClient.Name} isimli hastanın randevusu Başarılı Şekilde Eklendi");
 
 				else
 				{
@@ -105,6 +92,27 @@ namespace Appointments.Web.Pages.Admin
 			HelpText = $"{DateTime.Now}",
 			Message = text,
 		};
+
+		private void SetDoctorByDoctorId(string doctorId)
+		{
+			createRequest.DoctorId = Guid.Parse(doctorId);
+			selectedDoctor = doctors.Where(x => x.Id == Guid.Parse(doctorId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
+
+		private void SetClinicByClinicId(string clinicId)
+		{
+			createRequest.ClinicId = Guid.Parse(clinicId);
+			selectedClinic = clinics.Where(x => x.Id == Guid.Parse(clinicId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
+
+		private void SetClientByClientId(string clientId)
+		{
+			createRequest.ClientId = Guid.Parse(clientId);
+			selectedClient = clients.Where(x => x.Id == Guid.Parse(clientId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
 
 	}
 }

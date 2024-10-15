@@ -8,110 +8,146 @@
 <Toasts class="p-3" Messages="messages" Placement="ToastsPlacement.TopRight" />
 
 <div class="offcanvas offcanvas-start show" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @onclick="CloseAction"></button>
-    </div>
-    <div class="offcanvas-body">
-        <h3>Randevu Güncelle</h3>
-        <div class="row">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @onclick="CloseAction"></button>
+	</div>
+	<div class="offcanvas-body">
+		<h3>Randevu Güncelle</h3>
+		<div class="row">
 
-            <div class="col-12 align-items-center">
-                <div class="table-responsive ">
-                    <table class="table table-hover table-bordered table-striped">
+			<div class="col-12 align-items-center">
+				<div class="table-responsive ">
+					<table class="table table-hover table-bordered table-striped">
 
-                        <tbody>
-                            <!-- Statik Satır -->
-                            <tr>
-                                <td>
-                                    Doktor
-                                </td>
+						<tbody>
+							<!-- Statik Satır -->
+							<tr>
+								<td>
+									Doktor
+								</td>
 
-                                <td>
-                                    <select class="form-control" @onchange="@(e => {   Console.WriteLine("ILHANISIKMEMECOKAZKALDI");  ObjectWriter.Write((User?)e.Value); Appointment.Doctor = (User?)e.Value ; UpdateEmptyHours();})">
-                                        @foreach (var option in Doctors)
-                                        {
-                                            <option value="@option" selected="@(option.Id == Appointment.Doctor.Id)">@option.Name @option.Surname</option>
-                                        }
-                                    </select>
-                                </td>
+								<td>
+									<select class="form-control" @onchange="@(e => { appointment.Doctor = (User)e.Value; UpdateEmptyHours();})">
+										@foreach (var option in doctors)
+										{
+											<option value="@option" selected="@(option.Id == appointment.Doctor.Id)">@option.Name @option.Surname</option>
+										}
+									</select>
+								</td>
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    Klinik
-                                </td>
+							</tr>
+							<tr>
+								<td>
+									Klinik
+								</td>
 
-                                <td>
-                                    <select class="form-control" @onchange="@(e => { Appointment.Clinic = (Clinic)e.Value; UpdateEmptyHours();})">
-                                        @foreach (var option in Clinics)
-                                        {
-                                            <option value="@option" selected="@(option.Id == Appointment.Clinic.Id)">@option.Name</option>
-                                        }
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Client
-                                </td>
-                                <td>
-                                    <select class="form-control" @onchange="@(e => { Appointment.Client = (Client)e.Value; })">
-                                        @foreach (var option in Clients)
-                                        {
-                                            <option value="@option" selected="@(option.Id == Appointment.Client.Id)">@option.Name @option.Surname {@option.TcId}</option>
-                                        }
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Randevu Saati
-                                </td>
-                                <td>
-                                    <select class="form-control" @onchange="@(e => { Appointment.AppointmentTime = (DateTime)e.Value; })">
-                                        @foreach (var option in emptyHours)
-                                        {
-                                            <option value="@option" selected="@(option == Appointment.AppointmentTime)">@option.ToString("HH:mm")</option>
-                                        }
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    Note
-                                </td>
-                                <td>
-                                    <input class="form-control" @bind="@Appointment.Notes" />
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    Price
-                                </td>
-                                <td>
-                                    <input class="form-control" type="number" @bind="@Appointment.Price" />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="2">
-                                    <Button Class="col-12" Color="ButtonColor.Success" @onclick="() => UpdateAsync()">
-                                        Güncelle
-                                    </Button>
-                                </td>
-                            </tr>
+								<td>
+									<select class="form-control" @onchange="@(e => { appointment.Clinic = (Clinic)e.Value; UpdateEmptyHours();})">
+										@foreach (var option in clinics)
+										{
+											<option value="@option" selected="@(option.Id == appointment.Clinic.Id)">@option.Name (@option.Minute)</option>
+										}
+									</select>
+								</td>
+							</tr>
 
 
-                        </tbody>
-                    </table>
-                </div>
 
-            </div>
+							<tr>
+								<td>
+									Client
+								</td>
+								<td>
+									<select class="form-control" @onchange="@(e => { appointment.Client = (Client)e.Value; })">
+										@foreach (var option in clients)
+										{
+											<option value="@option" selected="@(option.Id == appointment.Client.Id)">@option.Name @option.Surname {@option.TcId}</option>
+										}
+									</select>
+								</td>
+							</tr>
 
 
-        </div>
-    </div>
+							<tr>
+								<td>
+									Tarih
+								</td>
+
+								<td>
+								@* 	@if (Appointment == null)
+									{
+										Console.WriteLine("Boş geldi tarih");
+										<p> Appointment Boş </p>
+									}
+									else
+									{
+										Console.WriteLine("AppointmentTime : " + Appointment.AppointmentTime);
+										<p> Appointment Dolu </p>
+									} *@
+
+									<input type="date" class="form-control" value="@((appointment == null) ? DateTime.Now.ToString("yyyy-MM-dd") : appointment.AppointmentTime.ToString("yyyy-MM-dd"))" @onchange="@(e =>
+							        {
+								        DateTime result;
+								        bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
+								        if(isValidDate){
+									        appointment.AppointmentTime = result;
+									        Console.WriteLine("Tarih setlendi : " + appointment.AppointmentTime);
+									        UpdateEmptyHours();
+								        }
+							        })" placeholder="Randevu Tarihi" />
+
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									Randevu Saati
+								</td>
+								<td>
+									<select class="form-control" @onchange="@(e => { appointment.AppointmentTime = DateTime.Parse(e.Value.ToString()); })">
+										@foreach (var option in emptyHours)
+										{
+											<option value="@option.ToString()" selected="@(option == appointment.AppointmentTime)">@option.ToString("HH:mm")</option>
+										}
+									</select>
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									Note
+								</td>
+								<td>
+									<input class="form-control" @bind="@appointment.Notes" />
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									Price
+								</td>
+								<td>
+									<input class="form-control" type="number" @bind="@appointment.Price" />
+								</td>
+							</tr>
+
+							<tr>
+								<td colspan="2">
+									<Button Class="col-12" Color="ButtonColor.Success" @onclick="() => UpdateAsync()">
+										Güncelle
+									</Button>
+								</td>
+							</tr>
+
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
 </div>

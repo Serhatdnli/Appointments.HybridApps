@@ -1,47 +1,71 @@
 ﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Domain.Dtos;
+using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using Appointments.Utility;
 
 namespace Appointments.Utiliy.Helper
 {
-    public static class AppointmentHelper
-    {
-        public static async Task<List<DateTime>> GetEmptyHours(Guid DocId, DateTime date, (Guid, DateTime) editedAppointmentInfos = default)
-        {
-            List<AppointmentDto> appointments = new();
-            List<DateTime> emptyHours = new();
-            var request = new GetAppointmentsByDoctorAndDateRequest
-            {
-                Count = 0,
-                Index = 0,
-                DoctorId = DocId,
-                Datetime = date,
-            };
+	public static class AppointmentHelper
+	{
+		public static async Task<List<DateTime>> GetEmptyHours(Guid DocId, DateTime appointmentDate, int clinicDuration,  Guid? appointmentId = null) // eğer appointmentId girilirse, o appointmentin oldugu saatide boş geçer
+		{
+			List<AppointmentDto> appointments = new();
+			List<DateTime> emptyHours = new();
+			var request = new GetAppointmentsByDoctorAndDateRequest
+			{
+				Count = 0,
+				Index = 0,
+				DoctorId = DocId,
+				Datetime = appointmentDate,
+			};
 
-            var response = await NetworkManager.SendAsync<GetAppointmentsByDoctorAndDateRequest, GetAppointmentsByDoctorAndDateResponse>(request);
-            if (response != null)
-            {
-                appointments = response.Appointments;
-                Console.WriteLine("----- Randevular  -------");
-                response.Appointments.ToJson();
-            }
+			var response = await NetworkManager.SendAsync<GetAppointmentsByDoctorAndDateRequest, GetAppointmentsByDoctorAndDateResponse>(request);
+			if (response != null)
+			{
+				appointments = response.Appointments;
 
-            DateTime currentTime = new DateTime(year: date.Year, month: date.Month, day: date.Day, hour: 9, minute: 0, second: 0);
+				if(appointmentId != null)
+				{
+					var appointmentToRemove = appointments.FirstOrDefault(a => a.Id == appointmentId);
+					if (appointmentToRemove != null)
+					{
+						appointments.Remove(appointmentToRemove);
+					}
+				}
+				//Console.WriteLine("----- Randevular  -------");
+				//response.Appointments.ToJson();
+			}
 
-            //Console.WriteLine("Appointments Count : " + Appointments.Count);
+			DateTime currentTime = new DateTime(year: appointmentDate.Year, month: appointmentDate.Month, day: appointmentDate.Day, hour: 9, minute: 0, second: 0);
 
-            for (int i = 0; i < 18; i++)
-            {
-                var emptyAppointments = appointments.Where(x => (x.Client.Id == editedAppointmentInfos.Item1 && x.AppointmentTime == editedAppointmentInfos.Item2) || (x.AppointmentTime <= currentTime && x.AppointmentFinishTime >= currentTime)).ToList();
-                if (emptyAppointments is null || emptyAppointments.Count == 0)
-                    emptyHours.Add(currentTime);
+			//Console.WriteLine("Appointments Count : " + Appointments.Count);
 
-                currentTime = currentTime.AddMinutes(30);
-            }
+			for (int i = 0; i < 18; i++)
+			{
+				List<AppointmentDto> tempAppointments;
+				bool appointmentStartTimeInOtherAppointments = true ;
+				bool appointmentFinsihTimeInOtherAppointments = true ;
 
-            return emptyHours;
-        }
-    }
+				tempAppointments = appointments.Where(x => x.AppointmentTime <= currentTime && x.AppointmentFinishTime >= currentTime).ToList();
+
+				if (tempAppointments is null || tempAppointments.Count == 0)
+					appointmentStartTimeInOtherAppointments = false;
+
+				tempAppointments = appointments.Where(x => x.AppointmentTime <= currentTime.AddMinutes(clinicDuration) && x.AppointmentFinishTime >= currentTime.AddMinutes(clinicDuration)).ToList();
+				if (tempAppointments is null || tempAppointments.Count == 0)
+					appointmentFinsihTimeInOtherAppointments = false;
+
+				if(!appointmentStartTimeInOtherAppointments && !appointmentFinsihTimeInOtherAppointments)
+				{
+					emptyHours.Add(currentTime);
+				}
+
+					currentTime = currentTime.AddMinutes(30);
+			}
+
+			return emptyHours;
+		}
+	}
 }

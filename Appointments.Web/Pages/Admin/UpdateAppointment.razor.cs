@@ -14,60 +14,80 @@ namespace Appointments.Web.Pages.Admin
     public partial class UpdateAppointment : ComponentBase
     {
         [Parameter]
-        public AppointmentDto Appointment { get; set; }
+        public AppointmentDto appointment { get; set; }
 
         [Parameter]
         public Action CloseAction { get; set; }
-        private List<Clinic> Clinics = new();
-        private List<Client> Clients = new();
-        private List<User> Doctors = new();
-
-        private List<DateTime> emptyHours = new();
-
-        private Client oldClient;
-
 
         [Inject]
         private IMapper mapper { get; set; } // IMapper'ı burada enjekte ediyoruz
 
+        private List<Clinic> clinics = new();
+        private List<Client> clients = new();
+        private List<User> doctors = new();
+
+        private List<DateTime> emptyHours = new();
+
+        private DateTime firstAppointmenTime;
+
+
+
+		protected override async Task OnParametersSetAsync()
+		{
+			await LoadDataAsync();
+		}
+
+
+		private async Task LoadDataAsync()
+		{
+			firstAppointmenTime = appointment.AppointmentTime;
+
+			doctors = await UserHelper.GetAllDoctors();
+			clinics = await ClinicHelper.GetAllClinics();
+			clients = await ClientHelper.GetAllClients();
+
+			Console.WriteLine("Oninitialize Appointment time : " + appointment.AppointmentTime);
+			UpdateEmptyHours();
+		}
+
         private async void UpdateEmptyHours()
         {
-            emptyHours = await AppointmentHelper.GetEmptyHours(Appointment.Doctor.Id, Appointment.AppointmentTime, (oldClient.Id, Appointment.AppointmentTime));
+            if(appointment.AppointmentTime.Date != firstAppointmenTime.Date)
+            {
+                Console.WriteLine("Öncekinden farklı bir tarih seçti");
+				appointment.AppointmentTime = emptyHours.FirstOrDefault();
+			}
+			else
+            {
+                Console.WriteLine("Öncekiyle aynı tarihi seçti");
+                appointment.AppointmentTime = firstAppointmenTime.Date;
+            }
+            
+            emptyHours = await AppointmentHelper.GetEmptyHours(appointment.Doctor.Id, appointment.AppointmentTime, appointment.Clinic.Minute, appointment.Id);
 
-            Appointment.AppointmentTime = emptyHours.FirstOrDefault();
+            
 
             StateHasChanged();
         }
 
-        protected override async Task OnInitializedAsync()
-        {
-            oldClient = Appointment.Client;
 
-            Doctors = await UserHelper.GetAllDoctors();
-            Clinics = await ClinicHelper.GetAllClinics();
-            Clients = await ClientHelper.GetAllClients();
-            UpdateEmptyHours();
-
-            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-        }
 
         private async Task UpdateAsync()
         {
             var request = new UpdateAppointmentRequest
             {
-                Appointment = mapper.Map<Appointment>(Appointment),
+                Appointment = mapper.Map<Appointment>(appointment),
             };
 
 
             try
             {
-                await NetworkManager.SendAsync<UpdateAppointmentRequest, UpdateAppointmentResponse>(request);
-                ShowMessage(ToastType.Primary, $"{Appointment.Client.Name} isimli hastanın randevusu başarılı şekilde güncellendi");
+                var response = await NetworkManager.SendAsync<UpdateAppointmentRequest, UpdateAppointmentResponse>(request);
+                
+                ShowMessage(ToastType.Primary, $"{appointment.Client.Name} isimli hastanın randevusu başarılı şekilde güncellendi");
             }
             catch (Exception e)
             {
-
                 ShowMessage(ToastType.Primary, e.ToString());
                 throw;
             }

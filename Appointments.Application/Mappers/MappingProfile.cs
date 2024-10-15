@@ -14,7 +14,6 @@ namespace Appointments.Application.Mappers
         public MappingProfile()
         {
 			CreateMap<Appointment, Appointment>().ReverseMap();
-
 			CreateMap<User, User>().ReverseMap();
 			CreateMap<Client, Client>().ReverseMap();
 			CreateMap<Clinic, Clinic>().ReverseMap();
@@ -33,6 +32,8 @@ namespace Appointments.Application.Mappers
 			CreateMap<Client, CreateClientRequest>().ReverseMap();
 			CreateMap<Clinic, CreateClinicRequest>().ReverseMap();
 			CreateMap<Payment, CreatePaymentRequest>().ReverseMap();
+
+			CreateMap<AppointmentDto, AppointmentDto>().ReverseMap();
 
 
 		}
