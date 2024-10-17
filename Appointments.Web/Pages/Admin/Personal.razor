@@ -1,0 +1,78 @@
+﻿@page "/admin/personal/{id}"
+
+
+<style>
+	.table {
+		table-layout: fixed; 
+		width: 100%; 
+		padding:0;
+	}
+
+		.table a {
+			padding: 0; 
+			height: 3%; 
+			overflow: hidden; 
+			text-overflow: ellipsis; 
+			white-space: nowrap; 
+			text-align: center; 
+			width:100%;
+		}
+
+</style>
+
+<div class="container mt-2">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th style="width: 10%;">Günler</th>
+				<th colspan="2">09:00</th>
+				<th colspan="2">10:00</th>
+				<th colspan="2">11:00</th>
+				<th colspan="2">12:00</th>
+				<th colspan="2">13:00</th>
+				<th colspan="2">14:00</th>
+				<th colspan="2">15:00</th>
+				<th colspan="2">16:00</th>
+				<th colspan="2">
+					<div style="display: flex; justify-content: space-between;">
+						<p style="margin: 0;">17:00</p>
+						<p style="margin: 0;">18:00</p>
+					</div>
+				</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Pazartesi</td>
+				@for (int i = 0; i < 16; i++)
+				{
+					var isBooked = appointments.Any(a => a.AppointmentTime == orderDate);
+
+					if (isBooked)
+					{
+						tempAppointment = appointments.Where(a => a.AppointmentTime == orderDate).FirstOrDefault();
+
+						<td colspan="@(tempAppointment.Clinic.Minute > 30 ? 2 : 1) ">
+							<a class="btn btn-success">
+								@orderDate.ToString("HH:mm") - @orderDate.AddMinutes(tempAppointment.Clinic.Minute).ToString("HH:mm")
+							</a>
+						</td>
+
+						int roundedMinutes = (int)(Math.Round((double)tempAppointment.Clinic.Minute / 30) * 30);
+						orderDate = orderDate.AddMinutes(roundedMinutes);
+						appointments.Remove(tempAppointment);
+					}
+					else
+					{
+						orderDate = orderDate.AddMinutes(30);
+						<td></td>
+					}
+
+				}
+
+
+			</tr>
+		</tbody>
+	</table>
+</div>
