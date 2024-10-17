@@ -27,7 +27,7 @@ namespace Appointments.Web.Pages.Admin
 
             var response = await NetworkManager.SendAsync<GetClinicByIdRequest, GetClinicByIdResponse>(request);
 
-            ObjectWriter.Write(response);
+            //ObjectWriter.Write(response);
             Clinic = response.Clinic;
             //ObjectWriter.Write(Client);
         }

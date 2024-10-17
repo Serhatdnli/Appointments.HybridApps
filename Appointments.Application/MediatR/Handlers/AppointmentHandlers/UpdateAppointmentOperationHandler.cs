@@ -1,5 +1,3 @@
-
-
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
@@ -23,21 +21,16 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
         public async Task<UpdateAppointmentResponse> Handle(UpdateAppointmentRequest request, CancellationToken cancellationToken)
         {
-            var Appointment = await AppointmentRepository.GetSingleAsync(x => x.Id == request.Appointment.Id);
+            var Appointment = await AppointmentRepository.GetSingleAsync(x => x.Id == request.updateDto.Id);
 
             if (Appointment is null)
             {
                 throw new Exception(Constants.USER_NOT_FOUND);
             }
 
-            var handledAppointment = request.Appointment;
+            mapper.Map(request.updateDto, Appointment);
 
-            handledAppointment.ClientId = handledAppointment.Client.Id;
-            handledAppointment.ClinicId = handledAppointment.Clinic.Id;
-            handledAppointment.DoctorId = handledAppointment.Doctor.Id;
-
-
-            await AppointmentRepository.UpdateAsync(handledAppointment, cancellationToken);
+            await AppointmentRepository.UpdateAsync(Appointment, cancellationToken);
             await AppointmentRepository.CompleteAsync(cancellationToken);
             return new UpdateAppointmentResponse();
         }

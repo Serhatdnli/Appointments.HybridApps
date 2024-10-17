@@ -23,7 +23,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
 		public async Task<CreateAppointmentResponse> Handle(CreateAppointmentRequest request, CancellationToken cancellationToken)
 		{
-			var Appointment = mapper.Map<Appointment>(request);
+			var Appointment = mapper.Map<Appointment>(request.createDto);
 			Appointment.CreateDate = DateTime.Now;
 
             await AppointmentRepository.AddAsync(Appointment, cancellationToken);

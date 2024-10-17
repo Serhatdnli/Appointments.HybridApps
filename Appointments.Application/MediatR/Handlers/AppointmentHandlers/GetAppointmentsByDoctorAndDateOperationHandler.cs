@@ -1,7 +1,7 @@
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using AutoMapper;
 using MediatR;
@@ -23,14 +23,14 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 
 		public async Task<GetAppointmentsByDoctorAndDateResponse> Handle(GetAppointmentsByDoctorAndDateRequest request, CancellationToken cancellationToken)
 		{
-			List<AppointmentDto> Appointments;
+			List<GetAppointmentDto> Appointments;
 
 			var query = await AppointmentRepository.GetQueryable(x=> x.DoctorId == request.DoctorId && x.AppointmentTime.Date == request.Datetime.Date)
 				.Include(x=> x.Client)
 				.Include(x => x.Doctor)
 				.Include(x => x.Clinic )
 				.Include(x => x.Payments)
-				.Select(x => mapper.Map<AppointmentDto>(x))
+				.Select(x => mapper.Map<GetAppointmentDto>(x))
 				.ToListAsync();
 
 			var count = query.Count;

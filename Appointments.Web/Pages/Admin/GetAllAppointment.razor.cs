@@ -6,7 +6,7 @@ using Appointments.Application.MediatR.Responses.AppointmentResponses;
 using Appointments.Application.MediatR.Responses.ClientResponses;
 using Appointments.Application.MediatR.Responses.ClinicResponses;
 using Appointments.Application.MediatR.Responses.UserReponses;
-using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Enums;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
@@ -27,7 +27,7 @@ namespace Appointments.Web.Pages.Admin
 		[Inject]
 		private IMapper mapper{ get; set; }
 
-		private List<AppointmentDto> Appointments = new List<AppointmentDto>();
+		private List<GetAppointmentDto> Appointments = new List<GetAppointmentDto>();
         private List<Client> Clients = new List<Client>();
         private List<Clinic> Clinics = new List<Clinic>();
         private List<User> Doctors = new List<User>();
@@ -41,7 +41,7 @@ namespace Appointments.Web.Pages.Admin
         private bool IsFiltered { get; set; } = false;
         private bool isEditAppointment { get; set; } = false;
 
-        private AppointmentDto editedAppointment;
+        private UpdateAppointmentDto editedAppointment;
 
 
         protected override async Task OnInitializedAsync()
@@ -102,7 +102,7 @@ namespace Appointments.Web.Pages.Admin
             await GoToPage(0);
         }
 
-        private async Task ConfirmDelete(AppointmentDto appointment)
+        private async Task ConfirmDelete(GetAppointmentDto appointment)
         {
 
             var confirmed = await jsRuntime.InvokeAsync<bool>("confirm", appointment.Client.Name + " " + appointment.Client.Surname + " isimli hastanın randevusunu silmek İstedğinize emin misiniz?");
@@ -119,10 +119,10 @@ namespace Appointments.Web.Pages.Admin
             }
         }
 
-        private void EditAppointment(AppointmentDto appointment,bool isOpen)
+        private void EditAppointment(GetAppointmentDto appointment,bool isOpen)
         {
-            editedAppointment = mapper.Map<AppointmentDto>(appointment);
-			isEditAppointment = isOpen;
+            editedAppointment = mapper.Map<UpdateAppointmentDto>(appointment);
+            isEditAppointment = isOpen;
             
             StateHasChanged();
         }

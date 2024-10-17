@@ -1,7 +1,7 @@
 using Appointments.Application.IRepositories;
 using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using Appointments.Shared;
 using AutoMapper;
@@ -23,7 +23,7 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
 		public async Task<GetAppointmentByIdResponse> Handle(GetAppointmentByIdRequest request, CancellationToken cancellationToken)
 		{
 			Appointment appo = await AppointmentRepository.GetSingleAsync(x => x.Id == request.Id);
-			AppointmentDto appointment = mapper.Map<AppointmentDto>(appo);
+			GetAppointmentDto appointment = mapper.Map<GetAppointmentDto>(appo);
 
 			if (appointment is null)
 				throw new Exception(Constants.USER_NOT_FOUND);

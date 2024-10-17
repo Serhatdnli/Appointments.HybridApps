@@ -10,7 +10,7 @@ namespace Appointments.Application.MediatR.Requests.AppointmentRequests
 	{
 		public int Index { get; set; }
 		public int Count { get; set; }
-		public Appointment Filter { get; set; }
+		public Appointment Filter { get; set; } = new();
 
 	}
 }

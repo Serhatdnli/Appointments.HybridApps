@@ -28,10 +28,10 @@
 								</td>
 
 								<td>
-									<select class="form-control" @onchange="@(e => { appointment.Doctor = (User)e.Value; UpdateEmptyHours();})">
+									<select class="form-control" @onchange="@(e => { SetDoctorByDoctorId(e.Value.ToString()); })">
 										@foreach (var option in doctors)
 										{
-											<option value="@option" selected="@(option.Id == appointment.Doctor.Id)">@option.Name @option.Surname</option>
+											<option value="@option.Id" selected="@(option.Id == updateDto.DoctorId)">@option.Name @option.Surname</option>
 										}
 									</select>
 								</td>
@@ -43,10 +43,10 @@
 								</td>
 
 								<td>
-									<select class="form-control" @onchange="@(e => { appointment.Clinic = (Clinic)e.Value; UpdateEmptyHours();})">
+									<select class="form-control" @onchange="@(e => { SetClinicByClinicId(e.Value.ToString());  })">
 										@foreach (var option in clinics)
 										{
-											<option value="@option" selected="@(option.Id == appointment.Clinic.Id)">@option.Name (@option.Minute)</option>
+											<option value="@option.Id" selected="@(option.Id == updateDto.ClinicId)">@option.Name (@option.Minute)</option>
 										}
 									</select>
 								</td>
@@ -59,10 +59,10 @@
 									Client
 								</td>
 								<td>
-									<select class="form-control" @onchange="@(e => { appointment.Client = (Client)e.Value; })">
+									<select class="form-control" @onchange="@(e => { SetClientByClientId(e.Value.ToString()); })">
 										@foreach (var option in clients)
 										{
-											<option value="@option" selected="@(option.Id == appointment.Client.Id)">@option.Name @option.Surname {@option.TcId}</option>
+											<option value="@option.Id" selected="@(option.Id == updateDto.ClientId)">@option.Name @option.Surname {@option.TcId}</option>
 										}
 									</select>
 								</td>
@@ -86,13 +86,13 @@
 										<p> Appointment Dolu </p>
 									} *@
 
-									<input type="date" class="form-control" value="@((appointment == null) ? DateTime.Now.ToString("yyyy-MM-dd") : appointment.AppointmentTime.ToString("yyyy-MM-dd"))" @onchange="@(e =>
+									<input type="date" class="form-control" value="@((updateDto == null) ? DateTime.Now.ToString("yyyy-MM-dd") : updateDto.AppointmentTime.ToString("yyyy-MM-dd"))" @onchange="@(e =>
 							        {
 								        DateTime result;
 								        bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
 								        if(isValidDate){
-									        appointment.AppointmentTime = result;
-									        Console.WriteLine("Tarih setlendi : " + appointment.AppointmentTime);
+									        updateDto.AppointmentTime = result;
+									        Console.WriteLine("Tarih setlendi : " + updateDto.AppointmentTime);
 									        UpdateEmptyHours();
 								        }
 							        })" placeholder="Randevu Tarihi" />
@@ -105,10 +105,10 @@
 									Randevu Saati
 								</td>
 								<td>
-									<select class="form-control" @onchange="@(e => { appointment.AppointmentTime = DateTime.Parse(e.Value.ToString()); })">
+									<select class="form-control" @onchange="@(e => { updateDto.AppointmentTime = DateTime.Parse(e.Value.ToString()); })">
 										@foreach (var option in emptyHours)
 										{
-											<option value="@option.ToString()" selected="@(option == appointment.AppointmentTime)">@option.ToString("HH:mm")</option>
+											<option value="@option.ToString()" selected="@(option == updateDto.AppointmentTime)">@option.ToString("HH:mm")</option>
 										}
 									</select>
 								</td>
@@ -119,7 +119,7 @@
 									Note
 								</td>
 								<td>
-									<input class="form-control" @bind="@appointment.Notes" />
+									<input class="form-control" @bind="@updateDto.Notes" />
 								</td>
 							</tr>
 							<tr>
@@ -128,7 +128,7 @@
 									Price
 								</td>
 								<td>
-									<input class="form-control" type="number" @bind="@appointment.Price" />
+									<input class="form-control" type="number" @bind="@updateDto.Price" />
 								</td>
 							</tr>
 

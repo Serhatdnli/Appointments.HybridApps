@@ -18,7 +18,7 @@ namespace Appointments.Web.Pages.Admin
 
 		protected override async Task OnInitializedAsync()
 		{
-			Console.WriteLine("alınan id değeri : " + id);
+			//Console.WriteLine("alınan id değeri : " + id);
 
 			var request = new GetClientByIdRequest
 			{
@@ -27,7 +27,7 @@ namespace Appointments.Web.Pages.Admin
 
 			var response = await NetworkManager.SendAsync<GetClientByIdRequest, GetClientByIdResponse>(request);
 
-			ObjectWriter.Write(response);
+			//ObjectWriter.Write(response);
 			Client = response.Client;
 			//ObjectWriter.Write(Client);
 		}

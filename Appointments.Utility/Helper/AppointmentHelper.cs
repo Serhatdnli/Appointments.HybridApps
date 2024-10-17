@@ -1,17 +1,17 @@
 ﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using Appointments.Utility;
 
 namespace Appointments.Utiliy.Helper
 {
-	public static class AppointmentHelper
+    public static class AppointmentHelper
 	{
 		public static async Task<List<DateTime>> GetEmptyHours(Guid DocId, DateTime appointmentDate, int clinicDuration,  Guid? appointmentId = null) // eğer appointmentId girilirse, o appointmentin oldugu saatide boş geçer
 		{
-			List<AppointmentDto> appointments = new();
+			List<GetAppointmentDto> appointments = new();
 			List<DateTime> emptyHours = new();
 			var request = new GetAppointmentsByDoctorAndDateRequest
 			{
@@ -44,7 +44,7 @@ namespace Appointments.Utiliy.Helper
 
 			for (int i = 0; i < 18; i++)
 			{
-				List<AppointmentDto> tempAppointments;
+				List<GetAppointmentDto> tempAppointments;
 				bool appointmentStartTimeInOtherAppointments = true ;
 				bool appointmentFinsihTimeInOtherAppointments = true ;
 

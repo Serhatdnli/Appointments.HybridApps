@@ -1,6 +1,6 @@
 ﻿using Appointments.Application.MediatR.Requests.AppointmentRequests;
 using Appointments.Application.MediatR.Responses.AppointmentResponses;
-using Appointments.Domain.Dtos;
+using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using Appointments.Utility;
 using Appointments.Utility.Helper;
@@ -14,7 +14,7 @@ namespace Appointments.Web.Pages.Admin
     public partial class UpdateAppointment : ComponentBase
     {
         [Parameter]
-        public AppointmentDto appointment { get; set; }
+        public UpdateAppointmentDto updateDto { get; set; }
 
         [Parameter]
         public Action CloseAction { get; set; }
@@ -26,10 +26,13 @@ namespace Appointments.Web.Pages.Admin
         private List<Client> clients = new();
         private List<User> doctors = new();
 
-        private List<DateTime> emptyHours = new();
+		private Clinic selectedClinic;
+        private User selectedDoctor;
+        private Client selectedClient;
+
+		private List<DateTime> emptyHours = new();
 
         private DateTime firstAppointmenTime;
-
 
 
 		protected override async Task OnParametersSetAsync()
@@ -40,32 +43,39 @@ namespace Appointments.Web.Pages.Admin
 
 		private async Task LoadDataAsync()
 		{
-			firstAppointmenTime = appointment.AppointmentTime;
+			firstAppointmenTime = updateDto.AppointmentTime;
 
 			doctors = await UserHelper.GetAllDoctors();
 			clinics = await ClinicHelper.GetAllClinics();
 			clients = await ClientHelper.GetAllClients();
 
-			Console.WriteLine("Oninitialize Appointment time : " + appointment.AppointmentTime);
+            selectedDoctor = doctors.FirstOrDefault();
+            selectedClinic = clinics.FirstOrDefault();
+            selectedClient = clients.FirstOrDefault();
+
+            updateDto.ClinicId = selectedClinic.Id;
+            updateDto.ClientId = selectedClient.Id;
+            updateDto.DoctorId = selectedDoctor.Id;
+
+			Console.WriteLine("Oninitialize Appointment time : " + updateDto.AppointmentTime);
 			UpdateEmptyHours();
 		}
 
         private async void UpdateEmptyHours()
         {
-            if(appointment.AppointmentTime.Date != firstAppointmenTime.Date)
+            if(updateDto.AppointmentTime.Date != firstAppointmenTime.Date)
             {
                 Console.WriteLine("Öncekinden farklı bir tarih seçti");
-				appointment.AppointmentTime = emptyHours.FirstOrDefault();
+				updateDto.AppointmentTime = emptyHours.FirstOrDefault();
 			}
 			else
             {
                 Console.WriteLine("Öncekiyle aynı tarihi seçti");
-                appointment.AppointmentTime = firstAppointmenTime.Date;
+				updateDto.AppointmentTime = firstAppointmenTime.Date;
             }
-            
-            emptyHours = await AppointmentHelper.GetEmptyHours(appointment.Doctor.Id, appointment.AppointmentTime, appointment.Clinic.Minute, appointment.Id);
 
-            
+            emptyHours = await AppointmentHelper.GetEmptyHours(updateDto.DoctorId, updateDto.AppointmentTime, selectedClinic.Minute, updateDto.Id);
+
 
             StateHasChanged();
         }
@@ -76,24 +86,24 @@ namespace Appointments.Web.Pages.Admin
         {
             var request = new UpdateAppointmentRequest
             {
-                Appointment = mapper.Map<Appointment>(appointment),
+                updateDto = updateDto
             };
 
 
-            try
+			var response = await NetworkManager.SendAsync<UpdateAppointmentRequest, UpdateAppointmentResponse>(request);
+
+            if (response.message.IsSuccessStatusCode)
             {
-                var response = await NetworkManager.SendAsync<UpdateAppointmentRequest, UpdateAppointmentResponse>(request);
-                
-                ShowMessage(ToastType.Primary, $"{appointment.Client.Name} isimli hastanın randevusu başarılı şekilde güncellendi");
+				ShowMessage(ToastType.Primary, $"{selectedClient.Name} isimli hastanın randevusu başarılı şekilde güncellendi");
             }
-            catch (Exception e)
+            else
             {
-                ShowMessage(ToastType.Primary, e.ToString());
-                throw;
+                ShowMessage( ToastType.Warning , $"Kullanıcıyı güncellerken hata : {response.ErrorMessage}" );
             }
 
-            //ObjectWriter.Write(Appointment);
-        }
+		}
+
+      
         List<ToastMessage> messages = new List<ToastMessage>();
 
         private void ShowMessage(ToastType toastType, string message) => messages.Add(CreateToastMessage(toastType, message));
@@ -108,5 +118,26 @@ namespace Appointments.Web.Pages.Admin
             Message = text,
         };
 
-    }
+		private void SetDoctorByDoctorId(string doctorId)
+		{
+			updateDto.DoctorId = Guid.Parse(doctorId);
+			selectedDoctor = doctors.Where(x => x.Id == Guid.Parse(doctorId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
+
+		private void SetClinicByClinicId(string clinicId)
+		{
+			updateDto.ClinicId = Guid.Parse(clinicId);
+			selectedClinic = clinics.Where(x => x.Id == Guid.Parse(clinicId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
+
+		private void SetClientByClientId(string clientId)
+		{
+			updateDto.ClientId = Guid.Parse(clientId);
+			selectedClient = clients.Where(x => x.Id == Guid.Parse(clientId)).FirstOrDefault();
+			UpdateEmptyHours();
+		}
+
+	}
 }

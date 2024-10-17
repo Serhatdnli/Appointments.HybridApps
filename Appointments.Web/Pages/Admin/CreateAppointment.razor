@@ -54,10 +54,11 @@
 						</td>
 
 						<td>
+						
 							<select @onchange="(e => {SetClientByClientId(e.Value.ToString());})">
 								@foreach (var option in clients)
 								{
-									<option value="@option">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
+									<option value="@option.Id">@(option.Name + " " + option.Surname + " - " + option.TcId)</option>
 								}
 							</select>
 
@@ -76,8 +77,7 @@
 								DateTime result;
 								bool isValidDate = DateTime.TryParse(e.Value.ToString(), out result);
 								if(isValidDate){
-									createRequest.AppointmentTime = result;
-									Console.WriteLine("Tarih setlendi : " + createRequest.AppointmentTime);
+									createRequest.createDto.AppointmentTime = result;
 									UpdateEmptyHours();
 								}
 							})" placeholder="Randevu Tarihi" />
@@ -92,7 +92,7 @@
 
 						<td>
 							
-							<select @bind="createRequest.AppointmentTime">
+							<select @bind="createRequest.createDto.AppointmentTime">
 								@foreach (var option in emptyHours)
 								{
 									<option value="@option"> @option.ToString("HH:mm") </option>
@@ -109,7 +109,7 @@
 
 						<td>
 
-							<input class="form-control" @onchange="@(e => createRequest.Notes = e.Value.ToString())" placeholder="Not" />
+							<input class="form-control" @onchange="@(e => createRequest.createDto.Notes = e.Value.ToString())" placeholder="Not" />
 
 						</td>
 					</tr>
@@ -122,7 +122,7 @@
 
 						<td>
 
-							<input type="number" class="form-control" @onchange="@(e =>  createRequest.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
+							<input type="number" class="form-control" @onchange="@(e =>  createRequest.createDto.Price = Convert.ToInt32(e.Value))" placeholder="Fiyat" />
 
 						</td>
 					</tr>
