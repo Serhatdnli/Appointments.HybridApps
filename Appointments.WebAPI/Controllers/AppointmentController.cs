@@ -65,8 +65,18 @@ namespace Appointments.WebAPI.Controllers
 			return Ok(response);
 		}
 
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("GetAppointmentsWeeklyByDoctorIdAndDate")]
+        public async Task<IActionResult> GetAppointmentsWeeklyByDoctorIdAndDate([FromBody] GetAppointmentsWeeklyByDoctorIdAndDateRequest request)
+        {
+            //Console.WriteLine("budayýz");
+            var response = await mediatR.Send(request);
+            return Ok(response);
+        }
 
-		[HttpPost]
+
+        [HttpPost]
 		[AllowAnonymous]
 		[Route("DeleteAppointmentById")]
 		public async Task<IActionResult> DeleteAppointmentById([FromBody] DeleteAppointmentByIdRequest deleteAppointmentByIdRequest)

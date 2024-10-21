@@ -3,24 +3,34 @@
 
 <style>
 	.table {
-		table-layout: fixed; 
-		width: 100%; 
-		padding:0;
+		table-layout: fixed;
+		width: 100%;
+		padding: 0;
 	}
 
 		.table a {
-			padding: 0; 
-			height: 3%; 
-			overflow: hidden; 
+			padding: 0;
+			height: 3%;
+			overflow: hidden;
 			text-overflow: ellipsis; 
-			white-space: nowrap; 
-			text-align: center; 
-			width:100%;
+			white-space: nowrap;
+			text-align: center;
+			width: 100%;
 		}
+
+	
 
 </style>
 
+
+
 <div class="container mt-2">
+	<select @onchange="@(e => {ChangedWeekAsync(e.Value.ToString()); })">
+		<option value="@lastWeekStart.ToString("yyyy-MM-dd")">Önceki Hafta</option>
+		<option value="@thisWeekStart.ToString("yyyy-MM-dd")" selected>Bu hafta </option>
+		<option value="@nextWeekStart.ToString("yyyy-MM-dd")">Gelecek Hafta</option>
+	</select>
+
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -43,36 +53,55 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Pazartesi</td>
-				@for (int i = 0; i < 16; i++)
-				{
-					var isBooked = appointments.Any(a => a.AppointmentTime == orderDate);
 
-					if (isBooked)
+
+	
+			@for (int j = 0; j < 5; j++)
+			{
+				orderDate = monday.AddDays(j);
+				orderDate = orderDate.AddHours(9);
+				<tr height="80">
+					<td>@daysOfWeek[j]</td>
+					@for (int i = 0; i < 18; i++)
 					{
-						tempAppointment = appointments.Where(a => a.AppointmentTime == orderDate).FirstOrDefault();
 
-						<td colspan="@(tempAppointment.Clinic.Minute > 30 ? 2 : 1) ">
-							<a class="btn btn-success">
-								@orderDate.ToString("HH:mm") - @orderDate.AddMinutes(tempAppointment.Clinic.Minute).ToString("HH:mm")
-							</a>
-						</td>
+						var isBooked = appointments.Any(a => a.AppointmentTime == orderDate);
+						Console.WriteLine(orderDate.ToString("HH:mm") + " saatinde isBooked : " + isBooked);
 
-						int roundedMinutes = (int)(Math.Round((double)tempAppointment.Clinic.Minute / 30) * 30);
-						orderDate = orderDate.AddMinutes(roundedMinutes);
-						appointments.Remove(tempAppointment);
+						if (isBooked)
+						{
+							tempAppointment = appointments.Where(a => a.AppointmentTime == orderDate).FirstOrDefault();
+
+							<td colspan="@(tempAppointment.Clinic.Minute > 30 ? 2 : 1) ">
+								<a class="btn btn-success" sttyle="margin:0px;">
+									@orderDate.ToString("HH:mm")<br />
+									-<br />
+									@orderDate.AddMinutes(tempAppointment.Clinic.Minute).ToString("HH:mm")
+								</a>
+							</td>
+
+							int roundedMinutes = tempAppointment.Clinic.Minute <= 30 ? 30 : 60;
+							orderDate = orderDate.AddMinutes(roundedMinutes);
+							appointments.Remove(tempAppointment);
+
+							if (tempAppointment.Clinic.Minute > 30)
+								i++;
+						}
+						else
+						{
+							<td></td>
+							orderDate = orderDate.AddMinutes(30);
+						}
+
 					}
-					else
-					{
-						orderDate = orderDate.AddMinutes(30);
-						<td></td>
-					}
-
-				}
+				</tr>
 
 
-			</tr>
+			}
+
+
+
+
 		</tbody>
 	</table>
 </div>
