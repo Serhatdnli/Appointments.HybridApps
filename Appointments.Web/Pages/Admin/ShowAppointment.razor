@@ -1,0 +1,116 @@
+﻿@page "/admin/showappointment/{id}"
+
+@using Appointments.Domain.Models
+@using Appointments.Utility
+@using Microsoft.AspNetCore.Components.Forms;
+
+
+<Toasts class="p-3" Messages="messages" Placement="ToastsPlacement.TopRight" />
+
+<div class="offcanvas offcanvas-start show" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+	<div class="offcanvas-header">
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @onclick="CloseAction"></button>
+	</div>
+	<div class="offcanvas-body">
+		<h3>Randevu Göster</h3>
+		<div class="row">
+
+			<div class="col-12 align-items-center">
+				<div class="table-responsive ">
+					<table class="table table-hover table-bordered table-striped">
+
+						<tbody>
+							<!-- Statik Satır -->
+							<tr>
+								<td>
+									Doktor
+								</td>
+
+								<td>
+									@($"{showedAppointment.Doctor.Name} {showedAppointment.Doctor.Surname}")
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									Klinik
+								</td>
+
+								<td>
+									@($"{showedAppointment.Clinic.Name} ")
+								</td>
+							</tr>
+
+
+
+							<tr>
+								<td>
+									Client
+								</td>
+								<td>
+									@($"{showedAppointment.Client.Name} {showedAppointment.Client.Surname}")
+								</td>
+							</tr>
+
+
+							<tr>
+								<td>
+									Tarih
+								</td>
+
+								<td>
+									@showedAppointment.AppointmentTime.ToString("dd:MM:yyyy")
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									Randevu Saati
+								</td>
+								<td>
+									@showedAppointment.AppointmentTime.ToString("HH:mm")
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									Note
+								</td>
+								<td>
+									@showedAppointment.Notes
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									Price
+								</td>
+								<td>
+									@showedAppointment.Price
+								</td>
+							</tr>
+
+							<tr>
+								<td colspan="2">
+									<Button Class="col-12" Color="ButtonColor.Success" @onclick="() => UpdateAppointment(true)">
+										Edit
+									</Button>
+								</td>
+							</tr>
+
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+@if (isUpdated)
+{
+	<UpdateAppointment updateDto="@updateDto" CloseAction="()=>{UpdateAppointment(false);}"></UpdateAppointment>
+}

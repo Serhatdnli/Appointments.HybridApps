@@ -4,6 +4,7 @@ using Appointments.Domain.Dtos.AppointmentDtos;
 using Appointments.Domain.Models;
 using Appointments.Shared.Extensions;
 using Appointments.Utility;
+using AutoMapper;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 
@@ -14,16 +15,27 @@ namespace Appointments.Web.Pages.Admin
 		[Parameter]
 		public string Id { get; set; }
 
+
+		[Inject]
+		private IMapper mapper { get; set; }
+
 		private List<GetAppointmentDto> appointments = new();
 		private GetAppointmentDto tempAppointment;
 
 		private DateTime orderDate;
 
+		private UpdateAppointmentDto editedDto;
+		private GetAppointmentDto showedDto;
+
+		private bool isShowAppointment { get; set; } = false;
+		private bool isEditAppointment { get; set; } = false;
+
+
 		protected async override Task OnInitializedAsync()
 		{
 			SetWeekDates();
-
-			await GetAppointmentsOfSelectedWeekAsync();
+            Console.WriteLine("Personal sayfası initilazied");
+            await GetAppointmentsOfSelectedWeekAsync();
 		}
 
 
@@ -52,10 +64,10 @@ namespace Appointments.Web.Pages.Admin
 			{
 				appointments = response.Appointments;
 
-                foreach (var item in appointments)
-                {
-                    Console.WriteLine(item.AppointmentTime);
-                }
+                //foreach (var item in appointments)
+                //{
+                //    Console.WriteLine(item.AppointmentTime);
+                //}
             }
 			else
 			{
@@ -77,6 +89,35 @@ namespace Appointments.Web.Pages.Admin
 			saturday = monday.AddDays(5);
 		}
 
+		private void EditAppointment(Guid appointmentId, bool isOpen)
+		{
+			if (isOpen)
+			{
+				var findedEditedDto = appointments.Where(x => x.Id == appointmentId).FirstOrDefault();
+				editedDto = mapper.Map<UpdateAppointmentDto>(findedEditedDto);
+			}
+		
+			isEditAppointment = isOpen;
+
+			StateHasChanged();
+		}
+
+		private void ShowAppointment(Guid appointmentId, bool isOpen)
+		{
+            Console.WriteLine($"appointment ID : {appointmentId}");
+            Console.WriteLine($"appointments count : {appointments.Count}" );
+            if (isOpen)
+			{
+				showedDto = appointments.Where(x => x.Id == appointmentId).FirstOrDefault();
+
+                Console.WriteLine($"shoed dto : " + showedDto.Id);
+            }
+			isShowAppointment = isOpen;
+
+			StateHasChanged();
+		}
+
+
 		private async Task ChangedWeekAsync(string mondayDatestring)
 		{
             Console.WriteLine("tarih değişti");
@@ -90,6 +131,7 @@ namespace Appointments.Web.Pages.Admin
 		DateTime monday, saturday;
 		DateTime today, thisWeekStart, lastWeekStart, nextWeekStart;
 	}
+
 
 
 

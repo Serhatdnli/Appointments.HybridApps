@@ -27,6 +27,8 @@ namespace Appointments.Application.MediatR.Handlers.AppointmentHandlers
             appointments = await appointmentRepository.GetQueryable()
                  .Where(x => x.DoctorId == request.DoctorId && x.AppointmentTime < request.saturday && x.AppointmentTime > request.monday)
                  .Include(x => x.Clinic)
+                 .Include(x => x.Doctor)
+                 .Include(x => x.Client)
                  .OrderBy(x => x.AppointmentTime)
                  .Select(x => mapper.Map<GetAppointmentDto>(x))
                  .ToListAsync();

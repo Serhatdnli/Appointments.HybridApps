@@ -66,14 +66,15 @@
 					{
 
 						var isBooked = appointments.Any(a => a.AppointmentTime == orderDate);
-						Console.WriteLine(orderDate.ToString("HH:mm") + " saatinde isBooked : " + isBooked);
+						@* Console.WriteLine(orderDate.ToString("HH:mm") + " saatinde isBooked : " + isBooked); *@
 
 						if (isBooked)
 						{
 							tempAppointment = appointments.Where(a => a.AppointmentTime == orderDate).FirstOrDefault();
+							Guid appointmentId = tempAppointment.Id;
 
 							<td colspan="@(tempAppointment.Clinic.Minute > 30 ? 2 : 1) ">
-								<a class="btn btn-success" sttyle="margin:0px;">
+								<a @onclick="() => ShowAppointment(appointmentId, true)" class="btn btn-success" sttyle="margin:0px;">
 									@orderDate.ToString("HH:mm")<br />
 									-<br />
 									@orderDate.AddMinutes(tempAppointment.Clinic.Minute).ToString("HH:mm")
@@ -82,7 +83,7 @@
 
 							int roundedMinutes = tempAppointment.Clinic.Minute <= 30 ? 30 : 60;
 							orderDate = orderDate.AddMinutes(roundedMinutes);
-							appointments.Remove(tempAppointment);
+							
 
 							if (tempAppointment.Clinic.Minute > 30)
 								i++;
@@ -105,3 +106,13 @@
 		</tbody>
 	</table>
 </div>
+
+@if (isEditAppointment)
+{
+	<UpdateAppointment updateDto="@editedDto" CloseAction="()=>{EditAppointment(Guid.Empty,false);}"></UpdateAppointment>
+}
+
+@if (isShowAppointment)
+{
+	<ShowAppointment showedAppointment="@showedDto" CloseAction="()=>{ShowAppointment(Guid.Empty,false);}"></ShowAppointment>
+}

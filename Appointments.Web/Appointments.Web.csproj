@@ -25,6 +25,9 @@
     <Content Update="Pages\Admin\GetAllClinic.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Pages\Admin\ShowAppointment.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Pages\Admin\UpdateClient.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
